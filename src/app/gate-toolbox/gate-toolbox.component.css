@@ -1,0 +1,12 @@
+.toolbox-table{
+    display: table;
+}
+.toolbox-row{
+    display: table-row;
+}
+.toolbox-cell{
+    vertical-align: middle;
+    display: table-cell;
+    width: 60px;
+    height: 60px;
+}

@@ -1,0 +1,7 @@
+<div class="toolbox-table">
+  <div class="toolbox-row" *ngFor="let row of grid">
+      <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragEnabled]="true" [dragData]="gate">
+        <gate [gate]="gate"></gate>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+
+/*Styles For Drag and drop elements*/
+.dnd-drag-start {
+    opacity:0.4;
+}
+
+.dnd-drag-enter {
+    opacity:0.7;
+}
+
+.dnd-drag-over {
+    border: 0px dashed #000;
+}
+
+.bit-spot.dnd-drag-over{
+    opacity:0.1;
+}
+.bit-spot.dnd-drag-start{
+    opacity:0.4;
+}
+
+.dnd-sortable-drag {
+  -moz-transform:scale(0.9);
+  -webkit-transform:scale(0.9);
+  transform:scale(0.9);
+  opacity:0.7;
+  border: 1px dashed #000;
+}

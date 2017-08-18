@@ -1,0 +1,12 @@
+<h4>Quantum Composer</h4>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <gate-toolbox class="container"></gate-toolbox>
+            <input type="number" [(ngModel)]="numBits"/>
+        </div>
+        <div class="col-md-9">
+            <gate-canvas [numBits]="numBits"></gate-canvas>
+        </div>
+    </div>
+</div>

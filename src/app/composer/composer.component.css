@@ -1,0 +1,5 @@
+gate-canvas{
+    overflow-x: auto;
+    min-width: 100%;
+    table-layout: fixed;
+}

@@ -1,0 +1,12 @@
+.bit-table-wrapper{
+    overflow-x:scroll;
+}
+.bit-table{
+    display: table;
+}
+.bit-line{
+    display: table-row;
+}
+.bit-spot{
+    display: table-cell;
+}
