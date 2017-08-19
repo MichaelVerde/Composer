@@ -1,4 +1,4 @@
-Gates
+<span>Gates</span> 
 <div class="toolbox-table">
   <div class="toolbox-row" *ngFor="let row of gatesGrid">
     <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event)" (onDragEnd)="setNotDragging($event)">
@@ -7,7 +7,7 @@ Gates
   </div>
 </div>
 
-Operations
+<span>Operations</span> 
 <div class="toolbox-table">
   <div class="toolbox-row" *ngFor="let row of operatorsGrid">
     <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event)" (onDragEnd)="setNotDragging($event)">

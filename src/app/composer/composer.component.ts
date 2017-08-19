@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./composer.component.css']
 })
 export class ComposerComponent implements OnInit {
-  numBits: number = 5; 
+  numQBits: number = 5; 
+  numCBits: number = 5; 
+  canvasLength: number = 40; 
   dragging: boolean = false;
 
   constructor() { }

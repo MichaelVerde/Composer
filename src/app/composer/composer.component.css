@@ -3,3 +3,6 @@ gate-canvas{
     min-width: 100%;
     table-layout: fixed;
 }
+.settings{
+    padding: 10px;
+}

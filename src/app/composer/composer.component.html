@@ -9,14 +9,21 @@
                 </ngb-tab>
                 <ngb-tab title="Settings">
                     <ng-template ngbTabContent>
-                        <input type="number" [(ngModel)]="numBits"/>
+                        <div class="settings">                    
+                            Number of Quantum Bits:
+                            <input type="number" [(ngModel)]="numQBits"/>
+                            Number of Classical Bits:
+                            <input type="number" [(ngModel)]="numCBits"/>
+                            Length of Canvas:
+                            <input type="number" [(ngModel)]="canvasLength"/>
+                        </div>
                     </ng-template>
                 </ngb-tab>
             </ngb-tabset>	          
         </div>
         <div class="col-md-9">
             <h4>Quantum Canvas</h4>
-            <gate-canvas [numBits]="numBits"></gate-canvas>
+            <gate-canvas [numBits]="numQBits"></gate-canvas>
         </div>
     </div>
 </div>
