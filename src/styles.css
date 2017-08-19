@@ -13,13 +13,6 @@
     box-shadow: 0 0 10px black;
 }
 
-.bit-spot .dnd-drag-over{
-    box-shadow: 0 0 10px black;
-}
-.bit-spot .dnd-drag-start{
-    box-shadow: 0 0 10px black;
-}
-
 .dnd-sortable-drag {
   -moz-transform:scale(0.9);
   -webkit-transform:scale(0.9);

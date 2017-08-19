@@ -1,12 +1,23 @@
-<h4>Quantum Composer</h4>
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
-            <gate-toolbox class="container"></gate-toolbox>
-            <input type="number" [(ngModel)]="numBits"/>
+        <div class="col-md-3">          
+            <ngb-tabset>
+                <ngb-tab title="Gates">
+                    <ng-template ngbTabContent>
+                        <gate-toolbox class="container" (dragStart)="setDragging($event)"></gate-toolbox>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Settings">
+                    <ng-template ngbTabContent>
+                        <input type="number" [(ngModel)]="numBits"/>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>	          
         </div>
         <div class="col-md-9">
+            <h4>Quantum Canvas</h4>
             <gate-canvas [numBits]="numBits"></gate-canvas>
         </div>
     </div>
 </div>
+

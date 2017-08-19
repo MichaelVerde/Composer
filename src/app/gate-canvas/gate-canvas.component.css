@@ -12,6 +12,9 @@
 .bit-spot{
     display: table-cell;
 }
+.bit-spot{
+    display: table-cell;
+}
 .bit-drop-area{
     display: table-cell;
     height: 100%;
@@ -20,8 +23,19 @@
     display: table-cell;
 }
 .cbit-background{
-    margin-top: 15px;
     border-top: 3px dotted #aaa;
     background-color: #ddd;
     height: 40px;
+}
+.cbit-gap{
+    height: 15px; 
+}
+.cbit-arrow{
+    position: relative;
+    left: 15px;
+    height: 0px; 
+    width: 0px; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;   
+    border-top: 10px solid black;
 }

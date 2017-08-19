@@ -17,13 +17,13 @@ export class GateComponent implements OnInit {
   }
 
   getConnectorClass():string{
-    if(this.gate.typeId === 3){
+    if(this.gate.connector === "both"){
       return "connector both";
     }
-    else if(this.gate.typeId === 4){
+    else if(this.gate.connector === "bottom"){
       return "connector bottom";
     }
-    else if(this.gate.typeId === 5){
+    else if(this.gate.connector === "top"){
       return "connector top";
     }
     else{

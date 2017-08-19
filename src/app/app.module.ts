@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { DndModule } from 'ng2-dnd';
-import { AlertModule } from 'ngx-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ComposerComponent } from './composer/composer.component';
@@ -23,7 +23,7 @@ import { GateService } from './gate/gate.service';
     BrowserModule,
     FormsModule,
     DndModule.forRoot(),
-    AlertModule.forRoot()
+    NgbModule.forRoot()
   ],
   providers: [GateService],
   bootstrap: [AppComponent]

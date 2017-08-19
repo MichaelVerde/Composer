@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { GateService } from "../gate/gate.service";
 import { Gate } from "../gate/gate";
 
@@ -8,8 +8,10 @@ import { Gate } from "../gate/gate";
   styleUrls: ['./gate-toolbox.component.css']
 })
 export class GateToolboxComponent implements OnInit {
-  grid: Gate[][] = [];
-  private gridWidth = 3; 
+  gatesGrid: Gate[][] = [];
+  operatorsGrid: Gate[][] = [];
+  private gridWidth = 4;
+  @Output() dragStart= new EventEmitter();; 
 
   constructor(public gateService: GateService) { 
     this.setUpGrid();
@@ -19,15 +21,30 @@ export class GateToolboxComponent implements OnInit {
   }
 
   private setUpGrid(){
-    let j = 0;
     let row = [];
     for(let i = 0; i< this.gateService.gateTypes.length; i++){
       row.push(this.gateService.gateTypes[i]);
-      if(i%this.gridWidth === this.gridWidth - 1){
-        this.grid.push(row);
+      if(i%this.gridWidth === this.gridWidth - 1 || i === this.gateService.gateTypes.length -1){
+        this.gatesGrid.push(row);
+        row = [];
+      }
+    }
+
+    row = [];
+    for(let i = 0; i< this.gateService.operatorTypes.length; i++){
+      row.push(this.gateService.operatorTypes[i]);
+      if(i%this.gridWidth === this.gridWidth - 1 || i === this.gateService.operatorTypes.length -1){
+        this.operatorsGrid.push(row);
         row = [];
       }
     }
   }
 
+  setDragging($event: any){
+    this.dragStart.emit(true);
+  }
+
+  setNotDragging($event: any){
+    this.dragStart.emit(false);
+  }
 }
