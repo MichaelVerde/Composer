@@ -1,10 +1,19 @@
+<div class="left-line">
+
+<div>
 <div class="bit-table-wrapper">
     <div class="bit-table" [style.width.px]="50 * canvasLength">
         <div class="bit-line" *ngFor="let qbit of bits">
-            <div class="bit-spot" *ngFor="let spot of qbit.spots" dnd-droppable (onDropSuccess)="setNewGate($event, spot.bitIdx, spot.spotIdx)">
-                <div dnd-draggable [dragData]="spot.gate" (onDragSuccess)="setNoGate($event, spot.bitIdx, spot.spotIdx)">
+            <div class="bit-spot" *ngFor="let spot of qbit.spots" dnd-draggable [dragData]="spot.gate" (onDragSuccess)="setNoGate($event, spot.bitIdx, spot.spotIdx)">
+                <div class="bit-drop-area" dnd-droppable (onDropSuccess)="setNewGate($event, spot.bitIdx, spot.spotIdx)">
                     <gate [gate]="spot.gate"></gate>
                 </div>
+            </div>
+        </div>
+        <div class="bit-line cbit">
+            <div class="cbit-spot" *ngFor="let spot of cbit.spots">  
+                <div class="cbit-background">
+                </div>           
             </div>
         </div>
     </div>

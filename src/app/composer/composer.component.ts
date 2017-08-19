@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./composer.component.css']
 })
 export class ComposerComponent implements OnInit {
-  numBits: number = 2; 
+  numBits: number = 5; 
 
   constructor() { }
 

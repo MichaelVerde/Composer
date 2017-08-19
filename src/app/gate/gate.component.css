@@ -19,6 +19,42 @@
     color: white;
     border: 3px solid black;
 }
+
+.connector.both .gate,
+.connector.top .gate{
+    top: 5px;
+    left: -10px;
+}
+.connector.bottom .gate{
+    top: -13px;
+    left: -10px;
+}
+
+.connector{
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+.connector.both{
+    width: 10px;
+    top: -18px;
+    height: 40px;
+}
+.connector.top{
+    width: 10px;
+    top: -18px;
+    height: 20px;
+}
+.connector.bottom{
+    width: 10px;
+    top: 0px;
+    height: 20px;
+}
+
+
+
 .gate-text{
     position: absolute;
 }

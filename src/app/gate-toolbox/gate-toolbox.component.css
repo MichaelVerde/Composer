@@ -10,3 +10,10 @@
     width: 60px;
     height: 60px;
 }
+
+.trash{
+    border: 1px solid black;
+    vertical-align: middle;
+    width: 60px;
+    height: 60px;
+}

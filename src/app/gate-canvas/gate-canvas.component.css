@@ -1,5 +1,7 @@
 .bit-table-wrapper{
     overflow-x:scroll;
+    border-left: 3px groove black;
+    border-right: 3px groove black;
 }
 .bit-table{
     display: table;
@@ -9,4 +11,17 @@
 }
 .bit-spot{
     display: table-cell;
+}
+.bit-drop-area{
+    display: table-cell;
+    height: 100%;
+}
+.cbit-spot{
+    display: table-cell;
+}
+.cbit-background{
+    margin-top: 15px;
+    border-top: 3px dotted #aaa;
+    background-color: #ddd;
+    height: 40px;
 }

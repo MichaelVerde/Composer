@@ -10,6 +10,7 @@ export class GateCanvasComponent implements OnInit {
   @Input() numBits: number;
   canvasLength: number = 80;
   bits: QBit[] = [];
+  cbit: QBit;
 
   constructor() { 
   }
@@ -18,6 +19,7 @@ export class GateCanvasComponent implements OnInit {
     for(let i = 0; i< this.numBits ; i++){
       this.bits.push(new QBit(i, this.canvasLength));
     }
+    this.cbit = new QBit(0, this.canvasLength);
   }
 
   setNewGate($event: any, bitIdx: number, spotIdx: number) {
