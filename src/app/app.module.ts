@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { DndModule } from 'ng2-dnd';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { OrderModule } from 'ngx-order-pipe';
 
 import { AppComponent } from './app.component';
 import { ComposerComponent } from './composer/composer.component';
@@ -23,7 +24,8 @@ import { GateService } from './gate/gate.service';
     BrowserModule,
     FormsModule,
     DndModule.forRoot(),
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    OrderModule
   ],
   providers: [GateService],
   bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Gate } from "../gate/gate"
 
 @Component({
@@ -6,20 +6,68 @@ import { Gate } from "../gate/gate"
   templateUrl: './gate-canvas.component.html',
   styleUrls: ['./gate-canvas.component.css']
 })
-export class GateCanvasComponent implements OnInit {
-  @Input() numBits: number;
-  canvasLength: number = 40;
+export class GateCanvasComponent implements OnChanges  {
+  @Input() numQBits: number;
+  @Input() numCBits: number;
+  @Input() canvasLength: number = 40;
+  showIdx: boolean = false;
   bits: QBit[] = [];
   cbit: CBit;
 
   constructor() { 
   }
 
-  ngOnInit() {
-    for(let i = 0; i< this.numBits ; i++){
-      this.bits.push(new QBit(i, this.canvasLength));
+  ngOnChanges() {
+    this.setUpCanvas();
+  }
+
+  setUpCanvas(){ 
+    //Set, Add or Subtract Qbits 
+    if (this.numQBits > this.bits.length){
+      for(let i = this.bits.length; i< this.numQBits ; i++){
+        this.bits.push(new QBit(i, this.canvasLength));
+      }
     }
-    this.cbit = new CBit(0, this.canvasLength);
+    else if (this.numQBits < this.bits.length){
+      for(let i = this.bits.length-1; i>= this.numQBits ; i--){
+        this.bits.splice(i,1);
+      }
+    }
+
+    //Set cbit if not there 
+    if(!this.cbit){
+      this.cbit = new CBit(this.canvasLength);
+    }
+
+    //Set, Add or Subtract spots from qbits 
+    for(let i = 0; i< this.numQBits ; i++){
+      if(this.canvasLength > this.bits[i].spots.length){
+        for(let j = this.bits[i].spots.length; j< this.canvasLength ; j++){
+          let spot = new Spot(i, j);
+          this.bits[i].spots.push(spot);
+        }
+      }
+      else if (this.canvasLength < this.bits[i].spots.length){
+        for(let j = this.bits[i].spots.length - 1; j>= this.canvasLength ; j--){
+          this.bits[i].spots.splice(j,1);
+        }
+      }
+    }
+
+    //Set, Add or Subtract spots from cbits 
+    if(this.canvasLength > this.cbit.measurements.length){
+      for(let j = this.cbit.measurements.length; j< this.canvasLength ; j++){
+        let measurement = new Measurement(j);
+        this.cbit.measurements.push(measurement);
+      }
+    }
+    else if (this.canvasLength < this.cbit.measurements.length){
+      for(let j = this.cbit.measurements.length - 1; j>= this.canvasLength ; j--){
+        this.cbit.measurements.splice(j,1);
+      }
+    }
+
+
   }
 
   setNewGate($event: any, bitIdx: number, spotIdx: number) {
@@ -90,14 +138,16 @@ export class Spot {
   constructor(bitIdx: number, spotIdx: number) { 
     this.bitIdx = bitIdx;
     this.spotIdx = spotIdx;
+    this.gate.bitIdx = bitIdx;
+    this.gate.spotIdx = spotIdx;
   }
 }
 
 export class CBit {
   measurements: Measurement[] = [];
-  constructor(idx:number, length: number) { 
+  constructor(length: number) { 
     for(let i = 0; i< length ; i++){
-      let measurement = new Measurement(idx);
+      let measurement = new Measurement(i);
       this.measurements.push(measurement);
     }
   }

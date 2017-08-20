@@ -26,6 +26,7 @@
     "core-js": "^2.4.1",
     "ng2-dnd": "^4.2.0",
     "ngx-bootstrap": "^1.8.1",
+    "ngx-order-pipe": "^1.0.2",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },

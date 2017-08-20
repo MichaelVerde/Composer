@@ -9,13 +9,31 @@
                 </ngb-tab>
                 <ngb-tab title="Settings">
                     <ng-template ngbTabContent>
-                        <div class="settings">                    
-                            Number of Quantum Bits:
-                            <input type="number" [(ngModel)]="numQBits"/>
-                            Number of Classical Bits:
-                            <input type="number" [(ngModel)]="numCBits"/>
-                            Length of Canvas:
-                            <input type="number" [(ngModel)]="canvasLength"/>
+                        <div class="settings-table">
+                            <div class="settings-row">
+                                <div class="settings-cell col-md-8">
+                                    Quantum Bits:
+                                </div>
+                                <div class="settings-cell col-md-4">
+                                    <input type="number" [(ngModel)]="numQBits" style="width: 50px; text-align: center;" min="1" max="10" step="1"/>     
+                                </div>
+                            </div>
+                            <div class="settings-row">
+                                <div class="settings-cell col-md-8">
+                                    Classical Bits:
+                                </div>
+                                <div class="settings-cell col-md-4">
+                                    <input type="number" [(ngModel)]="numCBits" style="width: 50px; text-align: center;" min="1" max="10" step="1"/>     
+                                </div>
+                            </div>
+                            <div class="settings-row">
+                                <div class="settings-cell col-md-8">
+                                    Canvas Length:
+                                </div>
+                                <div class="settings-cell col-md-4">
+                                    <input type="number" [(ngModel)]="canvasLength" style="width: 50px; text-align: center;" min="20" max="200" step="1"/>     
+                                </div>
+                            </div>
                         </div>
                     </ng-template>
                 </ngb-tab>
@@ -23,7 +41,7 @@
         </div>
         <div class="col-md-9">
             <h4>Quantum Canvas</h4>
-            <gate-canvas [numBits]="numQBits"></gate-canvas>
+            <gate-canvas [numQBits]="numQBits" [numCBits]="numCBits" [canvasLength]="canvasLength"></gate-canvas>
         </div>
     </div>
 </div>

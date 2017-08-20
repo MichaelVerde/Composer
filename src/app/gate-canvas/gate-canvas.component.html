@@ -4,9 +4,10 @@
 <div class="bit-table-wrapper">
     <div class="bit-table" [style.width.px]="50 * canvasLength">
         <div class="bit-line" *ngFor="let qbit of bits">
-            <div class="bit-spot" *ngFor="let spot of qbit.spots" dnd-draggable [dragData]="spot.gate" (onDragSuccess)="setNoGate($event, spot.bitIdx, spot.spotIdx)">
+            <div class="bit-spot" *ngFor="let spot of qbit.spots | orderBy: 'spotIdx'" dnd-draggable [dragData]="spot.gate" (onDragSuccess)="setNoGate($event, spot.bitIdx, spot.spotIdx)">
                 <div class="bit-drop-area" dnd-droppable [allowDrop]="allowDropFunction(spot.bitIdx, spot.spotIdx)" (onDropSuccess)="setNewGate($event, spot.bitIdx, spot.spotIdx)">
                     <gate [gate]="spot.gate"></gate>
+                    <span *ngIf="showIdx"> {{spot.bitIdx}},{{spot.spotIdx}}</span>
                 </div>
             </div>
         </div>

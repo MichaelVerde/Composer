@@ -3,6 +3,16 @@ gate-canvas{
     min-width: 100%;
     table-layout: fixed;
 }
-.settings{
-    padding: 10px;
+
+.settings-table{
+    display: table;
+}
+.settings-row{
+    display: table-row;
+}
+.settings-cell{
+    padding-top: 10px;
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
 }
