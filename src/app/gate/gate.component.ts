@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Gate } from './gate'
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'gate',
@@ -10,10 +11,23 @@ export class GateComponent implements OnInit {
   @Input() gate: Gate = new Gate();
   ready: boolean = false;
 
-  constructor() { }
+  constructor(public modalService: NgbModal) { }
 
   ngOnInit() {
     this.ready = true;
+  }
+
+  open(content) {
+    this.modalService.open(content);
+  }
+
+  getBackgroundClass():string{
+    if(this.gate.bitIdx === -1 || this.gate.spotIdx === -1){
+      return "gate-background";
+    }
+    else{
+      return "placed-gate-background";
+    } 
   }
 
   getConnectorClass():string{
@@ -32,11 +46,17 @@ export class GateComponent implements OnInit {
   }
 
   getGateClass():string{
-    if(this.gate.typeId !== 0){
-      return "gate";
-    }
-    else{
+    if(this.gate.typeId === 0){
       return "";
+    }
+    else if (this.gate.coupled > 0){
+      return "gate bottom";
+    }
+    else if (this.gate.coupled < 0){
+      return "gate top";
+    }
+    else {
+      return "gate";
     }
   }
 

@@ -3,21 +3,24 @@ import { Gate } from "./gate";
 
 @Injectable()
 export class GateService {
-  gateTypes: Gate[] = [];
-  operatorTypes: Gate[] = [];
+  singleGateTypes: Gate[] = [];
+  coupledGateTypes: Gate[] = [];
+  measurements: Gate[] = [];
 
   constructor() { 
-    this.gateTypes.push(new Gate (1, "id", "", ""));
-    this.gateTypes.push(new Gate (2, "X", "", ""));
-    this.gateTypes.push(new Gate (3, "Y", "", ""));
-    this.gateTypes.push(new Gate (4, "Z", "", ""));
-    this.gateTypes.push(new Gate (5, "H", "", ""));
-    this.gateTypes.push(new Gate (6, "S", "", ""));
-    this.gateTypes.push(new Gate (7, "Sn", "", ""));
-    this.gateTypes.push(new Gate (8, "T", "", ""));
-    this.gateTypes.push(new Gate (9, "Tn", "", ""));
-    this.gateTypes.push(new Gate (9, "+", "", ""));
-    this.operatorTypes.push(new Gate (10, "M", "", "bottom"));
+    this.singleGateTypes.push(new Gate (1, "S", ""));
+    this.singleGateTypes.push(new Gate (2, "D", ""));
+    this.singleGateTypes.push(new Gate (3, "X", ""));
+    this.singleGateTypes.push(new Gate (4, "Z", ""));
+    this.singleGateTypes.push(new Gate (5, "P", ""));
+    this.singleGateTypes.push(new Gate (6, "F", ""));
+    this.singleGateTypes.push(new Gate (7, "\u03A6", ""));
+
+    this.coupledGateTypes.push(new Gate (10, "\u03A6c", "", "", 1));
+    this.coupledGateTypes.push(new Gate (11, "B", "", "", 1));
+    this.coupledGateTypes.push(new Gate (12, "S", "", "", 1));
+
+    this.measurements.push(new Gate (20, "M", "", "bottom"));
   }
 
 }

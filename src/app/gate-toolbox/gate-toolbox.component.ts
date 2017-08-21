@@ -8,10 +8,11 @@ import { Gate } from "../gate/gate";
   styleUrls: ['./gate-toolbox.component.css']
 })
 export class GateToolboxComponent implements OnInit {
-  gatesGrid: Gate[][] = [];
-  operatorsGrid: Gate[][] = [];
+  singleGrid: Gate[][] = [];
+  coupledGrid: Gate[][] = [];
+  measurementsGrid: Gate[][] = [];
   private gridWidth = 4;
-  @Output() dragStart= new EventEmitter();; 
+  @Output() dragStart= new EventEmitter(); 
 
   constructor(public gateService: GateService) { 
     this.setUpGrid();
@@ -22,19 +23,28 @@ export class GateToolboxComponent implements OnInit {
 
   private setUpGrid(){
     let row = [];
-    for(let i = 0; i< this.gateService.gateTypes.length; i++){
-      row.push(this.gateService.gateTypes[i]);
-      if(i%this.gridWidth === this.gridWidth - 1 || i === this.gateService.gateTypes.length -1){
-        this.gatesGrid.push(row);
+    for(let i = 0; i< this.gateService.singleGateTypes.length; i++){
+      row.push(this.gateService.singleGateTypes[i]);
+      if(i%this.gridWidth === this.gridWidth - 1 || i === this.gateService.singleGateTypes.length -1){
+        this.singleGrid.push(row);
         row = [];
       }
     }
 
     row = [];
-    for(let i = 0; i< this.gateService.operatorTypes.length; i++){
-      row.push(this.gateService.operatorTypes[i]);
-      if(i%this.gridWidth === this.gridWidth - 1 || i === this.gateService.operatorTypes.length -1){
-        this.operatorsGrid.push(row);
+    for(let i = 0; i< this.gateService.coupledGateTypes.length; i++){
+      row.push(this.gateService.coupledGateTypes[i]);
+      if(i%this.gridWidth === this.gridWidth - 1 || i === this.gateService.coupledGateTypes.length -1){
+        this.coupledGrid.push(row);
+        row = [];
+      }
+    }
+
+    row = [];
+    for(let i = 0; i< this.gateService.measurements.length; i++){
+      row.push(this.gateService.measurements[i]);
+      if(i%this.gridWidth === this.gridWidth - 1 || i === this.gateService.measurements.length -1){
+        this.measurementsGrid.push(row);
         row = [];
       }
     }

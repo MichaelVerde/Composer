@@ -10,6 +10,12 @@
     width: 60px;
     height: 60px;
 }
+.coupled-toolbox-cell{
+    vertical-align: middle;
+    display: table-cell;
+    width: 60px;
+    height: 90px;
+}
 
 .trash{
     position: relative;
