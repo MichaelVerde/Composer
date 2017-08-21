@@ -16,6 +16,7 @@ export class GateService {
     this.gateTypes.push(new Gate (7, "Sn", "", ""));
     this.gateTypes.push(new Gate (8, "T", "", ""));
     this.gateTypes.push(new Gate (9, "Tn", "", ""));
+    this.gateTypes.push(new Gate (9, "+", "", ""));
     this.operatorTypes.push(new Gate (10, "M", "", "bottom"));
   }
 

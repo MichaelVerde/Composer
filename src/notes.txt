@@ -1,0 +1,46 @@
+-- Xanadu  Meeting
+-Coupling gates, nearest neighboour. 
+-Conditional gates based off of the bottom line.
+-Saving layout, re-opening system, with some default layouts. 
+-Hide the rest of the bit line, after a measurement
+-Re ordering entire bits oby dragging the kets on the left.
+
+-Coupling gates, beam splitters, and other gates, should have modal popup for lgate settings
+
+
+Single Mode Gates
+S - Gate
+-squeezing factor, complex
+a -> -inf to inf
+b -> -inf to inf
+
+D - Gate 
+displacement, complex
+a -> -inf to inf
+b -> -inf to inf
+
+Phase - Gate 
+-Phase 0 to 2pi
+
+F - Gate-No params
+
+X,Z,P -Gates
+-1 real parameter
+
+C Phase - Accross 2 Neares Neigbours
+
+Beam Splitter 2-Mode Gate 
+-Transmittivity 0 to 1 
+-Phase 0 to 2pi
+
+S 2-bit, same as B plus 2 s's 
+-squeezing factor, complex
+a -> -inf to inf
+b -> -inf to inf
+
+Measurements
+-Quadratures X or P
+-Average Photon Number 
+-Int Measurement, set the number. 
+
+-Subroutines, V2
