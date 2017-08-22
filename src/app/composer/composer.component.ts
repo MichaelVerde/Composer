@@ -20,4 +20,10 @@ export class ComposerComponent implements OnInit {
     this.dragging = dragging;
   }
 
+  numQBitsChanged(){
+    if(this.numCBits > this.numQBits){
+      this.numCBits = this.numQBits;
+    }
+  }
+
 }

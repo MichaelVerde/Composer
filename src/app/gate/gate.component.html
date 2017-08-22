@@ -1,8 +1,6 @@
-<div [ngClass]="getBackgroundClass()">
-    <div [ngClass]="getConnectorClass()">
-        <div [ngClass]="getGateClass()" (click)="open(content)">
-            <div *ngIf="getShowText()" class="gate-text">{{gate.typeName}}</div>
-          </div>
+<div [ngClass]="getConnectorClass()">
+    <div [ngClass]="getGateClass()" (click)="open(content)">
+        <div *ngIf="getShowText()" class="gate-text">{{gate.typeName}}</div>
     </div>
 </div>
 
@@ -14,7 +12,34 @@
         </button>
     </div>
     <div class="modal-body">
-        <p>One fine body&hellip;</p>
+        <div class="settings-table">
+            <div class="settings-row">
+                <div class="settings-cell col-md-4">
+                    Parameter:
+                </div>
+                <div class="settings-cell col-md-8">
+                    <input type="number" [(ngModel)]="gate.paramReal" style="width: 50px; text-align: center;" min="1" max="10" step="1"/>     
+                    + i <input type="number" [(ngModel)]="gate.paramComplex" style="width: 50px; text-align: center;" min="1" max="10" step="1"/>     
+                </div>
+
+            </div>
+            <div class="settings-row">
+                <div class="settings-cell col-md-6">
+                    Phase:
+                </div>
+                <div class="settings-cell col-md-6">
+                    <input type="number" [(ngModel)]="gate.phase" style="width: 50px; text-align: center;" min="1" max="10" step="1"/>     
+                </div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-cell col-md-6">
+                    Transmittivity:
+                </div>
+                <div class="settings-cell col-md-6">
+                    <input type="number" [(ngModel)]="gate.transmittivity" style="width: 50px; text-align: center;" min="20" max="200" step="1"/>     
+                </div>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>

@@ -1,18 +1,3 @@
-.placed-gate-background{
-    position: relative;
-    width: 50px;
-    height: 4px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    background-color: black;
-}
-.gate-background{
-    position: relative;
-    top: 23px;
-    width: 50px;
-    height: 34px;
-}
-
 .gate{
     position: relative;
     margin: 0 auto;
@@ -23,7 +8,21 @@
     height: 30px;
     background-color: gray;
     color: white;
-    border: 3px solid black;
+    border: 2px solid #888;
+    border-radius: 2px;
+}
+
+.gate.turq-light{
+    background-color: #98DBC6;
+}
+.gate.turq{
+    background-color: #5BC8AC;
+}
+.gate.yellow{
+    background-color: #e6D72A;
+}
+.gate.pink{
+    background-color: #F18D9e;
 }
 
 .gate.bottom{
@@ -31,9 +30,9 @@
     margin: 0 auto;
     text-align: center;
     padding: 0;
-    top: -43px;
+    top: -46px;
     width: 30px;
-    height: 60px;
+    height: 62px;
 }
 
 /*connectors*/
@@ -44,28 +43,28 @@
 }
 .connector.bottom .gate{
     top: -13px;
-    left: -10px;
+    left: -14px;
 }
 
 .connector{
     position: relative;
     margin: 0 auto;
     text-align: center;
-    background-color: black;
+    background-color: #888;
     color: white;
 }
 .connector.both{
-    width: 10px;
+    width: 2px;
     top: -18px;
     height: 40px;
 }
 .connector.top{
-    width: 10px;
+    width: 2px;
     top: -18px;
     height: 20px;
 }
 .connector.bottom{
-    width: 10px;
+    width: 2px;
     top: 0px;
     height: 20px;
 }
@@ -75,5 +74,21 @@
 .gate-text{
     position: absolute;
 }
+
+
+/*gate settings modal*/
+.settings-table{
+    display: table;
+}
+.settings-row{
+    display: table-row;
+}
+.settings-cell{
+    padding-top: 10px;
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+}
+
 
 

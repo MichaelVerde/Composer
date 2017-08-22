@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Gate } from "../gate/gate"
 
 @Component({
@@ -10,6 +10,8 @@ export class GateCanvasComponent implements OnChanges  {
   @Input() numQBits: number;
   @Input() numCBits: number;
   @Input() canvasLength: number = 40;
+  @Input() dragging: boolean;
+  @Output() dragStart= new EventEmitter(); 
   showIdx: boolean = false;
   bits: QBit[] = [];
   cbit: CBit;
@@ -71,29 +73,23 @@ export class GateCanvasComponent implements OnChanges  {
   }
 
   setNewGate($event: any, bitIdx: number, spotIdx: number) {
-    let newGate:Gate = new Gate($event.dragData.typeId, 
-      $event.dragData.typeName, 
-      $event.dragData.description,
-      $event.dragData.connector,
-      $event.dragData.coupled);
-
+    let newGate:Gate = $event.dragData;
     if(newGate){
       newGate.bitIdx = bitIdx;
       newGate.spotIdx = spotIdx;
       this.bits[bitIdx].spots[spotIdx].gate = newGate;
 
-      if(newGate.isMeasurement){
-        for(let i = bitIdx+1; i< this.bits.length; i++){
-          this.bits[i].spots[spotIdx].gate = new Gate(0, "both");
-        }
-        this.cbit.measurements[spotIdx].active = true;
+      if(newGate.coupled !== 0){
+        this.bits[bitIdx + newGate.coupled].spots[spotIdx].gate = new Gate();
+        this.bits[bitIdx + newGate.coupled].spots[spotIdx].gate.bitIdx = bitIdx + newGate.coupled;
+        this.bits[bitIdx + newGate.coupled].spots[spotIdx].gate.spotIdx = spotIdx;
+        this.bits[bitIdx + newGate.coupled].spots[spotIdx].gate.coupled = 1;
       }
-
     }
+    this.setMeasurementConnectors();
   }
 
   setNoGate($event: any, bitIdx: number, spotIdx: number) {
-
     if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement){
       for(let i = bitIdx+1; i< this.bits.length; i++){
         this.bits[i].spots[spotIdx].gate = new Gate();
@@ -102,17 +98,44 @@ export class GateCanvasComponent implements OnChanges  {
       }
       this.cbit.measurements[spotIdx].active = false;
     }
-
     this.bits[bitIdx].spots[spotIdx].gate = new Gate();
     this.bits[bitIdx].spots[spotIdx].gate.bitIdx = bitIdx;
     this.bits[bitIdx].spots[spotIdx].gate.spotIdx = spotIdx;
+    this.setMeasurementConnectors();
+  }
+
+  setMeasurementConnectors(){
+    for(let bitIdx = 0; bitIdx< this.bits.length; bitIdx++){
+      for(let spotIdx = 0; spotIdx< this.bits[bitIdx].spots.length; spotIdx++){
+        if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement){
+          for(let i = bitIdx+1; i< this.bits.length; i++){
+            this.bits[i].spots[spotIdx].gate = new Gate();
+            this.bits[i].spots[spotIdx].gate.bitIdx = i;
+            this.bits[i].spots[spotIdx].gate.spotIdx = spotIdx;
+            this.bits[i].spots[spotIdx].gate.connector = "both";
+          }
+          this.cbit.measurements[spotIdx].active = true;
+        }
+        if(!this.spotLessThanMeasureGate(bitIdx, spotIdx)){
+          this.bits[bitIdx].spots[spotIdx].showBg = false;
+        }
+        else{
+          this.bits[bitIdx].spots[spotIdx].showBg = true;
+        }
+      }
+    }
+  }
+
+  allowDragFunction(bitIdx: number, spotIdx: number): any {
+    return this.bits[bitIdx].spots[spotIdx].gate.coupled <= 0;
   }
 
   allowDropFunction(bitIdx: number, spotIdx: number): any {
     return (dragData: any) => this.bits[bitIdx].spots[spotIdx].gate.typeId === 0 
     && this.bits[bitIdx].spots[spotIdx].gate.connector === ""
-    && ((!dragData.isMeasurement && this.spotLessThanMeasureGate(bitIdx, spotIdx)) 
-      ||(dragData.isMeasurement && (!this.bitHasMeasureGate(bitIdx) || dragData.bitIdx === bitIdx))); 
+    && ((!dragData.isMeasurement && this.spotLessThanMeasureGate(bitIdx, spotIdx) && this.spotLessThanMeasureGate(bitIdx + dragData.coupled, spotIdx)) 
+      ||(dragData.isMeasurement && (!this.bitHasMeasureGate(bitIdx) || dragData.bitIdx === bitIdx))
+    && (this.bits[bitIdx].spots[spotIdx].gate.coupled === 0 || bitIdx != 0)); 
   }
 
   bitHasMeasureGate(bitIdx: number){
@@ -132,6 +155,25 @@ export class GateCanvasComponent implements OnChanges  {
     }
     return true;
   }
+
+  getDraggingClass(bitIdx: number, spotIdx: number){
+    if(this.dragging 
+      && this.bits[bitIdx].spots[spotIdx].gate.typeId === 0 
+      && this.bits[bitIdx].spots[spotIdx].gate.connector === "" ){
+      return "circle"
+    }
+    else {
+      return "";
+    }
+  }
+
+  setDragging($event: any){
+    this.dragStart.emit(true);
+  }
+
+  setNotDragging($event: any){
+    this.dragStart.emit(false);
+  }
 }
 
 export class QBit {
@@ -146,7 +188,8 @@ export class QBit {
 
 export class Spot {
   bitIdx: number;
-  spotIdx: number;  
+  spotIdx: number; 
+  showBg: boolean = true; 
   gate: Gate = new Gate();
   constructor(bitIdx: number, spotIdx: number) { 
     this.bitIdx = bitIdx;

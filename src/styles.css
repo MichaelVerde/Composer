@@ -5,14 +5,6 @@
     opacity:0.4;
 }
 
-.dnd-drag-enter {
-    box-shadow: 0 0 10px black;
-}
-
-.dnd-drag-over {
-    box-shadow: 0 0 10px black;
-}
-
 .dnd-sortable-drag {
   -moz-transform:scale(0.9);
   -webkit-transform:scale(0.9);
@@ -28,4 +20,9 @@
 .modal-open .modal
 {
   opacity: 1;
+}
+.modal-content{
+  top: 100px;
+  width: 300px;
+  margin: 0 auto;
 }

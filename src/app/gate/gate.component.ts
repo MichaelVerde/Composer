@@ -21,15 +21,6 @@ export class GateComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  getBackgroundClass():string{
-    if(this.gate.bitIdx === -1 || this.gate.spotIdx === -1){
-      return "gate-background";
-    }
-    else{
-      return "placed-gate-background";
-    } 
-  }
-
   getConnectorClass():string{
     if(this.gate.connector === "both"){
       return "connector both";
@@ -46,18 +37,33 @@ export class GateComponent implements OnInit {
   }
 
   getGateClass():string{
+    let classStr:string = "";
     if(this.gate.typeId === 0){
-      return "";
-    }
-    else if (this.gate.coupled > 0){
-      return "gate bottom";
+      classStr += "";
     }
     else if (this.gate.coupled < 0){
-      return "gate top";
+      classStr += "gate bottom";
+    }
+    else if (this.gate.coupled > 0){
+      classStr += "gate top";
     }
     else {
-      return "gate";
+      classStr += "gate";
     }
+
+    if(this.gate.typeId >= 1 && this.gate.typeId <= 2){
+      classStr += " turq-light";
+    }
+    else if(this.gate.typeId >= 3 && this.gate.typeId <= 9){
+      classStr += " turq";
+    }
+    else if(this.gate.typeId >= 10 && this.gate.typeId <= 19){
+      classStr += " yellow";
+    }
+    else if(this.gate.typeId >= 20 && this.gate.typeId <= 29){
+      classStr += " pink";
+    }
+    return classStr;
   }
 
   getShowText():boolean{
