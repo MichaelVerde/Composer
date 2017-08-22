@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Gate } from "../gate/gate"
 
 @Component({
   selector: 'composer',
@@ -9,15 +10,15 @@ export class ComposerComponent implements OnInit {
   numQBits: number = 5; 
   numCBits: number = 5; 
   canvasLength: number = 40; 
-  dragging: boolean = false;
+  dragData?: Gate = null;
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  setDragging(dragging: boolean){
-    this.dragging = dragging;
+  setDragging(gate?: Gate){
+    this.dragData = gate;
   }
 
   numQBitsChanged(){

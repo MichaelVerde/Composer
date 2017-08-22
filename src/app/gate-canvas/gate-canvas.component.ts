@@ -10,8 +10,8 @@ export class GateCanvasComponent implements OnChanges  {
   @Input() numQBits: number;
   @Input() numCBits: number;
   @Input() canvasLength: number = 40;
-  @Input() dragging: boolean;
-  @Output() dragStart= new EventEmitter(); 
+  @Input() dragData?: Gate;
+  @Output() draggingData= new EventEmitter(); 
   showIdx: boolean = false;
   bits: QBit[] = [];
   cbit: CBit;
@@ -131,11 +131,12 @@ export class GateCanvasComponent implements OnChanges  {
   }
 
   allowDropFunction(bitIdx: number, spotIdx: number): any {
-    return (dragData: any) => this.bits[bitIdx].spots[spotIdx].gate.typeId === 0 
+    return (dragData: any) => 
+    this.bits[bitIdx].spots[spotIdx].gate.typeId === 0 
     && this.bits[bitIdx].spots[spotIdx].gate.connector === ""
-    && ((!dragData.isMeasurement && this.spotLessThanMeasureGate(bitIdx, spotIdx) && this.spotLessThanMeasureGate(bitIdx + dragData.coupled, spotIdx)) 
-      ||(dragData.isMeasurement && (!this.bitHasMeasureGate(bitIdx) || dragData.bitIdx === bitIdx))
-    && (this.bits[bitIdx].spots[spotIdx].gate.coupled === 0 || bitIdx != 0)); 
+    && ((!dragData.isMeasurement && this.spotLessThanMeasureGate(bitIdx, spotIdx) && (dragData.coupled === 0 || bitIdx !== 0) && this.spotLessThanMeasureGate(bitIdx + dragData.coupled, spotIdx)) 
+      ||(dragData.isMeasurement && !this.bitHasMeasureGate(bitIdx)))
+    && (dragData.coupled === 0 || bitIdx !== 0); 
   }
 
   bitHasMeasureGate(bitIdx: number){
@@ -157,9 +158,7 @@ export class GateCanvasComponent implements OnChanges  {
   }
 
   getDraggingClass(bitIdx: number, spotIdx: number){
-    if(this.dragging 
-      && this.bits[bitIdx].spots[spotIdx].gate.typeId === 0 
-      && this.bits[bitIdx].spots[spotIdx].gate.connector === "" ){
+    if(this.dragData && this.allowDropFunction(bitIdx,spotIdx)(this.dragData)){
       return "circle"
     }
     else {
@@ -167,12 +166,12 @@ export class GateCanvasComponent implements OnChanges  {
     }
   }
 
-  setDragging($event: any){
-    this.dragStart.emit(true);
+  setDragging($event: any, gate: Gate){
+    this.draggingData.emit(gate);
   }
 
   setNotDragging($event: any){
-    this.dragStart.emit(false);
+    this.draggingData.emit(null);
   }
 }
 

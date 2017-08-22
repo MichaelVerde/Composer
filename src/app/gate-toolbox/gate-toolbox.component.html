@@ -1,7 +1,7 @@
 <span>Single Mode Gates</span> 
 <div class="toolbox-table">
   <div class="toolbox-row" *ngFor="let row of singleGrid">
-    <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event)" (onDragEnd)="setNotDragging($event)">
+    <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event, gate)" (onDragEnd)="setNotDragging($event)">
       <div class="toolbox-background">
         <gate [gate]="gate"></gate>
       </div>  
@@ -12,7 +12,7 @@
 <span>Coupling Gates</span> 
 <div class="toolbox-table">
   <div class="toolbox-row" *ngFor="let row of coupledGrid">
-    <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event)" (onDragEnd)="setNotDragging($event)">
+    <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event, gate)" (onDragEnd)="setNotDragging($event)">
       <div class="coupled-toolbox-background">
         <gate [gate]="gate"></gate>
       </div> 
@@ -24,7 +24,7 @@
 <span>Measurements</span> 
 <div class="toolbox-table">
   <div class="toolbox-row" *ngFor="let row of measurementsGrid">
-    <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event)" (onDragEnd)="setNotDragging($event)">
+    <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event, gate)" (onDragEnd)="setNotDragging($event)">
       <div class="toolbox-background">
         <gate [gate]="gate"></gate>
       </div> 

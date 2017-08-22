@@ -4,7 +4,7 @@
             <ngb-tabset>
                 <ngb-tab title="Gates">
                     <ng-template ngbTabContent>
-                        <gate-toolbox class="container" (dragStart)="setDragging($event)"></gate-toolbox>
+                        <gate-toolbox class="container" (draggingData)="setDragging($event)"></gate-toolbox>
                     </ng-template>
                 </ngb-tab>
                 <ngb-tab title="Settings">
@@ -41,7 +41,7 @@
         </div>
         <div class="col-md-9">
             <h4>Xanadu Dreamer</h4>
-            <gate-canvas [numQBits]="numQBits" [numCBits]="numCBits" [canvasLength]="canvasLength" [dragging]="dragging" (dragStart)="setDragging($event)"></gate-canvas>
+            <gate-canvas [numQBits]="numQBits" [numCBits]="numCBits" [canvasLength]="canvasLength" [dragData]="dragData" (draggingData)="setDragging($event)"></gate-canvas>
         </div>
     </div>
 </div>

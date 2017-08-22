@@ -12,7 +12,7 @@ export class GateToolboxComponent implements OnInit {
   coupledGrid: Gate[][] = [];
   measurementsGrid: Gate[][] = [];
   private gridWidth = 4;
-  @Output() dragStart= new EventEmitter(); 
+  @Output() draggingData= new EventEmitter(); 
 
   constructor(public gateService: GateService) { 
     this.setUpGrid();
@@ -50,11 +50,11 @@ export class GateToolboxComponent implements OnInit {
     }
   }
 
-  setDragging($event: any){
-    this.dragStart.emit(true);
+  setDragging($event: any, gate: Gate){
+    this.draggingData.emit(gate);
   }
 
   setNotDragging($event: any){
-    this.dragStart.emit(false);
+    this.draggingData.emit(null);
   }
 }
