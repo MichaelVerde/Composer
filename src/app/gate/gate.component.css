@@ -79,9 +79,11 @@
 /*gate settings modal*/
 .settings-table{
     display: table;
+    width: 100%;
 }
 .settings-row{
     display: table-row;
+    width: 100%;
 }
 .settings-cell{
     padding-top: 10px;

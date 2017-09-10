@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Gate } from "../gate/gate"
+import { GateService } from "../gate/gate.service";
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'gate-canvas',
@@ -12,11 +14,12 @@ export class GateCanvasComponent implements OnChanges  {
   @Input() canvasLength: number = 40;
   @Input() dragData?: Gate;
   @Output() draggingData= new EventEmitter(); 
+
   showIdx: boolean = false;
   bits: QBit[] = [];
   cbit: CBit;
 
-  constructor() { 
+  constructor(public modalService: NgbModal, public gateService: GateService) { 
   }
 
   ngOnChanges() {
@@ -68,8 +71,7 @@ export class GateCanvasComponent implements OnChanges  {
         this.cbit.measurements.splice(j,1);
       }
     }
-
-
+    this.setMeasurementConnectors();
   }
 
   setNewGate($event: any, bitIdx: number, spotIdx: number) {

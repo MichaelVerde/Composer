@@ -12,6 +12,7 @@ export class Gate {
     //gate settings 
     paramReal: number = 0;
     paramComplex: number = 0;
+    paramName: string = "Squeezing";
     phase: number = 0;
     transmittivity: number = 0;
 
@@ -31,6 +32,14 @@ export class Gate {
 
         if(typeId === 20){
             this.isMeasurement = true;
+        }
+
+        if(typeId === 2){
+            this.paramName = "Displacement";
+        }
+
+        if(typeId === 3 || typeId === 4 || typeId === 5){
+            this.paramName = "Parameter";
         }
     }
   }
