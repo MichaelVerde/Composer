@@ -99,7 +99,7 @@ export class GateCanvasComponent implements OnChanges  {
     this.bits[bitIdx].spots[spotIdx].gate.typeId === 0 
     && this.bits[bitIdx].spots[spotIdx].gate.connector === ""
     && ((!dragData.isMeasurement && this.spotLessThanMeasureGate(bitIdx, spotIdx) && (dragData.coupled === 0 || bitIdx !== 0) && this.spotLessThanMeasureGate(bitIdx + dragData.coupled, spotIdx)) 
-      ||(dragData.isMeasurement && !this.bitHasMeasureGate(bitIdx)))
+      ||(dragData.isMeasurement && !this.bitHasMeasureGate(bitIdx) && this.spotIsLastGate(bitIdx, spotIdx)))
     && (dragData.coupled === 0 || bitIdx !== 0); 
   }
 
@@ -120,6 +120,16 @@ export class GateCanvasComponent implements OnChanges  {
     }
     return true;
   }
+
+  spotIsLastGate(bitIdx: number, spotIdx: number){
+    for(let i = spotIdx; i < this.bits[bitIdx].spots.length; i++){
+      if(this.bits[bitIdx].spots[i].gate.typeId !== 0){
+        return false;
+      }
+    }
+    return true;
+  }
+
 
   getDraggingClass(bitIdx: number, spotIdx: number){
     if(this.dragData && this.allowDropFunction(bitIdx,spotIdx)(this.dragData)){
