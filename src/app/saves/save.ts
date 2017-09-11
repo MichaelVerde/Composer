@@ -13,12 +13,14 @@ export class Save {
     constructor(name: string, numQBits: number, numCBits: number, canvasLength: number){
         this.name = name;
         this.lastModified = new Date();
-
         this.bits = [];
+        this.setupBits(numQBits, numCBits, canvasLength);    
+    }
+
+    public setupBits(numQBits: number, numCBits: number, canvasLength: number){
         this.numQBits = numQBits;
         this.numCBits = numCBits;
         this.canvasLength = canvasLength;
-
         //Set, Add or Subtract Qbits 
         if (this.numQBits > this.bits.length){
             for(let i = this.bits.length; i< this.numQBits ; i++){

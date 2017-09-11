@@ -23,7 +23,7 @@ export class SavesService {
   }
 
   refreshSave(){
-    this.saves[this.currentSave] = new Save(this.saves[this.currentSave].name, this.numQBits, this.numCBits, this.canvasLength);
+    this.saves[this.currentSave].setupBits(this.numQBits, this.numCBits, this.canvasLength); 
     this.currentSaveChange.next(this.currentSave);
   }
 
