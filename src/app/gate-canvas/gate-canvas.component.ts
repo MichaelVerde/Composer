@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { Gate } from "../gate/gate"
-import { GateService } from "../gate/gate.service";
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Gate } from "../gate/gate";
+import { QBit, Spot, CBit, Measurement } from "./canvas-classes";
+import { SavesService } from '../saves/saves.service';
 
 @Component({
   selector: 'gate-canvas',
@@ -19,7 +19,7 @@ export class GateCanvasComponent implements OnChanges  {
   bits: QBit[] = [];
   cbit: CBit;
 
-  constructor(public modalService: NgbModal, public gateService: GateService) { 
+  constructor(public savesService: SavesService) { 
   }
 
   ngOnChanges() {
@@ -71,7 +71,7 @@ export class GateCanvasComponent implements OnChanges  {
         this.cbit.measurements.splice(j,1);
       }
     }
-    this.setMeasurementConnectors();
+    this.save();
   }
 
   setNewGate($event: any, bitIdx: number, spotIdx: number) {
@@ -88,7 +88,7 @@ export class GateCanvasComponent implements OnChanges  {
         this.bits[bitIdx + newGate.coupled].spots[spotIdx].gate.coupled = 1;
       }
     }
-    this.setMeasurementConnectors();
+    this.save();
   }
 
   setNoGate($event: any, bitIdx: number, spotIdx: number) {
@@ -103,7 +103,7 @@ export class GateCanvasComponent implements OnChanges  {
     this.bits[bitIdx].spots[spotIdx].gate = new Gate();
     this.bits[bitIdx].spots[spotIdx].gate.bitIdx = bitIdx;
     this.bits[bitIdx].spots[spotIdx].gate.spotIdx = spotIdx;
-    this.setMeasurementConnectors();
+    this.save();
   }
 
   setMeasurementConnectors(){
@@ -175,49 +175,10 @@ export class GateCanvasComponent implements OnChanges  {
   setNotDragging($event: any){
     this.draggingData.emit(null);
   }
-}
 
-export class QBit {
-  spots: Spot[] = [];
-  constructor(idx:number, length: number) { 
-    for(let i = 0; i< length ; i++){
-      let spot = new Spot(idx, i);
-      this.spots.push(spot);
-    }
-  }
-}
-
-export class Spot {
-  bitIdx: number;
-  spotIdx: number; 
-  showBg: boolean = true; 
-  gate: Gate = new Gate();
-  constructor(bitIdx: number, spotIdx: number) { 
-    this.bitIdx = bitIdx;
-    this.spotIdx = spotIdx;
-    this.gate.bitIdx = bitIdx;
-    this.gate.spotIdx = spotIdx;
-  }
-}
-
-export class CBit {
-  measurements: Measurement[] = [];
-  constructor(length: number) { 
-    for(let i = 0; i< length ; i++){
-      let measurement = new Measurement(i);
-      this.measurements.push(measurement);
-    }
-  }
-}
-
-export class Measurement {
-  measurmentIdx: number;  
-  active:boolean;
-  value:number;
-  constructor(measurmentIdx: number) { 
-    this.measurmentIdx = measurmentIdx;
-    this.active = false;
-    this.value = 0;
+  save(){
+    this.setMeasurementConnectors();
+    this.savesService.currentSave.bits = this.bits;
   }
 }
 

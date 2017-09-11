@@ -22,6 +22,8 @@ export class GateToolboxComponent implements OnInit {
   }
 
   private setUpGrid(){
+    this.gateService.setUpGateTypes();
+    this.singleGrid = [];
     let row = [];
     for(let i = 0; i< this.gateService.singleGateTypes.length; i++){
       row.push(this.gateService.singleGateTypes[i]);
@@ -31,6 +33,7 @@ export class GateToolboxComponent implements OnInit {
       }
     }
 
+    this.coupledGrid = [];
     row = [];
     for(let i = 0; i< this.gateService.coupledGateTypes.length; i++){
       row.push(this.gateService.coupledGateTypes[i]);
@@ -40,6 +43,7 @@ export class GateToolboxComponent implements OnInit {
       }
     }
 
+    this.measurementsGrid = [];
     row = [];
     for(let i = 0; i< this.gateService.measurements.length; i++){
       row.push(this.gateService.measurements[i]);
@@ -56,5 +60,6 @@ export class GateToolboxComponent implements OnInit {
 
   setNotDragging($event: any){
     this.draggingData.emit(null);
+    this.setUpGrid();
   }
 }

@@ -37,10 +37,16 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
+                <ngb-tab title="Saved">
+                    <ng-template ngbTabContent>
+                        <saves></saves>
+                    </ng-template>
+                </ngb-tab>
             </ngb-tabset>	          
         </div>
         <div class="col-md-9">
-            <h4>Xanadu Dreamer</h4>
+            <h2>Xanadu Dreamer</h2>
+            <div class="runner">Simulate</div>
             <gate-canvas [numQBits]="numQBits" [numCBits]="numCBits" [canvasLength]="canvasLength" [dragData]="dragData" (draggingData)="setDragging($event)"></gate-canvas>
         </div>
     </div>

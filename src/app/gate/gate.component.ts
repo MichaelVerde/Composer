@@ -1,6 +1,5 @@
-import { Component, OnChanges, Input, ViewChild } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, Input, ViewChild } from '@angular/core';
 import { Gate } from './gate'
-import { GateService } from "../gate/gate.service";
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -11,22 +10,32 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class GateComponent implements OnChanges {
   @Input() gate: Gate = new Gate();
   @ViewChild('content') public content;
-  modalOpen: boolean;
 
-  constructor(public modalService: NgbModal, public gateService: GateService) { }
+  constructor(public modalService: NgbModal) { }
 
-  ngOnChanges() {  
-    this.open();
+  ngOnChanges(changes: SimpleChanges) { 
+    if(changes.gate.previousValue !== undefined 
+      && changes.gate.previousValue.typeId !== changes.gate.currentValue.typeId 
+      && !this.gate.modalOpened){
+        setTimeout(()=> {
+          this.open();
+        }, 0);
+    }
   }
 
   open() {
-    if(this.onCanvas() && (this.showParameter() || this.showPhase() || this.showTrans() || this.showMeasurement()) ){
+    if(this.onCanvas() && (this.showParameter() || this.showPhase() || this.showTrans() || this.showMeasurement())){
+      this.gate.modalOpened = true;
       this.modalService.open(this.content);
     }
   }
 
   onCanvas():boolean{
     return (this.gate.bitIdx >=0  && this.gate.spotIdx >= 0 && this.gate.typeId !== 0);
+  }
+
+  measurementIntChange($event: any){
+    this.gate.measurementType = 4;
   }
 
   showParameter():boolean{

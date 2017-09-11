@@ -16,6 +16,13 @@ export class Gate {
     phase: number = 0;
     transmittivity: number = 0;
 
+    //measurment settings
+    measurementType: number = 0;
+    measurementInt: number = 0;
+
+    //remeber if the settings modal has been openened
+    modalOpened = false;
+
     //gate location
     bitIdx: number; 
     spotIdx: number; 

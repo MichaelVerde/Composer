@@ -11,6 +11,8 @@ import { GateToolboxComponent } from './gate-toolbox/gate-toolbox.component';
 import { GateCanvasComponent } from './gate-canvas/gate-canvas.component';
 import { GateComponent } from './gate/gate.component';
 import { GateService } from './gate/gate.service';
+import { SavesService } from './saves/saves.service';
+import { SavesComponent } from './saves/saves.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { GateService } from './gate/gate.service';
     ComposerComponent,
     GateToolboxComponent,
     GateCanvasComponent,
-    GateComponent
+    GateComponent,
+    SavesComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,7 @@ import { GateService } from './gate/gate.service';
     NgbModule.forRoot(),
     OrderModule
   ],
-  providers: [GateService],
+  providers: [GateService, SavesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

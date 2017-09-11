@@ -41,10 +41,37 @@
             </div>
             <div class="settings-row" *ngIf="showMeasurement()">
                 <div class="settings-cell col-md-6">
-                    Transmittivity:
+                    Quadratures:
                 </div>
                 <div class="settings-cell col-md-6">
-                    <input type="number" [(ngModel)]="gate.transmittivity" style="width: 50px; text-align: center;" min="20" max="200" step="1"/>     
+                    <div class="btn-group" ngbRadioGroup name="radioBasic" [(ngModel)]="gate.measurementType">
+                        <label ngbButtonLabel class="btn-primary">
+                          <input ngbButton type="radio" [value]="1"> X
+                        </label>
+                        <label ngbButtonLabel class="btn-primary">
+                          <input ngbButton type="radio" value="2"> P
+                        </label>
+                    </div>     
+                </div>
+            </div>
+            <div class="settings-row" *ngIf="showMeasurement()">
+                <div class="settings-cell col-md-6">
+                    Photon Number:
+                </div>
+                <div class="settings-cell col-md-6">
+                    <div class="btn-group" ngbRadioGroup name="radioBasic" [(ngModel)]="gate.measurementType">
+                        <label ngbButtonLabel class="btn-primary">
+                          <input ngbButton type="radio" [value]="3"> #
+                        </label>
+                    </div> 
+                </div>
+            </div>
+            <div class="settings-row" *ngIf="showMeasurement()">
+                <div class="settings-cell col-md-6">
+                    Integer:
+                </div>
+                <div class="settings-cell col-md-6">
+                    <input type="number" [(ngModel)]="gate.measurementInt"  (ngModelChange)="measurementIntChange($event)" style="width: 50px; text-align: center;" min="0" step="1"/>     
                 </div>
             </div>
         </div>

@@ -16,3 +16,13 @@ gate-canvas{
     display: table-cell;
     text-align: center;
 }
+
+
+.runner{
+    margin: 15px 0px 15px 42px;
+    padding: 10px;
+    border: 1px solid #aaa;
+    background-color: #efefef;
+    border-radius: 5px;
+    text-align: left;
+}

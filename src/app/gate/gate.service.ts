@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Gate } from "./gate";
-import { Observable, Observer } from 'rxjs/Rx';
 
 @Injectable()
 export class GateService {
   singleGateTypes: Gate[] = [];
   coupledGateTypes: Gate[] = [];
   measurements: Gate[] = [];
-  gateModalObservable: Observable<any>;
-  gateModalObserver: Observer<any>;
 
-  constructor() { 
+  constructor() { }
+
+  setUpGateTypes(){
+    this.singleGateTypes = [];
+    this.coupledGateTypes = [];
+    this.measurements = [];
+
     this.singleGateTypes.push(new Gate (1, "S", ""));
     this.singleGateTypes.push(new Gate (2, "D", ""));
     this.singleGateTypes.push(new Gate (3, "X", ""));
@@ -24,12 +27,5 @@ export class GateService {
     this.coupledGateTypes.push(new Gate (12, "S", "", "", -1));
 
     this.measurements.push(new Gate (20, "M", "", "bottom"));
-    this.gateModalObservable = new Observable(observer => this.gateModalObserver = observer)
   }
-
-  openGateModal(gate: Gate){
-    this.gateModalObserver.next(gate);
-  }
-
-
 }
