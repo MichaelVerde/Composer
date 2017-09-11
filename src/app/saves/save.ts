@@ -3,13 +3,66 @@ import { QBit, Spot, CBit, Measurement } from "../gate-canvas/canvas-classes"
 
 export class Save {
     bits: QBit[];
+    cbit: CBit;
     name: string;
     lastModified: Date;
+    numQBits: number;
+    numCBits: number;
+    canvasLength: number;
 
-    constructor(name: string){
+    constructor(name: string, numQBits: number, numCBits: number, canvasLength: number){
         this.name = name;
-        this.bits = [];
         this.lastModified = new Date();
+
+        this.bits = [];
+        this.numQBits = numQBits;
+        this.numCBits = numCBits;
+        this.canvasLength = canvasLength;
+
+        //Set, Add or Subtract Qbits 
+        if (this.numQBits > this.bits.length){
+            for(let i = this.bits.length; i< this.numQBits ; i++){
+            this.bits.push(new QBit(i, this.canvasLength));
+            }
+        }
+        else if (this.numQBits < this.bits.length){
+            for(let i = this.bits.length-1; i>= this.numQBits ; i--){
+            this.bits.splice(i,1);
+            }
+        }
+    
+        //Set cbit if not there 
+        if(!this.cbit){
+            this.cbit = new CBit(this.canvasLength);
+        }
+    
+        //Set, Add or Subtract spots from qbits 
+        for(let i = 0; i< this.numQBits ; i++){
+            if(this.canvasLength > this.bits[i].spots.length){
+            for(let j = this.bits[i].spots.length; j< this.canvasLength ; j++){
+                let spot = new Spot(i, j);
+                this.bits[i].spots.push(spot);
+            }
+            }
+            else if (this.canvasLength < this.bits[i].spots.length){
+            for(let j = this.bits[i].spots.length - 1; j>= this.canvasLength ; j--){
+                this.bits[i].spots.splice(j,1);
+            }
+            }
+        }
+    
+        //Set, Add or Subtract spots from cbits 
+        if(this.canvasLength > this.cbit.measurements.length){
+            for(let j = this.cbit.measurements.length; j< this.canvasLength ; j++){
+            let measurement = new Measurement(j);
+            this.cbit.measurements.push(measurement);
+            }
+        }
+        else if (this.canvasLength < this.cbit.measurements.length){
+            for(let j = this.cbit.measurements.length - 1; j>= this.canvasLength ; j--){
+            this.cbit.measurements.splice(j,1);
+            }
+        }
     }
   }
 

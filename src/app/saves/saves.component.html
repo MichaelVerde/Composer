@@ -1,5 +1,22 @@
-<input type="text" [(ngModel)]="saveName" style="width: 200px; text-align: left;"/>     
-<button type="button" class="btn btn-outline-dark" (click)="createSave()">New Save</button>
-<div class="" *ngFor="let save of savesService.saves">
-  {{save.name}}
+<div class="save-table">
+  <div class="save-row">
+    <div class="save-header">
+      Name
+    </div>
+    <div class="save-header">    
+      Modified
+    </div>
+  </div>
+  <div class="save-row" [ngClass]="{'selected': (i === currentSave)}" *ngFor="let save of savesList; let i = index" (click)="selectSave(i)">
+      <div class="save-cell">{{save.name}}</div>
+      <div class="save-cell">{{save.lastModified | date: 'dd/MM/yyyy'}}</div>
+  </div>
+  <div class="save-row">
+    <div class="save-cell">
+      <input type="text" [(ngModel)]="saveName" style="width: 100px; text-align: left;"/> 
+    </div>
+    <div class="save-cell">    
+      <button type="button" class="btn btn-outline-dark" (click)="createSave()">New Save</button>
+    </div>
+  </div>
 </div>

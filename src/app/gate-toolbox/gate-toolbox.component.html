@@ -21,7 +21,7 @@
 </div>
 
 
-<span>Measurements</span> 
+<span>Operations</span> 
 <div class="toolbox-table">
   <div class="toolbox-row" *ngFor="let row of measurementsGrid">
     <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event, gate)" (onDragEnd)="setNotDragging($event)">

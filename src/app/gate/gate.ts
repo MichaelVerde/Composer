@@ -39,6 +39,7 @@ export class Gate {
 
         if(typeId === 20){
             this.isMeasurement = true;
+            this.measurementType = 1;
         }
 
         if(typeId === 2){

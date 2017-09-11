@@ -9,15 +9,13 @@ import { SavesService } from '../saves/saves.service';
   styleUrls: ['./gate-canvas.component.css']
 })
 export class GateCanvasComponent implements OnChanges  {
-  @Input() numQBits: number;
-  @Input() numCBits: number;
-  @Input() canvasLength: number = 40;
   @Input() dragData?: Gate;
   @Output() draggingData= new EventEmitter(); 
 
   showIdx: boolean = false;
   bits: QBit[] = [];
   cbit: CBit;
+  numCBits: number;
 
   constructor(public savesService: SavesService) { 
   }
@@ -27,51 +25,15 @@ export class GateCanvasComponent implements OnChanges  {
   }
 
   setUpCanvas(){ 
-    //Set, Add or Subtract Qbits 
-    if (this.numQBits > this.bits.length){
-      for(let i = this.bits.length; i< this.numQBits ; i++){
-        this.bits.push(new QBit(i, this.canvasLength));
-      }
+    this.savesService.currentSaveChange.subscribe((value) => { 
+      this.bits = this.savesService.saves[value].bits; 
+      this.cbit = this.savesService.saves[value].cbit; 
+      this.numCBits = this.savesService.saves[value].numCBits; 
+    });
+    if(this.savesService.saves.length === 0){
+      this.savesService.newSave("temp");
     }
-    else if (this.numQBits < this.bits.length){
-      for(let i = this.bits.length-1; i>= this.numQBits ; i--){
-        this.bits.splice(i,1);
-      }
-    }
-
-    //Set cbit if not there 
-    if(!this.cbit){
-      this.cbit = new CBit(this.canvasLength);
-    }
-
-    //Set, Add or Subtract spots from qbits 
-    for(let i = 0; i< this.numQBits ; i++){
-      if(this.canvasLength > this.bits[i].spots.length){
-        for(let j = this.bits[i].spots.length; j< this.canvasLength ; j++){
-          let spot = new Spot(i, j);
-          this.bits[i].spots.push(spot);
-        }
-      }
-      else if (this.canvasLength < this.bits[i].spots.length){
-        for(let j = this.bits[i].spots.length - 1; j>= this.canvasLength ; j--){
-          this.bits[i].spots.splice(j,1);
-        }
-      }
-    }
-
-    //Set, Add or Subtract spots from cbits 
-    if(this.canvasLength > this.cbit.measurements.length){
-      for(let j = this.cbit.measurements.length; j< this.canvasLength ; j++){
-        let measurement = new Measurement(j);
-        this.cbit.measurements.push(measurement);
-      }
-    }
-    else if (this.canvasLength < this.cbit.measurements.length){
-      for(let j = this.cbit.measurements.length - 1; j>= this.canvasLength ; j--){
-        this.cbit.measurements.splice(j,1);
-      }
-    }
-    this.save();
+    this.setMeasurementConnectors();
   }
 
   setNewGate($event: any, bitIdx: number, spotIdx: number) {
@@ -178,7 +140,7 @@ export class GateCanvasComponent implements OnChanges  {
 
   save(){
     this.setMeasurementConnectors();
-    this.savesService.currentSave.bits = this.bits;
+    this.savesService.saves[this.savesService.currentSave].bits = this.bits;
   }
 }
 

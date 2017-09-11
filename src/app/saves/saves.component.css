@@ -1,0 +1,29 @@
+.save-table{
+    padding:5px;
+    display: table;
+    width: 100%;
+}
+.save-row{
+    display: table-row;
+    width: 100%;
+}
+.save-cell{
+    padding: 5px;
+    border-bottom: 1px solid #888;
+    width: 50%;
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+}
+.save-header{
+    padding: 5px;
+    border-bottom: 2px double #888;
+    font-weight: bold;
+    width: 50%;
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+}
+.selected .save-cell{
+    background: #ddd;
+}

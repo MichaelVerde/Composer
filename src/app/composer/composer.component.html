@@ -23,7 +23,7 @@
                                     Classical Bits:
                                 </div>
                                 <div class="settings-cell col-md-4">
-                                    <input type="number" [(ngModel)]="numCBits" style="width: 50px; text-align: center;" min="1" max="{{numQBits}}" step="1"/>     
+                                    <input type="number" [(ngModel)]="numCBits" style="width: 50px; text-align: center;" min="1" max="{{numQBits}}" step="1" (ngModelChange)="updateSettings($event)"/>     
                                 </div>
                             </div>
                             <div class="settings-row">
@@ -31,7 +31,7 @@
                                     Canvas Length:
                                 </div>
                                 <div class="settings-cell col-md-4">
-                                    <input type="number" [(ngModel)]="canvasLength" style="width: 50px; text-align: center;" min="20" max="200" step="1"/>     
+                                    <input type="number" [(ngModel)]="canvasLength" style="width: 50px; text-align: center;" min="20" max="200" step="1" (ngModelChange)="updateSettings($event)"/>     
                                 </div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
         <div class="col-md-9">
             <h2>Xanadu Dreamer</h2>
             <div class="runner">Simulate</div>
-            <gate-canvas [numQBits]="numQBits" [numCBits]="numCBits" [canvasLength]="canvasLength" [dragData]="dragData" (draggingData)="setDragging($event)"></gate-canvas>
+            <gate-canvas [dragData]="dragData" (draggingData)="setDragging($event)"></gate-canvas>
         </div>
     </div>
 </div>
