@@ -16,6 +16,7 @@ export class GateCanvasComponent implements OnChanges  {
   bits: QBit[] = [];
   cbit: CBit;
   numCBits: number;
+  canvasLength: number;
 
   constructor(public savesService: SavesService) { 
   }
@@ -29,6 +30,7 @@ export class GateCanvasComponent implements OnChanges  {
       this.bits = this.savesService.saves[value].bits; 
       this.cbit = this.savesService.saves[value].cbit; 
       this.numCBits = this.savesService.saves[value].numCBits; 
+      this.canvasLength = this.savesService.saves[value].canvasLength; 
     });
     if(this.savesService.saves.length === 0){
       this.savesService.newSave("temp");
