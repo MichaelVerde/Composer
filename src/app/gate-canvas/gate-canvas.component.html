@@ -1,34 +1,36 @@
-<div class="left-line col-md-1" dnd-sortable-container [sortableData]="bits">
-    <div class="left-row" *ngFor="let qbit of bits; let i = index" dnd-sortable [sortableIndex]="i" (onDragEnd)="recalcAllGateIdx($event)">
-        |0⟩
+<div class="row">
+    <div class="left-line col-md-1" dnd-sortable-container [sortableData]="bits">
+        <div class="left-row" *ngFor="let qbit of bits; let i = index" dnd-sortable [sortableIndex]="i" (onDragEnd)="recalcAllGateIdx($event)">
+            |0⟩
+        </div>
+        <div class="left-row last">
+            0<span class="superscript">{{numCBits}}</span>
+        </div>
     </div>
-    <div class="left-row last">
-        0<span class="superscript">{{numCBits}}</span>
-    </div>
-</div>
-<div class="bit-table-wrapper col-md-11">
-    <div class="bit-table" [style.width.px]="50 * canvasLength">
-        <div class="bit-line" *ngFor="let qbit of bits">
-            <div class="bit-spot" *ngFor="let spot of qbit.spots | orderBy: 'spotIdx'" dnd-draggable [dragEnabled]="allowDragFunction(spot.bitIdx, spot.spotIdx)" (onDragStart)="setDragging($event, spot.gate)" [dragData]="spot.gate" (onDragEnd)="setNotDragging($event)" (onDragSuccess)="setNoGate($event, spot.bitIdx, spot.spotIdx)">
-                <div class="bit-drop-area" dnd-droppable [allowDrop]="allowDropFunction(spot.bitIdx, spot.spotIdx)" (onDropSuccess)="setNewGate($event, spot.bitIdx, spot.spotIdx)">
-                    <div class="bit-background" [ngClass]="{'clear' : !spot.showBg}">
-                        <div [ngClass]="getDraggingClass(spot.bitIdx, spot.spotIdx)">
-                            <gate [gate]="spot.gate"></gate>
+    <div class="bit-table-wrapper col-md-11">
+        <div class="bit-table" [style.width.px]="50 * canvasLength">
+            <div class="bit-line" *ngFor="let qbit of bits">
+                <div class="bit-spot" *ngFor="let spot of qbit.spots | orderBy: 'spotIdx'" dnd-draggable [dragEnabled]="allowDragFunction(spot.bitIdx, spot.spotIdx)" (onDragStart)="setDragging($event, spot.gate)" [dragData]="spot.gate" (onDragEnd)="setNotDragging($event)" (onDragSuccess)="setNoGate($event, spot.bitIdx, spot.spotIdx)">
+                    <div class="bit-drop-area" dnd-droppable [allowDrop]="allowDropFunction(spot.bitIdx, spot.spotIdx)" (onDropSuccess)="setNewGate($event, spot.bitIdx, spot.spotIdx)">
+                        <div class="bit-background" [ngClass]="{'clear' : !spot.showBg}">
+                            <div [ngClass]="getDraggingClass(spot.bitIdx, spot.spotIdx)">
+                                <gate [gate]="spot.gate"></gate>
+                            </div>
                         </div>
+                        <span *ngIf="showIdx"> {{spot.gate.bitIdx}},{{spot.gate.spotIdx}}</span>
                     </div>
-                    <span *ngIf="showIdx"> {{spot.gate.bitIdx}},{{spot.gate.spotIdx}}</span>
                 </div>
             </div>
-        </div>
-        <div class="bit-line cbit">
-            <div class="cbit-spot" *ngFor="let measurement of cbit.measurements"> 
-                <div class="cbit-gap">
-                    <div class="cbit-arrow" *ngIf="measurement.active">
+            <div class="bit-line cbit">
+                <div class="cbit-spot" *ngFor="let measurement of cbit.measurements"> 
+                    <div class="cbit-gap">
+                        <div class="cbit-arrow" *ngIf="measurement.active">
+                        </div>  
                     </div>  
-                </div>  
-                <div class="cbit-background">
-                    <span class="measurement" *ngIf="measurement.active">0</span>
-                </div>           
+                    <div class="cbit-background">
+                        <span class="measurement" *ngIf="measurement.active">0</span>
+                    </div>           
+                </div>
             </div>
         </div>
     </div>

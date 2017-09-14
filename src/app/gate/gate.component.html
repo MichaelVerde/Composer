@@ -4,7 +4,7 @@
             {{gate.typeName}}<span class="superscript" *ngIf="gate.conjugate">†</span>
         </div>
         <div *ngIf="getShowIcon()" class="gate-text">
-            <span class="glyphicon glyphicon-{{gate.icon}}" aria-hidden="true"></span>
+            <span class="fa fa-{{gate.icon}}" aria-hidden="true"></span>
         </div>
     </div>
 </div>
@@ -17,68 +17,101 @@
         </button>
     </div>
     <div class="modal-body">
-        <div class="settings-table" *ngIf="!gate.isMeasurement">
-            <div class="settings-row">
-                <div class="settings-cell col-md-6">
+        <div class="container" *ngIf="!gate.isMeasurement">
+            <div class="row">
+                <div class="settings-cell name col-md-6 ">
                     Conjugate:
                 </div>
                 <div class="settings-cell col-md-6">
                     <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="gate.conjugate">
-                        <label ngbButtonLabel class="btn-default">
+                        <label ngbButtonLabel class="btn-primary">
                             <input ngbButton type="radio" [value]="false"> {{gate.typeName}}
                         </label>
-                        <label ngbButtonLabel class="btn-default">
+                        <label ngbButtonLabel class="btn-primary">
                             <input ngbButton type="radio" value="true"> {{gate.typeName}}<span class="superscript">†</span>
                         </label>
                     </div>     
                 </div>
             </div>
-            <div class="settings-row" *ngFor="let parameter of gate.parameters">
-                <div class="settings-cell col-md-6">
+            <div class="row" *ngFor="let parameter of gate.parameters">
+                <div class="settings-cell name col-md-6">
                     {{parameter.name}}:
                 </div>
-                <div class="settings-cell col-md-6" *ngIf="parameter.a !== null || parameter.b !== null">
-                    <input type="number" [(ngModel)]="parameter.a" style="width: 50px; text-align: center;" step="0.1"/>     
-                    <span *ngIf="parameter.a !== null && parameter.b !== null"> + </span>
-                    <span *ngIf="parameter.b !== null">ⅈ <input type="number" [(ngModel)]="parameter.b" style="width: 50px; text-align: center;" step="0.1"/></span>     
+                <div class="settings-cell col-md-6" *ngIf="!parameter.phaseMode">
+                    <div *ngIf="parameter.a !== undefined" class="btn-group" data-toggle="buttons">
+                        <label class="btn-sm btn-primary" ngbButtonLabel>
+                            <input type="checkbox" ngbButton (ngModelChange)="switchToLink(parameter.a)">
+                            <i *ngIf="parameter.a.linkMode" class="fa fa-link" aria-hidden="true"></i>
+                            <i *ngIf="!parameter.a.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
+                        </label>   
+                        <input type="number" [(ngModel)]="parameter.a.value" style="width: 50px; text-align: center;" step="0.1"/>     
+                    </div>                                  
+                    <span *ngIf="parameter.a !== undefined && parameter.b !== undefined"> + </span>
+                    <span *ngIf="parameter.b !== undefined">ⅈ 
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn-sm btn-primary" ngbButtonLabel>
+                                <input type="checkbox" ngbButton (ngModelChange)="switchToLink(parameter.b)">
+                                <i *ngIf="parameter.b.linkMode" class="fa fa-link" aria-hidden="true"></i>
+                                <i *ngIf="!parameter.b.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>                      
+                            </label>   
+                            <input type="number" [(ngModel)]="parameter.b.value" style="width: 50px; text-align: center;" step="0.1"/>
+                        </div>
+                    </span>     
                 </div>
-                <div class="settings-cell col-md-6" *ngIf="parameter.r !== null || parameter.phi !== null">
-                    <input *ngIf="parameter.r !== null" type="number" [(ngModel)]="parameter.r" style="width: 50px; text-align: center;" step="0.1"/> 
-                    <span *ngIf="parameter.r !== null && parameter.phi !== null"> • </span>
-                    <span *ngIf="parameter.phi !== null">e<span class="superscript">ⅈ2π • </span><input type="number" [(ngModel)]="parameter.phi" style="width: 50px; text-align: center;" step="0.01" min="0" max="1"/></span>     
+                <div class="settings-cell col-md-6" *ngIf="parameter.phaseMode">
+                    <div *ngIf="parameter.r !== undefined" class="btn-group" data-toggle="buttons">
+                        <label class="btn-sm btn-primary" ngbButtonLabel>
+                            <input type="checkbox" ngbButton (ngModelChange)="switchToLink(parameter.r)">
+                            <i *ngIf="parameter.r.linkMode" class="fa fa-link" aria-hidden="true"></i>
+                            <i *ngIf="!parameter.r.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
+                        </label>
+                        <input type="number" [(ngModel)]="parameter.r.value" style="width: 50px; text-align: center;" step="0.1"/> 
+                    </div>
+                    <span *ngIf="parameter.r !== undefined && parameter.phi !== undefined"> • </span>
+                    <span *ngIf="parameter.phi !== undefined">
+                        e<span class="superscript">ⅈ2π • </span>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn-sm btn-primary" ngbButtonLabel>
+                                <input type="checkbox" ngbButton (ngModelChange)="switchToLink(parameter.phi)">
+                                <i *ngIf="parameter.phi.linkMode" class="fa fa-link" aria-hidden="true"></i>
+                                <i *ngIf="!parameter.phi.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
+                            </label>
+                            <input type="number" [(ngModel)]="parameter.phi.value" style="width: 50px; text-align: center;" step="0.01" min="0" max="1"/>
+                        </div>                       
+                    </span>     
                 </div>
             </div>
         </div>
-        <div class="settings-table" *ngIf="gate.isMeasurement">
-            <div class="settings-row">
-                <div class="settings-cell col-md-6">
+        <div class="container" *ngIf="gate.isMeasurement">
+            <div class="row">
+                <div class="settings-cell name col-md-6 label">
                     Quadratures:
                 </div>
                 <div class="settings-cell col-md-6">
                     <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="gate.measurementType">
-                        <label ngbButtonLabel class="btn-default">
+                        <label ngbButtonLabel class="btn-primary">
                           <input ngbButton type="radio" [value]="1"> X
                         </label>
-                        <label ngbButtonLabel class="btn-default">
+                        <label ngbButtonLabel class="btn-primary">
                           <input ngbButton type="radio" value="2"> P
                         </label>
                     </div>     
                 </div>
             </div>
-            <div class="settings-row">
-                <div class="settings-cell col-md-6">
+            <div class="row">
+                <div class="settings-cell name col-md-6 label">
                     Photon Number:
                 </div>
                 <div class="settings-cell col-md-6">
                     <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="gate.measurementType">
-                        <label ngbButtonLabel class="btn-default">
+                        <label ngbButtonLabel class="btn-primary">
                           <input ngbButton type="radio" [value]="3"> #
                         </label>
                     </div> 
                 </div>
             </div>
-            <div class="settings-row">
-                <div class="settings-cell col-md-6">
+            <div class="row">
+                <div class="settings-cell name col-md-6 label">
                     Integer:
                 </div>
                 <div class="settings-cell col-md-6">

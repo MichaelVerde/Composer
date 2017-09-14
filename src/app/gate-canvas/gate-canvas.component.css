@@ -1,5 +1,4 @@
 .left-line{
-    width: 5%;
     padding-right: 0px; 
     padding-left: 0px; 
 }
@@ -11,18 +10,12 @@
 .left-row.last{
     margin-top: 20px;
 }
-.superscript{
-    font-size:60%;
-    position: relative;
-    top: -30%;
-}
 .bit-table-wrapper{
     overflow-x:scroll;
     border-left: 3px double #888;
     border-right: 3px double #888;
     padding-right: 0px; 
     padding-left: 0px; 
-    width: 95%;
 }
 .bit-table{
     display: table;

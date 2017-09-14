@@ -1,37 +1,38 @@
-<div class="save-table">
-  <div class="save-row">
-    <div class="save-header gate"></div>
-    <div class="save-header name">
+
+<div class="container">
+  <div class="row">
+    <div class="save-header gate col-md-1"></div>
+    <div class="save-header name col-md-8">
       Name
     </div>
-    <div class="save-header date">    
+    <div class="save-header date col-md-3">    
       Modified
     </div>
   </div>
-  <div class="save-row" [ngClass]="{'selected': (i === currentSave)}" *ngFor="let save of savesList; let i = index" (click)="selectSave(i)">
-      <div class="save-cell icon"> 
+  <div class="row" [ngClass]="{'selected': (i === currentSave)}" *ngFor="let save of savesList; let i = index" (click)="selectSave(i)">
+      <div class="save-cell icon col-md-1"> 
           <div class="save">
-              <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
+              <span class="fa fa-save" aria-hidden="true"></span>
           </div>
       </div>
-      <div class="save-cell name saved">
+      <div class="save-cell saved col-md-8">
         <input type="text" [(ngModel)]="save.name"/> 
       </div>
-      <div class="save-cell date">
+      <div class="save-cell date col-md-3">
         {{save.lastModified | date: 'dd/MM/yyyy'}}<br/>
         {{save.lastModified | date: 'hh:mm a'}}
       </div>
   </div>
-  <div class="save-row">
-    <div class="save-cell icon"> 
+  <div class="row">
+    <div class="save-cell icon col-md-1"> 
         <div class="add">
-            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+            <span class="fa fa-plus" aria-hidden="true"></span>
         </div>
     </div>
-    <div class="save-cell name">
+    <div class="save-cell name col-md-8">
       <input type="text" [(ngModel)]="saveName"/> 
     </div>
-    <div class="save-cell date">    
+    <div class="save-cell date col-md-3">    
       <button type="button" class="btn-xs" (click)="createSave()">Add</button>
     </div>
   </div>

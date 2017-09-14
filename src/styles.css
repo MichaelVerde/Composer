@@ -13,28 +13,10 @@
   border: 1px dashed #000;
 }
 
-.modal-backdrop.fade
-{
-  opacity: 0.5;
-}
-.modal-open .modal
-{
-  opacity: 1;
-}
-.modal-content{
-  top: 200px;
-  width: 300px;
-  margin: 0 auto;
-}
-
 input[type="text"]{
   width: 100%; 
   text-align: left; 
   padding: 0px 2px;
-}
-
-.nav-link.active{
-  background: white;
 }
 
 .superscript{

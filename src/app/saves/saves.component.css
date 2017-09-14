@@ -1,43 +1,19 @@
-.save-table{
-    padding:5px;
-    display: table;
-    width: 100%;
-}
-.save-row{
-    display: table-row;
-    width: 100%;
-}
 .save-cell{
-    padding: 5px;
-    border-bottom: 1px solid #888;
-    width: 50%;
-    vertical-align: middle;
-    display: table-cell;
-    text-align: center;
-}
-.save-cell{
-    padding: 5px;
+    padding: 5px 5px;
     border-bottom: 1px solid #888;
     vertical-align: middle;
-    display: table-cell;
     text-align: center;
 }
 .save-header{
-    padding: 5px;
+    font-size: 85%;
+    padding: 5px 0px;
     border-bottom: 2px double #888;
     font-weight: bold;
     vertical-align: middle;
-    display: table-cell;
     text-align: center;
 }
 .icon{
-    width: 15%;
-}
-.name{
-    width: 70%;
-}
-.date{
-    width: 15%;
+    padding: 8px 0px;
 }
 .save-cell.date{
     font-size: 10px;
@@ -45,7 +21,7 @@
 .selected .save-cell.icon{
     background: #ddd;
 }
-.name.saved input{
+.saved input{
     background: transparent;
     border: none;
 }

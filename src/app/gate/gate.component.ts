@@ -1,5 +1,5 @@
 import { Component, OnChanges, SimpleChanges, Input, ViewChild } from '@angular/core';
-import { Gate } from './gate'
+import { Gate, GateParameter, GateParameterItem } from './gate'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -10,6 +10,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class GateComponent implements OnChanges {
   @Input() gate: Gate = new Gate();
   @ViewChild('content') public content;
+  parameterTypes: number[] = [1,2,3];
 
   constructor(public modalService: NgbModal) { }
 
@@ -36,6 +37,10 @@ export class GateComponent implements OnChanges {
 
   measurementIntChange($event: any){
     this.gate.measurementType = 4;
+  }
+
+  switchToLink(parameter: GateParameterItem){
+
   }
 
   getConnectorClass():string{

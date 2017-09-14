@@ -87,21 +87,12 @@
 
 
 /*gate settings modal*/
-.settings-table{
-    display: table;
-    width: 100%;
-}
-.settings-row{
-    display: table-row;
-    width: 100%;
-}
 .settings-cell{
-    padding: 5px 0px;
-    vertical-align: middle;
-    display: table-cell;
+    display: inline-block;
     text-align: center;
+    vertical-align: middle;
+    height: 40px;
 }
-
 .modal-body{
     padding: 5px;
 }

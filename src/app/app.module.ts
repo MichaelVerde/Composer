@@ -13,6 +13,7 @@ import { GateComponent } from './gate/gate.component';
 import { GateService } from './gate/gate.service';
 import { SavesService } from './saves/saves.service';
 import { SavesComponent } from './saves/saves.component';
+import {SelectModule} from 'ng2-select';
 
 @NgModule({
   declarations: [

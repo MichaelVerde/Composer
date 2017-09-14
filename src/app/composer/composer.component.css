@@ -5,28 +5,17 @@ gate-canvas{
 }
 .tab-box{
     margin: 15px 0px 15px 0px;
-    border: 1px solid #aaa;
-    border-radius: 5px;
-    min-height: 400px;
 }
 
-
-.settings-table{
-    display: table;
-}
-.settings-row{
-    display: table-row;
-}
 .settings-cell{
-    padding-top: 10px;
+    padding: 5px 0px;
     vertical-align: middle;
-    display: table-cell;
     text-align: center;
 }
 
 
 .runner{
-    margin: 15px 0px 15px 42px;
+    margin: 15px 0px 15px 15px;
     padding: 10px;
     border: 1px solid #aaa;
     background-color: white;

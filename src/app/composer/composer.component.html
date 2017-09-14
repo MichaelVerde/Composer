@@ -1,16 +1,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3 tab-box">          
-            <ngb-tabset>
+            <ngb-tabset [justify]="fill" type="pills">
                 <ngb-tab title="Gates">
                     <ng-template ngbTabContent>
-                        <gate-toolbox class="container" (draggingData)="setDragging($event)"></gate-toolbox>
+                        <gate-toolbox (draggingData)="setDragging($event)"></gate-toolbox>
                     </ng-template>
                 </ngb-tab>
                 <ngb-tab title="Settings">
                     <ng-template ngbTabContent>
-                        <div class="settings-table">
-                            <div class="settings-row">
+                        <div class="container">
+                            <div class="row">
                                 <div class="settings-cell col-md-8">
                                     Quantum Modes:
                                 </div>
@@ -18,7 +18,7 @@
                                     <input type="number" [(ngModel)]="numQBits" style="width: 50px; text-align: center;" min="1" max="10" step="1" (ngModelChange)="numQBitsChanged($event)"/>     
                                 </div>
                             </div>
-                            <div class="settings-row">
+                            <div class="row">
                                 <div class="settings-cell col-md-8">
                                     Classical Outputs:
                                 </div>
@@ -26,7 +26,7 @@
                                     <input type="number" [(ngModel)]="numCBits" style="width: 50px; text-align: center;" min="1" max="{{numQBits}}" step="1" (ngModelChange)="updateSettings($event)"/>     
                                 </div>
                             </div>
-                            <div class="settings-row">
+                            <div class="row">
                                 <div class="settings-cell col-md-8">
                                     Mode Length:
                                 </div>
@@ -45,7 +45,9 @@
             </ngb-tabset>	          
         </div>
         <div class="col-md-9">
-            <div class="runner">Simulate</div>
+            <div class="row">
+                <div class="runner col-md-12">Simulate</div>
+            </div>
             <gate-canvas [dragData]="dragData" (draggingData)="setDragging($event)"></gate-canvas>
         </div>
     </div>
