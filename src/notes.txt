@@ -57,3 +57,4 @@ Measurements
     -fock: - 1 int |n>
 --Cz becomes coupling line
 --Co is box and coupling line
+--Make gate params all generalized into an array
