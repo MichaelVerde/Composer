@@ -22,7 +22,7 @@
   opacity: 1;
 }
 .modal-content{
-  top: 100px;
+  top: 200px;
   width: 300px;
   margin: 0 auto;
 }
@@ -35,4 +35,10 @@ input[type="text"]{
 
 .nav-link.active{
   background: white;
+}
+
+.superscript{
+  font-size:60%;
+  position: relative;
+  top: -6px;
 }

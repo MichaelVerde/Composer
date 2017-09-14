@@ -24,7 +24,7 @@ export class GateComponent implements OnChanges {
   }
 
   open() {
-    if(this.onCanvas() && (this.showParameter() || this.showPhase() || this.showTrans() || this.showMeasurement())){
+    if(this.onCanvas() && (this.gate.parameters.length > 0 || this.gate.isMeasurement)){
       this.gate.modalOpened = true;
       this.modalService.open(this.content);
     }
@@ -36,38 +36,6 @@ export class GateComponent implements OnChanges {
 
   measurementIntChange($event: any){
     this.gate.measurementType = 4;
-  }
-
-  showParameter():boolean{
-    return this.gate.typeId === 1 
-    || this.gate.typeId === 2 
-    || this.gate.typeId === 3 
-    || this.gate.typeId === 4 
-    || this.gate.typeId === 5 
-    || this.gate.typeId === 12; 
-  }
-
-  showCplx():boolean{
-    return this.showParameter() && 
-    (this.gate.typeId === 1 
-    || this.gate.typeId === 2 
-    || this.gate.typeId === 12); 
-  }
-
-  showPhase():boolean{
-    return this.gate.typeId === 7
-    || this.gate.typeId === 10 
-    || this.gate.typeId === 11
-    || this.gate.typeId === 12;
-  }
-
-  showTrans():boolean{
-    return this.gate.typeId === 11 
-    || this.gate.typeId === 12;
-  }
-
-  showMeasurement():boolean{
-    return this.gate.typeId === 20;
   }
 
   getConnectorClass():string{
@@ -132,19 +100,4 @@ export class GateComponent implements OnChanges {
       return false;
     }
   }
-
-  getParamText():string{
-    let text: string = "";
-    if(this.gate.paramReal !== 0){
-      text += this.gate.paramReal;
-    }
-    if(this.gate.paramReal !== 0 && this.gate.paramComplex !== 0){
-      text += " + ";
-    }
-    if(this.gate.paramComplex !== 0){
-      text += "ⅈ" + this.gate.paramComplex;
-    }
-    return text;
-  }
-
 }

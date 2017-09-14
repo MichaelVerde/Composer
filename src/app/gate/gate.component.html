@@ -1,6 +1,8 @@
 <div [ngClass]="getConnectorClass()">
     <div [ngClass]="getGateClass()" (click)="open()">
-        <div *ngIf="getShowText()" class="gate-text">{{gate.typeName}}</div>
+        <div *ngIf="getShowText()" class="gate-text">
+            {{gate.typeName}}<span class="superscript" *ngIf="gate.conjugate">†</span>
+        </div>
         <div *ngIf="getShowIcon()" class="gate-text">
             <span class="glyphicon glyphicon-{{gate.icon}}" aria-hidden="true"></span>
         </div>
@@ -15,34 +17,40 @@
         </button>
     </div>
     <div class="modal-body">
-        <div class="settings-table">
-            <div class="settings-row" *ngIf="showParameter()">
-                <div class="settings-cell col-md-4">
-                    {{gate.paramName}}:
-                </div>
-                <div class="settings-cell col-md-8">
-                    <input type="number" [(ngModel)]="gate.paramReal" style="width: 50px; text-align: center;" step="0.1"/>     
-                    <span *ngIf="showCplx()">+ ⅈ <input type="number" [(ngModel)]="gate.paramComplex" style="width: 50px; text-align: center;" step="0.1"/></span>     
-                </div>
-
-            </div>
-            <div class="settings-row" *ngIf="showPhase()">
+        <div class="settings-table" *ngIf="!gate.isMeasurement">
+            <div class="settings-row">
                 <div class="settings-cell col-md-6">
-                    Phase:
+                    Conjugate:
                 </div>
                 <div class="settings-cell col-md-6">
-                    <input type="number" [(ngModel)]="gate.phase" style="width: 50px; text-align: center;" min="0" max="6.28" step="0.01"/>     
+                    <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="gate.conjugate">
+                        <label ngbButtonLabel class="btn-default">
+                            <input ngbButton type="radio" [value]="false"> {{gate.typeName}}
+                        </label>
+                        <label ngbButtonLabel class="btn-default">
+                            <input ngbButton type="radio" value="true"> {{gate.typeName}}<span class="superscript">†</span>
+                        </label>
+                    </div>     
                 </div>
             </div>
-            <div class="settings-row" *ngIf="showTrans()">
+            <div class="settings-row" *ngFor="let parameter of gate.parameters">
                 <div class="settings-cell col-md-6">
-                    Transmittivity:
+                    {{parameter.name}}:
                 </div>
-                <div class="settings-cell col-md-6">
-                    <input type="number" [(ngModel)]="gate.transmittivity" style="width: 50px; text-align: center;" min="0" max="1" step="0.01"/>     
+                <div class="settings-cell col-md-6" *ngIf="parameter.a !== null || parameter.b !== null">
+                    <input type="number" [(ngModel)]="parameter.a" style="width: 50px; text-align: center;" step="0.1"/>     
+                    <span *ngIf="parameter.a !== null && parameter.b !== null"> + </span>
+                    <span *ngIf="parameter.b !== null">ⅈ <input type="number" [(ngModel)]="parameter.b" style="width: 50px; text-align: center;" step="0.1"/></span>     
+                </div>
+                <div class="settings-cell col-md-6" *ngIf="parameter.r !== null || parameter.phi !== null">
+                    <input *ngIf="parameter.r !== null" type="number" [(ngModel)]="parameter.r" style="width: 50px; text-align: center;" step="0.1"/> 
+                    <span *ngIf="parameter.r !== null && parameter.phi !== null"> • </span>
+                    <span *ngIf="parameter.phi !== null">e<span class="superscript">ⅈ2π • </span><input type="number" [(ngModel)]="parameter.phi" style="width: 50px; text-align: center;" step="0.01" min="0" max="1"/></span>     
                 </div>
             </div>
-            <div class="settings-row" *ngIf="showMeasurement()">
+        </div>
+        <div class="settings-table" *ngIf="gate.isMeasurement">
+            <div class="settings-row">
                 <div class="settings-cell col-md-6">
                     Quadratures:
                 </div>
@@ -57,7 +65,7 @@
                     </div>     
                 </div>
             </div>
-            <div class="settings-row" *ngIf="showMeasurement()">
+            <div class="settings-row">
                 <div class="settings-cell col-md-6">
                     Photon Number:
                 </div>
@@ -69,7 +77,7 @@
                     </div> 
                 </div>
             </div>
-            <div class="settings-row" *ngIf="showMeasurement()">
+            <div class="settings-row">
                 <div class="settings-cell col-md-6">
                     Integer:
                 </div>
@@ -78,9 +86,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Enter</button>
     </div>
 </ng-template>
       

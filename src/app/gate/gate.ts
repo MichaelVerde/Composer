@@ -5,17 +5,14 @@ export class Gate {
     typeName: string;
     icon: string = "";
     description: string;
+    conjugate: boolean;
 
     //gate couple/ connectors
     coupled: number;
     connector: string;
 
     //gate settings 
-    paramReal: number = 0;
-    paramComplex: number = 0;
-    paramName: string = "Squeezing";
-    phase: number = 0;
-    transmittivity: number = 0;
+    parameters: GateParameter[] = [];
 
     //measurment settings
     measurementType: number = 0;
@@ -37,6 +34,7 @@ export class Gate {
 
         this.bitIdx = -1;
         this.spotIdx = -1;
+        this.conjugate = false;
 
         if(typeId === 20){
             this.isMeasurement = true;
@@ -44,14 +42,40 @@ export class Gate {
             this.icon = "dashboard";
         }
 
-        if(typeId === 2){
-            this.paramName = "Displacement";
+        if([1,12].indexOf(typeId) !== -1){
+            this.parameters.push(new GateParameter("Squeezing Factor", 0, 0, null, null, null));
         }
-
-        if(typeId === 3 || typeId === 4 || typeId === 5){
-            this.paramName = "Parameter";
+        if([2].indexOf(typeId) !== -1){
+            this.parameters.push(new GateParameter("Displacement", 0, 0, null, null, null));
+        }
+        if([3,4,5].indexOf(typeId) !== -1){
+            this.parameters.push(new GateParameter("Value", 0, null, null, null, null));
+        }
+        if([7,8,10,11].indexOf(typeId) !== -1){
+            this.parameters.push(new GateParameter("Phase", null, null, null, 0, null));
+        }
+        if([11].indexOf(typeId) !== -1){
+            this.parameters.push(new GateParameter("Transmittivity", 0, null, null, null, null));
         }
     }
+  }
+
+  export class GateParameter{
+      name: string;
+      a: number;
+      b: number;
+      r: number;
+      phi: number;
+      gateIdx: number;
+
+      constructor(name: string, a: number, b :number, r :number, phi :number, gateIdx :number){
+        this.name = name;
+        this.a = a;
+        this.b = b;
+        this.r = r;
+        this.phi = phi;
+        this.gateIdx = gateIdx;
+      }
   }
 
 
