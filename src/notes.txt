@@ -44,3 +44,16 @@ Measurements
 -Int Measurement, set the number. 
 
 -Subroutines, V2
+
+
+
+//V2 Changes
+--box with gate info in bottom left on hover 
+--conditional gates based on value in classical register, set in modal
+--add conjugates for single mode gates 
+--initial states for bit
+    -coherent: - 1 complex parameter -> |alpha>
+    -squeezing: - 1 complex parameter, and one real, and phase 0 - 2pi -> |alpha,r,phi>
+    -fock: - 1 int |n>
+--Cz becomes coupling line
+--Co is box and coupling line

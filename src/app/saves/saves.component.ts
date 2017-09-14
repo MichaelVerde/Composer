@@ -24,8 +24,10 @@ export class SavesComponent implements OnInit {
   }
 
   createSave(){
-    this.savesService.newSave(this.saveName);
-    this.saveName = "";
+    if(this.saveName != ""){
+      this.savesService.newSave(this.saveName);
+      this.saveName = "";
+    }
   }
 
   selectSave(currentSave: number){

@@ -12,7 +12,7 @@
                         <div class="settings-table">
                             <div class="settings-row">
                                 <div class="settings-cell col-md-8">
-                                    Quantum Bits:
+                                    Quantum Modes:
                                 </div>
                                 <div class="settings-cell col-md-4">
                                     <input type="number" [(ngModel)]="numQBits" style="width: 50px; text-align: center;" min="1" max="10" step="1" (ngModelChange)="numQBitsChanged($event)"/>     
@@ -20,7 +20,7 @@
                             </div>
                             <div class="settings-row">
                                 <div class="settings-cell col-md-8">
-                                    Classical Bits:
+                                    Classical Outputs:
                                 </div>
                                 <div class="settings-cell col-md-4">
                                     <input type="number" [(ngModel)]="numCBits" style="width: 50px; text-align: center;" min="1" max="{{numQBits}}" step="1" (ngModelChange)="updateSettings($event)"/>     
@@ -28,7 +28,7 @@
                             </div>
                             <div class="settings-row">
                                 <div class="settings-cell col-md-8">
-                                    Canvas Length:
+                                    Mode Length:
                                 </div>
                                 <div class="settings-cell col-md-4">
                                     <input type="number" [(ngModel)]="canvasLength" style="width: 50px; text-align: center;" min="20" max="200" step="1" (ngModelChange)="updateSettings($event)"/>     

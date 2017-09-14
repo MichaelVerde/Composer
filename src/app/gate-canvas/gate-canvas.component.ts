@@ -154,6 +154,7 @@ export class GateCanvasComponent implements OnChanges  {
 
   save(){
     this.savesService.saves[this.savesService.currentSave].bits = this.bits;
+    this.savesService.saves[this.savesService.currentSave].lastModified = new Date();
   }
 }
 
