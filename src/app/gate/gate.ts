@@ -3,6 +3,7 @@ export class Gate {
     isMeasurement: boolean = false;
     typeId: number;
     typeName: string;
+    icon: string = "";
     description: string;
 
     //gate couple/ connectors
@@ -40,6 +41,7 @@ export class Gate {
         if(typeId === 20){
             this.isMeasurement = true;
             this.measurementType = 1;
+            this.icon = "dashboard";
         }
 
         if(typeId === 2){

@@ -35,39 +35,20 @@ export class GateCanvasComponent implements OnChanges  {
     if(this.savesService.saves.length === 0){
       this.savesService.newSave("temp");
     }
-    this.setMeasurementConnectors();
+    this.recalcAllGateIdx();
   }
 
   setNewGate($event: any, bitIdx: number, spotIdx: number) {
     let newGate:Gate = $event.dragData;
     if(newGate){
-      newGate.bitIdx = bitIdx;
-      newGate.spotIdx = spotIdx;
       this.bits[bitIdx].spots[spotIdx].gate = newGate;
-
-      if(newGate.coupled !== 0){
-        this.bits[bitIdx + newGate.coupled].spots[spotIdx].gate = new Gate();
-        this.bits[bitIdx + newGate.coupled].spots[spotIdx].gate.bitIdx = bitIdx + newGate.coupled;
-        this.bits[bitIdx + newGate.coupled].spots[spotIdx].gate.spotIdx = spotIdx;
-        this.bits[bitIdx + newGate.coupled].spots[spotIdx].gate.coupled = 1;
-      }
     }
-    this.save();
+    this.recalcAllGateIdx();
   }
 
   setNoGate($event: any, bitIdx: number, spotIdx: number) {
-    if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement){
-      for(let i = bitIdx+1; i< this.bits.length; i++){
-        this.bits[i].spots[spotIdx].gate = new Gate();
-        this.bits[i].spots[spotIdx].gate.bitIdx = i;
-        this.bits[i].spots[spotIdx].gate.spotIdx = spotIdx;
-      }
-      this.cbit.measurements[spotIdx].active = false;
-    }
     this.bits[bitIdx].spots[spotIdx].gate = new Gate();
-    this.bits[bitIdx].spots[spotIdx].gate.bitIdx = bitIdx;
-    this.bits[bitIdx].spots[spotIdx].gate.spotIdx = spotIdx;
-    this.save();
+    this.recalcAllGateIdx();
   }
 
   setMeasurementConnectors(){
@@ -132,6 +113,27 @@ export class GateCanvasComponent implements OnChanges  {
     return true;
   }
 
+  recalcAllGateIdx(){
+    for(let bitIdx = 0; bitIdx< this.bits.length; bitIdx++){
+      for(let spotIdx = 0; spotIdx< this.bits[bitIdx].spots.length; spotIdx++){
+        if(this.bits[bitIdx].spots[spotIdx].gate.coupled + bitIdx < 0){
+          this.bits[bitIdx].spots[spotIdx].gate = new Gate(); 
+        }
+
+        this.bits[bitIdx].spots[spotIdx].bitIdx = bitIdx;
+        this.bits[bitIdx].spots[spotIdx].spotIdx = spotIdx;
+        this.bits[bitIdx].spots[spotIdx].gate.bitIdx = bitIdx;
+        this.bits[bitIdx].spots[spotIdx].gate.spotIdx = spotIdx;
+        this.bits[bitIdx].spots[spotIdx].gate.connector = "";
+
+        if(bitIdx === 0){
+          this.cbit.measurements[spotIdx].active = false;
+        }
+      }
+    }
+    this.setMeasurementConnectors();
+    this.save();
+  }
 
   getDraggingClass(bitIdx: number, spotIdx: number){
     if(this.dragData && this.allowDropFunction(bitIdx,spotIdx)(this.dragData)){
@@ -151,7 +153,6 @@ export class GateCanvasComponent implements OnChanges  {
   }
 
   save(){
-    this.setMeasurementConnectors();
     this.savesService.saves[this.savesService.currentSave].bits = this.bits;
   }
 }

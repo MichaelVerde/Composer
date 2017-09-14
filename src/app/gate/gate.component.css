@@ -73,6 +73,16 @@
 /*gate contents*/
 .gate-text{
     position: absolute;
+    font-size: 16px;
+    top: calc(50% - 8px);
+    line-height: 16px;
+    width: 100%;
+}
+.gate-params{
+    position: absolute;
+    font-size: 8px;
+    width:100%;
+    top: 14px; 
 }
 
 

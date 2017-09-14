@@ -1,5 +1,5 @@
-<div class="left-line col-md-1">
-    <div class="left-row" *ngFor="let qbit of bits">
+<div class="left-line col-md-1" dnd-sortable-container [sortableData]="bits">
+    <div class="left-row" *ngFor="let qbit of bits; let i = index" dnd-sortable [sortableIndex]="i" (onDragEnd)="recalcAllGateIdx($event)">
         |0⟩
     </div>
     <div class="left-row last">
@@ -16,7 +16,7 @@
                             <gate [gate]="spot.gate"></gate>
                         </div>
                     </div>
-                    <span *ngIf="showIdx"> {{spot.bitIdx}},{{spot.spotIdx}}</span>
+                    <span *ngIf="showIdx"> {{spot.gate.bitIdx}},{{spot.gate.spotIdx}}</span>
                 </div>
             </div>
         </div>
@@ -27,6 +27,7 @@
                     </div>  
                 </div>  
                 <div class="cbit-background">
+                    <span class="measurement" *ngIf="measurement.active">0</span>
                 </div>           
             </div>
         </div>

@@ -68,13 +68,25 @@
 }
 .cbit-spot{
     display: table-cell;
+    height: 100%;
+    width: 100%;
 }
 .cbit-background{
+    position: relative;
     border-top: 3px double #aaa;
     background-color: #ddd;
     height: 40px;
+    text-align: center;
+    width: 100%;
+}
+.measurement{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: calc(50% + -10px);
 }
 .cbit-gap{
+    position: relative;
     height: 15px; 
 }
 .cbit-arrow{

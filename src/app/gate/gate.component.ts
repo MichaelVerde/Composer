@@ -116,12 +116,35 @@ export class GateComponent implements OnChanges {
   }
 
   getShowText():boolean{
-    if(this.gate.typeId !== 0){
+    if(this.gate.typeId !== 0 && !this.gate.isMeasurement){
       return true;
     }
     else{
       return false;
     }
+  }
+
+  getShowIcon():boolean{
+    if(this.gate.typeId !== 0 && this.gate.isMeasurement){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  getParamText():string{
+    let text: string = "";
+    if(this.gate.paramReal !== 0){
+      text += this.gate.paramReal;
+    }
+    if(this.gate.paramReal !== 0 && this.gate.paramComplex !== 0){
+      text += " + ";
+    }
+    if(this.gate.paramComplex !== 0){
+      text += "ⅈ" + this.gate.paramComplex;
+    }
+    return text;
   }
 
 }

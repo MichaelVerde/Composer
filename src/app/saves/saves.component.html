@@ -1,22 +1,38 @@
 <div class="save-table">
   <div class="save-row">
-    <div class="save-header">
+    <div class="save-header gate"></div>
+    <div class="save-header name">
       Name
     </div>
-    <div class="save-header">    
+    <div class="save-header date">    
       Modified
     </div>
   </div>
   <div class="save-row" [ngClass]="{'selected': (i === currentSave)}" *ngFor="let save of savesList; let i = index" (click)="selectSave(i)">
-      <div class="save-cell">{{save.name}}</div>
-      <div class="save-cell">{{save.lastModified | date: 'dd/MM/yyyy'}}</div>
+      <div class="save-cell icon"> 
+          <div class="save">
+              <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
+          </div>
+      </div>
+      <div class="save-cell name saved">
+        <input type="text" [(ngModel)]="save.name"/> 
+      </div>
+      <div class="save-cell date">
+        {{save.lastModified | date: 'dd/MM/yyyy'}}<br/>
+        {{save.lastModified | date: 'hh:mm a'}}
+      </div>
   </div>
   <div class="save-row">
-    <div class="save-cell">
-      <input type="text" [(ngModel)]="saveName" style="width: 100px; text-align: left;"/> 
+    <div class="save-cell icon"> 
+        <div class="add">
+            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+        </div>
     </div>
-    <div class="save-cell">    
-      <button type="button" class="btn btn-outline-dark" (click)="createSave()">New Save</button>
+    <div class="save-cell name">
+      <input type="text" [(ngModel)]="saveName"/> 
+    </div>
+    <div class="save-cell date">    
+      <button type="button" class="btn-xs" (click)="createSave()">Add</button>
     </div>
   </div>
 </div>

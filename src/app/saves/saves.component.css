@@ -15,15 +15,40 @@
     display: table-cell;
     text-align: center;
 }
-.save-header{
+.save-cell{
     padding: 5px;
-    border-bottom: 2px double #888;
-    font-weight: bold;
-    width: 50%;
+    border-bottom: 1px solid #888;
     vertical-align: middle;
     display: table-cell;
     text-align: center;
 }
-.selected .save-cell{
+.save-header{
+    padding: 5px;
+    border-bottom: 2px double #888;
+    font-weight: bold;
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+}
+.icon{
+    width: 15%;
+}
+.name{
+    width: 70%;
+}
+.date{
+    width: 15%;
+}
+.save-cell.date{
+    font-size: 10px;
+}
+.selected .save-cell.icon{
     background: #ddd;
+}
+.name.saved input{
+    background: transparent;
+    border: none;
+}
+.name.saved input:focus{
+    background: white;
 }

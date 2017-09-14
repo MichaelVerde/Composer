@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-3">          
+        <div class="col-md-3 tab-box">          
             <ngb-tabset>
                 <ngb-tab title="Gates">
                     <ng-template ngbTabContent>
@@ -37,7 +37,7 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab title="Saved">
+                <ngb-tab title="Routines">
                     <ng-template ngbTabContent>
                         <saves></saves>
                     </ng-template>
@@ -45,7 +45,6 @@
             </ngb-tabset>	          
         </div>
         <div class="col-md-9">
-            <h2>Xanadu Dreamer</h2>
             <div class="runner">Simulate</div>
             <gate-canvas [dragData]="dragData" (draggingData)="setDragging($event)"></gate-canvas>
         </div>

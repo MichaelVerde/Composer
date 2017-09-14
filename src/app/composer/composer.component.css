@@ -3,6 +3,13 @@ gate-canvas{
     min-width: 100%;
     table-layout: fixed;
 }
+.tab-box{
+    margin: 15px 0px 15px 0px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    min-height: 400px;
+}
+
 
 .settings-table{
     display: table;
@@ -22,7 +29,7 @@ gate-canvas{
     margin: 15px 0px 15px 42px;
     padding: 10px;
     border: 1px solid #aaa;
-    background-color: #efefef;
+    background-color: white;
     border-radius: 5px;
     text-align: left;
 }
