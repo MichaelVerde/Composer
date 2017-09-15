@@ -1,8 +1,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="save-header gate col-md-1"></div>
-    <div class="save-header name col-md-8">
+    <div class="save-header name col-md-9">
       Name
     </div>
     <div class="save-header date col-md-3">    
@@ -10,12 +9,12 @@
     </div>
   </div>
   <div class="row" [ngClass]="{'selected': (i === currentSave)}" *ngFor="let save of savesList; let i = index" (click)="selectSave(i)">
-      <div class="save-cell icon col-md-1"> 
+      <div class="save-cell icon col-md-2"> 
           <div class="save">
               <span class="fa fa-save" aria-hidden="true"></span>
           </div>
       </div>
-      <div class="save-cell saved col-md-8">
+      <div class="save-cell saved col-md-7">
         <input type="text" [(ngModel)]="save.name"/> 
       </div>
       <div class="save-cell date col-md-3">
@@ -24,12 +23,12 @@
       </div>
   </div>
   <div class="row">
-    <div class="save-cell icon col-md-1"> 
+    <div class="save-cell icon col-md-2"> 
         <div class="add">
             <span class="fa fa-plus" aria-hidden="true"></span>
         </div>
     </div>
-    <div class="save-cell name col-md-8">
+    <div class="save-cell name col-md-7">
       <input type="text" [(ngModel)]="saveName"/> 
     </div>
     <div class="save-cell date col-md-3">    

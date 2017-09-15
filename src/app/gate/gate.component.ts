@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, Input, ViewChild } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Gate, GateParameter, GateParameterItem } from './gate'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,24 +10,37 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class GateComponent implements OnChanges {
   @Input() gate: Gate = new Gate();
   @ViewChild('content') public content;
-  parameterTypes: number[] = [1,2,3];
+  @Input() numCBits: number;
+
+  @Output() onModalClose = new EventEmitter();  
+
+  cbitList: number[] = [];
 
   constructor(public modalService: NgbModal) { }
 
   ngOnChanges(changes: SimpleChanges) { 
-    if(changes.gate.previousValue !== undefined 
+    if(changes.gate !== undefined 
+      && changes.gate.previousValue !== undefined 
       && changes.gate.previousValue.typeId !== changes.gate.currentValue.typeId 
       && !this.gate.modalOpened){
         setTimeout(()=> {
           this.open();
         }, 0);
     }
+    this.cbitList = [];
+    for(let i = 0; i < this.numCBits; i++){
+      this.cbitList.push(i + 1);
+    }
   }
 
   open() {
     if(this.onCanvas() && (this.gate.parameters.length > 0 || this.gate.isMeasurement)){
       this.gate.modalOpened = true;
-      this.modalService.open(this.content);
+      this.modalService.open(this.content).result.then((result) => {
+        this.onModalClose.emit();
+      }, (reason) => {
+        this.onModalClose.emit();
+      });;       
     }
   }
 
@@ -39,8 +52,17 @@ export class GateComponent implements OnChanges {
     this.gate.measurementType = 4;
   }
 
-  switchToLink(parameter: GateParameterItem){
-
+  toggleLink(parameter: GateParameterItem){
+    if(parameter.linkMode){
+      parameter.value = 0;
+      parameter.link = null;
+      parameter.linkMode = false;
+    }
+    else{
+      parameter.value = null;
+      parameter.link = 1;
+      parameter.linkMode = true;
+    }
   }
 
   getConnectorClass():string{
@@ -51,7 +73,10 @@ export class GateComponent implements OnChanges {
       return "connector bottom";
     }
     else if(this.gate.connector === "top"){
-      return "connector top";
+      return "connector solid top";
+    }
+    else if(this.gate.typeId === 10){
+      return "connector solid top";
     }
     else{
       return "";
@@ -62,6 +87,9 @@ export class GateComponent implements OnChanges {
     let classStr:string = "";
     if(this.gate.typeId === 0){
       classStr += "";
+    }
+    else if (this.gate.typeId === 10){
+      classStr += "gate cz";
     }
     else if (this.gate.coupled < 0){
       classStr += "gate bottom";
@@ -89,7 +117,7 @@ export class GateComponent implements OnChanges {
   }
 
   getShowText():boolean{
-    if(this.gate.typeId !== 0 && !this.gate.isMeasurement){
+    if([0,10].indexOf(this.gate.typeId) === -1 && !this.gate.isMeasurement()){
       return true;
     }
     else{
@@ -98,7 +126,7 @@ export class GateComponent implements OnChanges {
   }
 
   getShowIcon():boolean{
-    if(this.gate.typeId !== 0 && this.gate.isMeasurement){
+    if(this.gate.typeId !== 0 && this.gate.isMeasurement()){
       return true;
     }
     else{

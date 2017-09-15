@@ -54,20 +54,39 @@ export class GateCanvasComponent implements OnChanges  {
   setMeasurementConnectors(){
     for(let bitIdx = 0; bitIdx< this.bits.length; bitIdx++){
       for(let spotIdx = 0; spotIdx< this.bits[bitIdx].spots.length; spotIdx++){
-        if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement){
+        if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement()
+        || this.bits[bitIdx].spots[spotIdx].gate.isLinked()){
           for(let i = bitIdx+1; i< this.bits.length; i++){
             this.bits[i].spots[spotIdx].gate = new Gate();
             this.bits[i].spots[spotIdx].gate.bitIdx = i;
             this.bits[i].spots[spotIdx].gate.spotIdx = spotIdx;
             this.bits[i].spots[spotIdx].gate.connector = "both";
           }
-          this.cbit.measurements[spotIdx].active = true;
+          if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement()){
+            this.cbit.measurements[spotIdx].active = true;
+          }
+          else if(this.bits[bitIdx].spots[spotIdx].gate.isLinked()){
+            this.cbit.measurements[spotIdx].linked = true;
+          }
         }
         if(!this.spotLessThanMeasureGate(bitIdx, spotIdx)){
           this.bits[bitIdx].spots[spotIdx].showBg = false;
         }
         else{
           this.bits[bitIdx].spots[spotIdx].showBg = true;
+        }
+      }
+    }
+  }
+
+  setCoupledConnectors(){
+    for(let bitIdx = 0; bitIdx< this.bits.length; bitIdx++){
+      for(let spotIdx = 0; spotIdx< this.bits[bitIdx].spots.length; spotIdx++){
+        if(this.bits[bitIdx].spots[spotIdx].gate.coupled < 0){
+          let gate:Gate = this.bits[bitIdx].spots[spotIdx].gate;
+            this.bits[bitIdx + gate.coupled].spots[spotIdx].gate = new Gate(gate.typeId, gate.typeName, "", "bottom", gate.coupled * -1);
+            this.bits[bitIdx + gate.coupled].spots[spotIdx].gate.bitIdx = bitIdx + gate.coupled;
+            this.bits[bitIdx + gate.coupled].spots[spotIdx].gate.spotIdx = spotIdx;
         }
       }
     }
@@ -81,14 +100,23 @@ export class GateCanvasComponent implements OnChanges  {
     return (dragData: any) => 
     this.bits[bitIdx].spots[spotIdx].gate.typeId === 0 
     && this.bits[bitIdx].spots[spotIdx].gate.connector === ""
-    && ((!dragData.isMeasurement && this.spotLessThanMeasureGate(bitIdx, spotIdx) && (dragData.coupled === 0 || bitIdx !== 0) && this.spotLessThanMeasureGate(bitIdx + dragData.coupled, spotIdx)) 
-      ||(dragData.isMeasurement && !this.bitHasMeasureGate(bitIdx) && this.spotIsLastGate(bitIdx, spotIdx)))
+    && ((!dragData.isMeasurement() && this.spotLessThanMeasureGate(bitIdx, spotIdx) && (dragData.coupled === 0 || bitIdx !== 0) && this.spotLessThanMeasureGate(bitIdx + dragData.coupled, spotIdx)) 
+      ||(dragData.isMeasurement() && !this.bitHasMeasureGate(bitIdx) && !this.spotHasLowerGate(bitIdx, spotIdx) && this.spotIsLastGate(bitIdx, spotIdx)))
     && (dragData.coupled === 0 || bitIdx !== 0); 
   }
 
   bitHasMeasureGate(bitIdx: number){
     for(let i = 0; i < this.bits[bitIdx].spots.length; i++){
-      if(this.bits[bitIdx].spots[i].gate.isMeasurement){
+      if(this.bits[bitIdx].spots[i].gate.isMeasurement()){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  spotHasLowerGate(bitIdx: number, spotIdx: number){
+    for(let i = bitIdx; i < this.bits.length; i++){
+      if(this.bits[i].spots[spotIdx].gate.typeId !== 0){
         return true;
       }
     }
@@ -97,7 +125,7 @@ export class GateCanvasComponent implements OnChanges  {
 
   spotLessThanMeasureGate(bitIdx: number, spotIdx: number){
     for(let i = 0; i <= spotIdx; i++){
-      if(this.bits[bitIdx].spots[i].gate.isMeasurement){
+      if(this.bits[bitIdx].spots[i].gate.isMeasurement()){
         return false;
       }
     }
@@ -128,10 +156,12 @@ export class GateCanvasComponent implements OnChanges  {
 
         if(bitIdx === 0){
           this.cbit.measurements[spotIdx].active = false;
+          this.cbit.measurements[spotIdx].linked = false;
         }
       }
     }
     this.setMeasurementConnectors();
+    //this.setCoupledConnectors()
     this.save();
   }
 

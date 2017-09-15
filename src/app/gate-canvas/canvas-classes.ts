@@ -36,10 +36,12 @@ export class CBit {
 export class Measurement {
   measurmentIdx: number;  
   active:boolean;
+  linked:boolean;
   value:number;
   constructor(measurmentIdx: number) { 
     this.measurmentIdx = measurmentIdx;
     this.active = false;
+    this.linked = false;
     this.value = 0;
   }
 }

@@ -35,6 +35,15 @@
     height: 62px;
 }
 
+.gate.cz{
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #444;
+    border-color: #444;
+}
+
 /*connectors*/
 .connector.both .gate,
 .connector.top .gate{
@@ -46,25 +55,42 @@
     left: -14px;
 }
 
+.connector.both .gate.cz,
+.connector.top .gate.cz{
+    top: 14px;
+    left: -4px;
+}
+.connector.bottom .gate{
+    top: 0px;
+    left: -4px;
+}
+
 .connector{
     position: relative;
     margin: 0 auto;
     text-align: center;
-    background-color: #888;
+    background-color: #fff;
+    border-left: solid 1px #888;
+    border-right: solid 1px #888;
     color: white;
 }
+.connector.solid{
+    background-color: #444;
+    border-left: solid 1px #fff;
+    border-right: solid 1px #fff;
+}
 .connector.both{
-    width: 2px;
+    width: 4px;
     top: -18px;
     height: 40px;
 }
 .connector.top{
-    width: 2px;
+    width: 4px;
     top: -18px;
     height: 20px;
 }
 .connector.bottom{
-    width: 2px;
+    width: 4px;
     top: 0px;
     height: 20px;
 }

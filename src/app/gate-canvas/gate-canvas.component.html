@@ -14,7 +14,7 @@
                     <div class="bit-drop-area" dnd-droppable [allowDrop]="allowDropFunction(spot.bitIdx, spot.spotIdx)" (onDropSuccess)="setNewGate($event, spot.bitIdx, spot.spotIdx)">
                         <div class="bit-background" [ngClass]="{'clear' : !spot.showBg}">
                             <div [ngClass]="getDraggingClass(spot.bitIdx, spot.spotIdx)">
-                                <gate [gate]="spot.gate"></gate>
+                                <gate [gate]="spot.gate" [numCBits]="numCBits" (onModalClose)="recalcAllGateIdx($event)"></gate>
                             </div>
                         </div>
                         <span *ngIf="showIdx"> {{spot.gate.bitIdx}},{{spot.gate.spotIdx}}</span>
@@ -24,8 +24,8 @@
             <div class="bit-line cbit">
                 <div class="cbit-spot" *ngFor="let measurement of cbit.measurements"> 
                     <div class="cbit-gap">
-                        <div class="cbit-arrow" *ngIf="measurement.active">
-                        </div>  
+                        <div class="cbit-arrow" *ngIf="measurement.active"></div> 
+                        <div class="cbit-arrow-reverse" *ngIf="measurement.linked"></div>  
                     </div>  
                     <div class="cbit-background">
                         <span class="measurement" *ngIf="measurement.active">0</span>

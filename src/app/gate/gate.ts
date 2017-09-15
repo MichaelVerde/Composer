@@ -1,6 +1,5 @@
 export class Gate {
     //gate type
-    isMeasurement: boolean = false;
     typeId: number;
     typeName: string;
     icon: string = "";
@@ -37,7 +36,6 @@ export class Gate {
         this.conjugate = false;
 
         if(typeId === 20){
-            this.isMeasurement = true;
             this.measurementType = 1;
             this.icon = "dashboard";
         }
@@ -57,6 +55,26 @@ export class Gate {
         if([11].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Transmittivity", 0, null, null, null));
         }
+    }
+
+    isMeasurement():boolean{
+        return this.typeId === 20;
+    }
+
+    isLinked():boolean{
+        for(let i = 0; i<this.parameters.length; i++){
+            if(this.parameters[i].phaseMode 
+                && ((this.parameters[i].r !== undefined && this.parameters[i].r.linkMode)
+                 || (this.parameters[i].phi !== undefined && this.parameters[i].phi.linkMode))){
+                return true;
+            }
+            else if (!this.parameters[i].phaseMode 
+                && ((this.parameters[i].a !== undefined && this.parameters[i].a.linkMode)
+                 || (this.parameters[i].b !== undefined && this.parameters[i].b.linkMode))){
+                return true;
+            }
+        }
+        return false;
     }
   }
 
