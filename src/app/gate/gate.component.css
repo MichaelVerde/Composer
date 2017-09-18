@@ -57,10 +57,13 @@
 }
 
 /*connectors*/
-.connector.both .gate,
-.connector.top .gate{
+.connector.both .gate{
     top: 5px;
     left: -10px;
+}
+.connector.top .gate{
+    top: 5px;
+    left: -14px;
 }
 .connector.bottom .gate{
     top: -13px;

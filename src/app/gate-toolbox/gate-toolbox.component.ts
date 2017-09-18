@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { GateService } from "../gate/gate.service";
 import { Gate } from "../gate/gate";
+import { polyfill } from 'mobile-drag-drop';
 
 @Component({
   selector: 'gate-toolbox',
@@ -16,6 +17,7 @@ export class GateToolboxComponent implements OnInit {
   @Output() draggingData= new EventEmitter(); 
 
   constructor(public gateService: GateService) { 
+    polyfill({});
     this.couple = new Gate(19, "Couple");
     this.couple.connector = "bottom";
     this.setUpGrid();
@@ -64,5 +66,10 @@ export class GateToolboxComponent implements OnInit {
   setNotDragging($event: any){
     this.draggingData.emit(null);
     this.setUpGrid();
+  }
+
+  preventDefault(event) {
+    event.mouseEvent.preventDefault();
+    return false;
   }
 }

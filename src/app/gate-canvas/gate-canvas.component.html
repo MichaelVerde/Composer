@@ -11,7 +11,7 @@
         <div class="bit-table" [style.width.px]="50 * canvasLength">
             <div class="bit-line" *ngFor="let qbit of bits">
                 <div class="bit-spot" *ngFor="let spot of qbit.spots | orderBy: 'spotIdx'" dnd-draggable [dragEnabled]="allowDragFunction(spot.bitIdx, spot.spotIdx)" (onDragStart)="setDragging($event, spot.gate)" [dragData]="spot.gate" (onDragEnd)="setNotDragging($event)" (onDragSuccess)="setNoGate($event, spot.bitIdx, spot.spotIdx)">
-                    <div class="bit-drop-area" dnd-droppable [allowDrop]="allowDropFunction(spot.bitIdx, spot.spotIdx)" (onDropSuccess)="setNewGate($event, spot.bitIdx, spot.spotIdx)">
+                    <div class="bit-drop-area" dnd-droppable [allowDrop]="allowDropFunction(spot.bitIdx, spot.spotIdx)" (onDropSuccess)="setNewGate($event, spot.bitIdx, spot.spotIdx)" (onDragEnter)="preventDefault($event)" (onDragOver)="preventDefault($event)" (onDragLeave)="preventDefault($event)">
                         <div class="bit-background" [ngClass]="{'clear' : !spot.showBg}">
                             <div [ngClass]="getDraggingClass(spot.bitIdx, spot.spotIdx)">
                                 <gate [gate]="spot.gate" [numCBits]="numCBits" [numQBits]="numQBits" (onModalClose)="recalcAllGateIdx($event)"></gate>

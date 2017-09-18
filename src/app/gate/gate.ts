@@ -8,7 +8,7 @@ export class Gate {
 
     //gate couple/ connectors
     coupled: boolean = false;
-    couplingIdx: number = 0;
+    couplingIdx: number = -1;
     connector: string;
     line: string;
     double: boolean;
@@ -50,7 +50,7 @@ export class Gate {
         if([3,4,5].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Value", 0, null, null, null));
         }
-        if([7,8,10,11].indexOf(typeId) !== -1){
+        if([7,8,10,11,14].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Phase", null, null, null, 0));
         }
         if([11].indexOf(typeId) !== -1){
@@ -58,7 +58,7 @@ export class Gate {
         }
 
         //Set Up Coupling
-        if([10].indexOf(typeId) !== -1){
+        if([10,13].indexOf(typeId) !== -1){
             this.coupled = true;
             this.connector = "top";
         }

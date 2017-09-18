@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~mobile-drag-drop/default.css";
 
 /*Styles For Drag and drop elements*/
 .dnd-drag-start {

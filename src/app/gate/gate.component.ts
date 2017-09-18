@@ -45,11 +45,11 @@ export class GateComponent implements OnChanges {
         }
       }
       if(this.allowedCouples.indexOf(this.gate.couplingIdx) === -1){
-        if(this.gate.bitIdx === this.numQBits -1){
-          this.gate.couplingIdx === this.gate.bitIdx--;
+        if(this.gate.bitIdx === 0){
+          this.gate.couplingIdx = this.gate.bitIdx + 1;
         }
         else{
-          this.gate.couplingIdx === this.gate.bitIdx++;
+          this.gate.couplingIdx = this.gate.bitIdx - 1;
         }
       }
     }
