@@ -16,6 +16,7 @@ export class GateCanvasComponent implements OnChanges  {
   bits: QBit[] = [];
   cbit: CBit;
   numCBits: number;
+  numQBits: number;
   canvasLength: number;
 
   constructor(public savesService: SavesService) { 
@@ -30,6 +31,7 @@ export class GateCanvasComponent implements OnChanges  {
       this.bits = this.savesService.saves[value].bits; 
       this.cbit = this.savesService.saves[value].cbit; 
       this.numCBits = this.savesService.saves[value].numCBits; 
+      this.numQBits = this.savesService.saves[value].numQBits; 
       this.canvasLength = this.savesService.saves[value].canvasLength; 
     });
     if(this.savesService.saves.length === 0){
@@ -60,7 +62,7 @@ export class GateCanvasComponent implements OnChanges  {
             this.bits[i].spots[spotIdx].gate = new Gate();
             this.bits[i].spots[spotIdx].gate.bitIdx = i;
             this.bits[i].spots[spotIdx].gate.spotIdx = spotIdx;
-            this.bits[i].spots[spotIdx].gate.connector = "both";
+            this.bits[i].spots[spotIdx].gate.line = "both";
           }
           if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement()){
             this.cbit.measurements[spotIdx].active = true;
@@ -82,27 +84,56 @@ export class GateCanvasComponent implements OnChanges  {
   setCoupledConnectors(){
     for(let bitIdx = 0; bitIdx< this.bits.length; bitIdx++){
       for(let spotIdx = 0; spotIdx< this.bits[bitIdx].spots.length; spotIdx++){
-        if(this.bits[bitIdx].spots[spotIdx].gate.coupled < 0){
-          let gate:Gate = this.bits[bitIdx].spots[spotIdx].gate;
-            this.bits[bitIdx + gate.coupled].spots[spotIdx].gate = new Gate(gate.typeId, gate.typeName, "", "bottom", gate.coupled * -1);
-            this.bits[bitIdx + gate.coupled].spots[spotIdx].gate.bitIdx = bitIdx + gate.coupled;
-            this.bits[bitIdx + gate.coupled].spots[spotIdx].gate.spotIdx = spotIdx;
+        let gate:Gate = this.bits[bitIdx].spots[spotIdx].gate;
+        if(gate.coupled && gate.couplingIdx > gate.bitIdx){
+          for(let i = gate.bitIdx; i<= gate.couplingIdx; i++){
+            if(i=== gate.bitIdx){
+              this.bits[i].spots[spotIdx].gate.connector = "bottom";
+            }
+            else if (i === gate.couplingIdx){
+              this.bits[i].spots[spotIdx].gate = new Gate(19, "Couple");
+              this.bits[i].spots[spotIdx].gate.bitIdx = gate.couplingIdx;
+              this.bits[i].spots[spotIdx].gate.spotIdx = spotIdx;
+              this.bits[i].spots[spotIdx].gate.connector = "top";
+            }
+            else{
+              this.bits[i].spots[spotIdx].gate = new Gate();
+              this.bits[i].spots[spotIdx].gate.connector = "both";
+            }
+          }
+        }
+        else if(gate.coupled && gate.couplingIdx < gate.bitIdx){
+          for(let i = gate.couplingIdx; i<= gate.bitIdx; i++){
+            if(i=== gate.bitIdx){
+              this.bits[i].spots[spotIdx].gate.connector = "top";
+            }
+            else if (i === gate.couplingIdx){
+              this.bits[i].spots[spotIdx].gate = new Gate(19, "Couple");
+              this.bits[i].spots[spotIdx].gate.bitIdx = gate.couplingIdx;
+              this.bits[i].spots[spotIdx].gate.spotIdx = spotIdx;
+              this.bits[i].spots[spotIdx].gate.connector = "bottom";
+            }
+            else{
+              this.bits[i].spots[spotIdx].gate = new Gate();
+              this.bits[i].spots[spotIdx].gate.connector = "both";
+            }
+          }
         }
       }
     }
   }
 
   allowDragFunction(bitIdx: number, spotIdx: number): any {
-    return this.bits[bitIdx].spots[spotIdx].gate.coupled <= 0;
+    return !this.bits[bitIdx].spots[spotIdx].gate.isCouple();
   }
 
   allowDropFunction(bitIdx: number, spotIdx: number): any {
     return (dragData: any) => 
     this.bits[bitIdx].spots[spotIdx].gate.typeId === 0 
     && this.bits[bitIdx].spots[spotIdx].gate.connector === ""
-    && ((!dragData.isMeasurement() && this.spotLessThanMeasureGate(bitIdx, spotIdx) && (dragData.coupled === 0 || bitIdx !== 0) && this.spotLessThanMeasureGate(bitIdx + dragData.coupled, spotIdx)) 
+    && ((!dragData.isMeasurement() && this.spotLessThanMeasureGate(bitIdx, spotIdx)) 
       ||(dragData.isMeasurement() && !this.bitHasMeasureGate(bitIdx) && !this.spotHasLowerGate(bitIdx, spotIdx) && this.spotIsLastGate(bitIdx, spotIdx)))
-    && (dragData.coupled === 0 || bitIdx !== 0); 
+    && (!dragData.double || bitIdx !== 0); 
   }
 
   bitHasMeasureGate(bitIdx: number){
@@ -144,7 +175,10 @@ export class GateCanvasComponent implements OnChanges  {
   recalcAllGateIdx(){
     for(let bitIdx = 0; bitIdx< this.bits.length; bitIdx++){
       for(let spotIdx = 0; spotIdx< this.bits[bitIdx].spots.length; spotIdx++){
-        if(this.bits[bitIdx].spots[spotIdx].gate.coupled + bitIdx < 0){
+        if(this.bits[bitIdx].spots[spotIdx].gate.double && bitIdx === 0){
+          this.bits[bitIdx].spots[spotIdx].gate = new Gate(); 
+        }
+        if(this.bits[bitIdx].spots[spotIdx].gate.typeId === 19){
           this.bits[bitIdx].spots[spotIdx].gate = new Gate(); 
         }
 
@@ -161,7 +195,7 @@ export class GateCanvasComponent implements OnChanges  {
       }
     }
     this.setMeasurementConnectors();
-    //this.setCoupledConnectors()
+    this.setCoupledConnectors();
     this.save();
   }
 

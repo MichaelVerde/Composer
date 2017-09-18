@@ -7,8 +7,11 @@ export class Gate {
     conjugate: boolean;
 
     //gate couple/ connectors
-    coupled: number;
+    coupled: boolean = false;
+    couplingIdx: number = 0;
     connector: string;
+    line: string;
+    double: boolean;
 
     //gate settings 
     parameters: GateParameter[] = [];
@@ -24,12 +27,9 @@ export class Gate {
     bitIdx: number; 
     spotIdx: number; 
 
-    constructor(typeId?: number, typeName?: string, description?: string, connector?: string,coupled?: number){
+    constructor(typeId?: number, typeName?: string){
         typeId ? this.typeId = typeId : this.typeId = 0;
-        typeName ? this.typeName = typeName : this.typeName = "No Gate";
-        description ? this.description = description : this.description = "";
-        connector ? this.connector = connector : this.connector = "";
-        coupled ? this.coupled = coupled : this.coupled = 0;
+        typeName ? this.typeName = typeName : this.typeName = "";
 
         this.bitIdx = -1;
         this.spotIdx = -1;
@@ -40,6 +40,7 @@ export class Gate {
             this.icon = "dashboard";
         }
 
+        //Set Up Parameters
         if([1,12].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Squeezing Factor", 0, 0, null, null));
         }
@@ -54,6 +55,15 @@ export class Gate {
         }
         if([11].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Transmittivity", 0, null, null, null));
+        }
+
+        //Set Up Coupling
+        if([10].indexOf(typeId) !== -1){
+            this.coupled = true;
+            this.connector = "top";
+        }
+        if([11,12].indexOf(typeId) !== -1){
+            this.double = true;
         }
     }
 
@@ -75,6 +85,10 @@ export class Gate {
             }
         }
         return false;
+    }
+
+    isCouple():boolean{
+        return this.typeId === 19;
     }
   }
 

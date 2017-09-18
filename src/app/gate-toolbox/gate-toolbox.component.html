@@ -13,7 +13,8 @@
 <div class="toolbox-table">
   <div class="toolbox-row" *ngFor="let row of coupledGrid">
     <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event, gate)" (onDragEnd)="setNotDragging($event)">
-      <div class="coupled-toolbox-background">
+      <div [ngClass]="gate.coupled ? 'coupled-toolbox-background' : 'double-toolbox-background'">
+        <gate *ngIf="gate.coupled" [gate]="couple" class="toolbox-couple"></gate>
         <gate [gate]="gate"></gate>
       </div> 
     </div>
@@ -29,7 +30,7 @@
         <gate [gate]="gate"></gate>
       </div> 
     </div>
-    <div class="toolbox-cell" dnd-droppable (onDropSuccess)="setNewGate($event, spot.bitIdx, spot.spotIdx)">
+    <div class="toolbox-cell" dnd-droppable>
       <div class="trash">
         <i class="fa fa-trash" aria-hidden="true"></i>
       </div>

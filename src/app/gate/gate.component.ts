@@ -11,10 +11,12 @@ export class GateComponent implements OnChanges {
   @Input() gate: Gate = new Gate();
   @ViewChild('content') public content;
   @Input() numCBits: number;
+  @Input() numQBits: number;
 
   @Output() onModalClose = new EventEmitter();  
 
   cbitList: number[] = [];
+  allowedCouples: number[] = [];
 
   constructor(public modalService: NgbModal) { }
 
@@ -27,14 +29,34 @@ export class GateComponent implements OnChanges {
           this.open();
         }, 0);
     }
+
+    //set up options for measurement
     this.cbitList = [];
     for(let i = 0; i < this.numCBits; i++){
-      this.cbitList.push(i + 1);
+      this.cbitList.push(i);
+    }
+
+    //set up options for coupling
+    if(this.gate.coupled){
+      this.allowedCouples = [];
+      for(let i =0; i< this.numQBits; i++){
+        if(i != this.gate.bitIdx){
+          this.allowedCouples.push(i);
+        }
+      }
+      if(this.allowedCouples.indexOf(this.gate.couplingIdx) === -1){
+        if(this.gate.bitIdx === this.numQBits -1){
+          this.gate.couplingIdx === this.gate.bitIdx--;
+        }
+        else{
+          this.gate.couplingIdx === this.gate.bitIdx++;
+        }
+      }
     }
   }
 
   open() {
-    if(this.onCanvas() && (this.gate.parameters.length > 0 || this.gate.isMeasurement)){
+    if(this.onCanvas() && (this.gate.parameters.length > 0 || this.gate.isMeasurement) && !this.gate.isCouple()){
       this.gate.modalOpened = true;
       this.modalService.open(this.content).result.then((result) => {
         this.onModalClose.emit();
@@ -42,6 +64,10 @@ export class GateComponent implements OnChanges {
         this.onModalClose.emit();
       });;       
     }
+  }
+
+  couplingChanged($event: any){
+    this.onModalClose.emit();
   }
 
   onCanvas():boolean{
@@ -66,21 +92,27 @@ export class GateComponent implements OnChanges {
   }
 
   getConnectorClass():string{
+    let str = "";
     if(this.gate.connector === "both"){
-      return "connector both";
+      str += "connector both solid";
     }
     else if(this.gate.connector === "bottom"){
-      return "connector bottom";
+      str += "connector bottom solid";
     }
     else if(this.gate.connector === "top"){
-      return "connector solid top";
+      str += "connector top solid";
     }
-    else if(this.gate.typeId === 10){
-      return "connector solid top";
+
+    if(this.gate.line === "both"){
+      str += "connector both ";
     }
-    else{
-      return "";
+    else if(this.gate.line === "bottom"){
+      str += "connector bottom ";
     }
+    else if(this.gate.line === "top"){
+      str += "connector top";
+    }
+    return str;
   }
 
   getGateClass():string{
@@ -89,13 +121,13 @@ export class GateComponent implements OnChanges {
       classStr += "";
     }
     else if (this.gate.typeId === 10){
-      classStr += "gate cz";
+      classStr += "gate couple";
     }
-    else if (this.gate.coupled < 0){
-      classStr += "gate bottom";
+    else if (this.gate.typeId === 19){
+      classStr += "gate couple clear";
     }
-    else if (this.gate.coupled > 0){
-      classStr += "gate top";
+    else if (this.gate.double){
+      classStr += "gate double";
     }
     else {
       classStr += "gate";
@@ -117,7 +149,7 @@ export class GateComponent implements OnChanges {
   }
 
   getShowText():boolean{
-    if([0,10].indexOf(this.gate.typeId) === -1 && !this.gate.isMeasurement()){
+    if([0,10,19].indexOf(this.gate.typeId) === -1 && !this.gate.isMeasurement()){
       return true;
     }
     else{

@@ -18,6 +18,16 @@
     </div>
     <div class="modal-body">
         <div class="container" *ngIf="!gate.isMeasurement()">
+            <div class="row" *ngIf="gate.coupled">
+                <div class="settings-cell name col-md-6 ">
+                    Coupling:
+                </div>
+                <div class="settings-cell col-md-6">
+                    <select [(ngModel)]="gate.couplingIdx" (ngModelChange)="couplingChanged($event)" style="width: 50px;">
+                        <option *ngFor="let c of allowedCouples" [ngValue]="c">{{c + 1}}</option>
+                    </select>   
+                </div>
+            </div>
             <div class="row">
                 <div class="settings-cell name col-md-6 ">
                     Conjugate:
@@ -46,7 +56,7 @@
                         </label>   
                         <input *ngIf="!parameter.a.linkMode" type="number" [(ngModel)]="parameter.a.value" style="width: 50px; text-align: center;" step="0.1"/>     
                         <select *ngIf="parameter.a.linkMode" [(ngModel)]="parameter.a.link" style="width: 50px;">
-                            <option *ngFor="let c of cbitList" [ngValue]="c">{{c}}</option>
+                            <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                         </select>
                     </div>                                  
                     <span *ngIf="parameter.a !== undefined && parameter.b !== undefined"> + </span>
@@ -59,7 +69,7 @@
                             </label>   
                             <input *ngIf="parameter.b.linkMode" type="number" [(ngModel)]="parameter.b.value" style="width: 50px; text-align: center;" step="0.1"/>
                             <select *ngIf="parameter.b.linkMode" [(ngModel)]="parameter.b.link" style="width: 50px;">
-                                <option *ngFor="let c of cbitList" [ngValue]="c">{{c}}</option>
+                                <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                             </select>
                         </div>
                     </span>     
@@ -73,7 +83,7 @@
                         </label>
                         <input *ngIf="!parameter.r.linkMode" type="number" [(ngModel)]="parameter.r.value" style="width: 50px; text-align: center;" step="0.1"/> 
                         <select *ngIf="parameter.r.linkMode" [(ngModel)]="parameter.r.link" style="width: 50px;">
-                            <option *ngFor="let c of cbitList" [ngValue]="c">{{c}}</option>
+                            <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                         </select>
                     </div>
                     <span *ngIf="parameter.r !== undefined && parameter.phi !== undefined"> • </span>
@@ -87,7 +97,7 @@
                             </label>
                             <input *ngIf="!parameter.phi.linkMode" type="number" [(ngModel)]="parameter.phi.value" style="width: 50px;" step="0.01" min="0" max="1"/>
                             <select *ngIf="parameter.phi.linkMode" [(ngModel)]="parameter.phi.link" style="width: 50px;">
-                                <option *ngFor="let c of cbitList" [ngValue]="c">{{c}}</option>
+                                <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                             </select>
                         </div>                       
                     </span>     

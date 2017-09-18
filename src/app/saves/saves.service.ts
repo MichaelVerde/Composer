@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Save } from './save'
 import {Subject} from 'rxjs/Subject';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class SavesService {
@@ -12,7 +16,10 @@ export class SavesService {
   savesChange: Subject<number> = new Subject<number>();
   currentSaveChange: Subject<number> = new Subject<number>();
 
-  constructor() { 
+  constructor(public http: Http) { 
+    this.getPresets().subscribe(presets => {
+      this.saves = presets;
+    }, error => console.log(error));
   }
 
   newSave(name: string){
@@ -30,7 +37,11 @@ export class SavesService {
   selectSave(currentSave: number){
     this.currentSave = currentSave;
     this.currentSaveChange.next(this.currentSave);
+    console.log(JSON.stringify(this.saves));
+  } 
+
+  getPresets(): Observable<any> {
+    return this.http.get("../assets/presets.json")
+                    .map((res: Response) => res.json());
   }
-
-
 }

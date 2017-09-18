@@ -11,10 +11,13 @@ export class GateToolboxComponent implements OnInit {
   singleGrid: Gate[][] = [];
   coupledGrid: Gate[][] = [];
   measurementsGrid: Gate[][] = [];
+  couple:Gate;
   private gridWidth = 4;
   @Output() draggingData= new EventEmitter(); 
 
   constructor(public gateService: GateService) { 
+    this.couple = new Gate(19, "Couple");
+    this.couple.connector = "bottom";
     this.setUpGrid();
   }
 
