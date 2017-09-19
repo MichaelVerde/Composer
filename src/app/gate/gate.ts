@@ -19,6 +19,7 @@ export class Gate {
     //measurment settings
     measurementType: number = 0;
     measurementInt: number = 0;
+    measurementBit: number = 0;
 
     //remeber if the settings modal has been openened
     modalOpened = false;
@@ -71,20 +72,22 @@ export class Gate {
         return this.typeId === 20;
     }
 
-    isLinked():boolean{
+    getLink():number{
         for(let i = 0; i<this.parameters.length; i++){
-            if(this.parameters[i].phaseMode 
-                && ((this.parameters[i].r !== undefined && this.parameters[i].r.linkMode)
-                 || (this.parameters[i].phi !== undefined && this.parameters[i].phi.linkMode))){
-                return true;
+            if(this.parameters[i].phaseMode){
+                if (this.parameters[i].r !== undefined && this.parameters[i].r.linkMode)
+                    return this.parameters[i].r.link;
+                else if (this.parameters[i].phi !== undefined && this.parameters[i].phi.linkMode)
+                    return this.parameters[i].phi.link;
             }
-            else if (!this.parameters[i].phaseMode 
-                && ((this.parameters[i].a !== undefined && this.parameters[i].a.linkMode)
-                 || (this.parameters[i].b !== undefined && this.parameters[i].b.linkMode))){
-                return true;
+            else if (!this.parameters[i].phaseMode){
+                if (this.parameters[i].a !== undefined && this.parameters[i].a.linkMode)
+                    return this.parameters[i].a.link;
+                else if (this.parameters[i].b !== undefined && this.parameters[i].b.linkMode)
+                    return this.parameters[i].b.link;
             }
         }
-        return false;
+        return -1;
     }
 
     isCouple():boolean{

@@ -59,7 +59,7 @@ export class GateCanvasComponent implements OnChanges  {
     for(let bitIdx = 0; bitIdx< this.bits.length; bitIdx++){
       for(let spotIdx = 0; spotIdx< this.bits[bitIdx].spots.length; spotIdx++){
         if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement()
-        || this.bits[bitIdx].spots[spotIdx].gate.isLinked()){
+        || this.bits[bitIdx].spots[spotIdx].gate.getLink() >= 0){
           for(let i = bitIdx+1; i< this.bits.length; i++){
             this.bits[i].spots[spotIdx].gate = new Gate();
             this.bits[i].spots[spotIdx].gate.bitIdx = i;
@@ -68,9 +68,11 @@ export class GateCanvasComponent implements OnChanges  {
           }
           if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement()){
             this.cbit.measurements[spotIdx].active = true;
+            this.cbit.measurements[spotIdx].bit = this.bits[bitIdx].spots[spotIdx].gate.measurementBit;
           }
-          else if(this.bits[bitIdx].spots[spotIdx].gate.isLinked()){
+          else if(this.bits[bitIdx].spots[spotIdx].gate.getLink() >= 0){
             this.cbit.measurements[spotIdx].linked = true;
+            this.cbit.measurements[spotIdx].bit = this.bits[bitIdx].spots[spotIdx].gate.getLink();
           }
         }
         if(!this.spotLessThanMeasureGate(bitIdx, spotIdx)){

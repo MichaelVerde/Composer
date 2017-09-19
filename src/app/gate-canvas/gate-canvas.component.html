@@ -1,10 +1,10 @@
 <div class="row">
     <div class="left-line col-md-1" dnd-sortable-container [sortableData]="bits">
         <div class="left-row" *ngFor="let qbit of bits; let i = index" dnd-sortable [sortableIndex]="i" (onDragEnd)="recalcAllGateIdx($event)">
-            |0⟩
+            <qbit [qbit]="qbit"></qbit>
         </div>
         <div class="left-row last">
-            0<span class="superscript">{{numCBits}}</span>
+            c<span class="superscript">{{numCBits}}</span>
         </div>
     </div>
     <div class="bit-table-wrapper col-md-11">
@@ -23,17 +23,19 @@
             </div>
             <div class="bit-line cbit">
                 <div class="cbit-spot" *ngFor="let measurement of cbit.measurements"> 
-                    <div class="cbit-gap">
+                    <div class="cbit-background">
+                        <div class="cbit-line" *ngIf="measurement.active || measurement.linked"></div> 
                         <div class="cbit-arrow" *ngIf="measurement.active"></div> 
                         <div class="cbit-arrow-reverse" *ngIf="measurement.linked"></div>  
-                    </div>  
-                    <div class="cbit-background">
-                        <span class="measurement" *ngIf="measurement.active">0</span>
+                        <span class="measurement" *ngIf="measurement.active || measurement.linked">
+                            {{measurement.bit + 1}}
+                        </span>
                     </div>           
                 </div>
             </div>
         </div>
     </div>
 </div>
+   
     
 

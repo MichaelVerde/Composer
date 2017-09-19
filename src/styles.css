@@ -42,3 +42,7 @@ input[type="text"]{
   height: 46px;
   line-height: 28px;
 }
+
+.modal-body{
+  padding: 5px;
+}

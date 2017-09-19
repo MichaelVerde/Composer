@@ -15,6 +15,7 @@ import { SavesService } from './saves/saves.service';
 import { SavesComponent } from './saves/saves.component';
 import { SelectModule } from 'ng2-select';
 import { HttpModule } from '@angular/http';
+import { QbitComponent } from './qbit/qbit.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { HttpModule } from '@angular/http';
     GateToolboxComponent,
     GateCanvasComponent,
     GateComponent,
-    SavesComponent
+    SavesComponent,
+    QbitComponent
   ],
   imports: [
     BrowserModule,

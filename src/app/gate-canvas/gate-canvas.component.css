@@ -12,8 +12,8 @@
 }
 .bit-table-wrapper{
     overflow-x:scroll;
-    border-left: 3px double #888;
-    border-right: 3px double #888;
+    border-left: 4px groove #aaa;
+    border-right: 4px ridge #aaa;
     padding-right: 0px; 
     padding-left: 0px; 
 }
@@ -67,9 +67,12 @@
 }
 .cbit-background{
     position: relative;
-    border-top: 3px double #aaa;
-    background-color: #ddd;
-    height: 40px;
+    border-top: 1px solid #888;
+    border-bottom: 1px solid #888;
+    background-color: white;
+    height: 4px;
+    margin-top: 19px;
+    margin-bottom: 30px;
     text-align: center;
     width: 100%;
 }
@@ -77,13 +80,24 @@
     position: absolute;
     width: 100%;
     left: 0;
-    top: calc(50% + -10px);
+    top: 5px;
 }
 .cbit-gap{
     position: relative;
 }
+.cbit-line{
+    position: relative;
+    border-left: 1px solid #888;
+    border-right: 1px solid #888;
+    background-color: white;
+    height: 15px; 
+    width: 4px;
+    margin-left: 23px;
+    top: -16px; 
+}
 .cbit-arrow{
     position: relative;
+    top: -20px;
     left: 20px;
     height: 0px; 
     width: 0px; 
@@ -93,10 +107,19 @@
 }
 .cbit-arrow-reverse{
     position: relative;
+    top: -20px;
     left: 20px;
     height: 0px; 
     width: 0px; 
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;   
     border-bottom: 5px solid #888;
+}
+
+/*gate settings modal*/
+.settings-cell{
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    height: 40px;
 }
