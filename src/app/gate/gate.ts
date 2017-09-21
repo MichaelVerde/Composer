@@ -93,6 +93,43 @@ export class Gate {
     isCouple():boolean{
         return this.typeId === 19;
     }
+
+    public static serialize(gate: Gate): Gate{
+        let g = new Gate(gate.typeId, gate.typeName);
+        g.icon = gate.icon;
+        g.description = gate.description;
+        g.conjugate = gate.conjugate;
+    
+        //gate couple/ connectors
+        g.coupled = gate.coupled;
+        g.couplingIdx = gate.couplingIdx;
+        g.connector = gate.connector;
+        g.line = gate.line;
+        g.double = gate.double;
+    
+        //gate settings 
+        gate.parameters.forEach(parameter => {
+            g.parameters.push(new GateParameter(
+                parameter.name, 
+                parameter.a === undefined ? null : parameter.a.value, 
+                parameter.b === undefined ? null : parameter.b.value, 
+                parameter.r === undefined ? null : parameter.r.value, 
+                parameter.phi === undefined ? null : parameter.phi.value));
+        });
+    
+        //measurment settings
+        g.measurementType = gate.measurementType;
+        g.measurementInt = gate.measurementInt;
+        g.measurementBit = gate.measurementBit;
+    
+        //remeber if the settings modal has been openened
+        g.modalOpened = gate.modalOpened;
+    
+        //gate location
+        g.bitIdx = gate.bitIdx;
+        g.spotIdx = gate.spotIdx;
+        return g;
+    }
   }
 
   export class GateParameter{

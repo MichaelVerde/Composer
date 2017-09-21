@@ -1,0 +1,8 @@
+
+/*gate settings modal*/
+.settings-cell{
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    height: 40px;
+}

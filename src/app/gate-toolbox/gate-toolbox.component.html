@@ -26,7 +26,7 @@
 <div class="toolbox-table">
   <div class="toolbox-row" *ngFor="let row of measurementsGrid">
     <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event, gate)" (onDragEnd)="setNotDragging($event)">
-      <div class="toolbox-background">
+      <div class="toolbox-background-measurement">
         <gate [gate]="gate"></gate>
       </div> 
     </div>

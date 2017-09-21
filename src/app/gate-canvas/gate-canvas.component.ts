@@ -13,6 +13,7 @@ export class GateCanvasComponent implements OnChanges  {
   @Input() dragData?: Gate;
   @Output() draggingData= new EventEmitter(); 
 
+  initialized: boolean = false;
   showIdx: boolean = false;
   bits: QBit[] = [];
   cbit: CBit;
@@ -29,17 +30,20 @@ export class GateCanvasComponent implements OnChanges  {
   }
 
   setUpCanvas(){ 
-    this.savesService.currentSaveChange.subscribe((value) => { 
-      this.bits = this.savesService.saves[value].bits; 
-      this.cbit = this.savesService.saves[value].cbit; 
-      this.numCBits = this.savesService.saves[value].numCBits; 
-      this.numQBits = this.savesService.saves[value].numQBits; 
-      this.canvasLength = this.savesService.saves[value].canvasLength; 
-    });
-    if(this.savesService.saves.length === 0){
-      this.savesService.newSave("temp");
+    if(!this.initialized){
+      this.savesService.getSaves();
+      this.savesService.currentSaveChange.subscribe((value) => { 
+        this.bits = this.savesService.saves[value].bits; 
+        this.cbit = this.savesService.saves[value].cbit; 
+        this.numCBits = this.savesService.saves[value].numCBits; 
+        this.numQBits = this.savesService.saves[value].numQBits; 
+        this.canvasLength = this.savesService.saves[value].canvasLength; 
+        this.initialized = true;
+      });
     }
-    this.recalcAllGateIdx();
+    else{
+      this.recalcAllGateIdx();
+    }
   }
 
   setNewGate($event: any, bitIdx: number, spotIdx: number) {

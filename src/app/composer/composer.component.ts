@@ -14,6 +14,9 @@ export class ComposerComponent implements OnInit {
   canvasLength: number = 40;
 
   constructor(public savesService: SavesService) { 
+  }
+
+  ngOnInit() {
     this.savesService.numQBits = this.numQBits;
     this.savesService.numCBits = this.numCBits;
     this.savesService.canvasLength = this.canvasLength;
@@ -23,9 +26,6 @@ export class ComposerComponent implements OnInit {
       this.numCBits = this.savesService.saves[value].numCBits; 
       this.canvasLength = this.savesService.saves[value].canvasLength; 
     });
-  }
-
-  ngOnInit() {
   }
 
   setDragging(gate?: Gate){

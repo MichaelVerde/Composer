@@ -8,23 +8,31 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class SavesService {
-  public numQBits: number;
-  public numCBits: number;
+  public numQBits: number = 5;
+  public numCBits: number = 5;
   public canvasLength: number = 40;
   public saves: Save[] = [];
   public currentSave: number;  
   savesChange: Subject<number> = new Subject<number>();
   currentSaveChange: Subject<number> = new Subject<number>();
 
-  constructor(public http: Http) { 
+  constructor(public http: Http) {}
+
+  getSaves(){
     this.getPresets().subscribe(presets => {
-      this.saves = presets;
+      presets.forEach(save =>{
+        this.saves.push(Save.serialize(save));
+      });
+      this.newSave("New");
     }, error => console.log(error));
   }
 
   newSave(name: string){
-    this.currentSave = this.saves.length;
     this.saves.push(new Save(name, this.numQBits, this.numCBits, this.canvasLength));
+    this.saves = this.saves.sort((a: Save, b: Save) => {
+      return a.lastModified > b.lastModified ? 1 : 0;
+    });
+    this.currentSave = this.saves.length -1;
     this.savesChange.next(this.currentSave);
     this.currentSaveChange.next(this.currentSave);
   }

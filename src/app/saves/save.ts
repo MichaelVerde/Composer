@@ -66,6 +66,19 @@ export class Save {
             }
         }
     }
+
+    public static serialize(save: Save): Save{
+        let s = new Save(save.name,save.numQBits, save.numCBits, save.canvasLength);
+        s.lastModified = save.lastModified;
+        for(let bitIdx = 0; bitIdx < s.bits.length; bitIdx++){
+            for(let spotIdx = 0; spotIdx < s.bits[bitIdx].spots.length; spotIdx++){
+                let gate = save.bits[bitIdx].spots[spotIdx].gate;
+                s.bits[bitIdx].spots[spotIdx].gate = Gate.serialize(gate);
+            }
+        }
+        s.cbit = save.cbit;
+        return s;
+    }
   }
 
 
