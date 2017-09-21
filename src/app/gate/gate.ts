@@ -43,19 +43,19 @@ export class Gate {
 
         //Set Up Parameters
         if([1,12].indexOf(typeId) !== -1){
-            this.parameters.push(new GateParameter("Squeezing Factor", 0, 0, null, null));
+            this.parameters.push(new GateParameter("Squeezing Factor", 0, null, 0, null, null, null, null, null));
         }
         if([2].indexOf(typeId) !== -1){
-            this.parameters.push(new GateParameter("Displacement", 0, 0, null, null));
+            this.parameters.push(new GateParameter("Displacement", 0, null, 0, null, null, null, null, null));
         }
         if([3,4,5].indexOf(typeId) !== -1){
-            this.parameters.push(new GateParameter("Value", 0, null, null, null));
+            this.parameters.push(new GateParameter("Value", 0, null, null, null, null, null, null, null));
         }
         if([7,8,10,11,14].indexOf(typeId) !== -1){
-            this.parameters.push(new GateParameter("Phase", null, null, null, 0));
+            this.parameters.push(new GateParameter("Phase", null, null, null, null, null, null, 0, null));
         }
         if([11].indexOf(typeId) !== -1){
-            this.parameters.push(new GateParameter("Transmittivity", 0, null, null, null));
+            this.parameters.push(new GateParameter("Transmittivity", 0, null, null, null, null, null, null, null));
         }
 
         //Set Up Coupling
@@ -107,14 +107,19 @@ export class Gate {
         g.line = gate.line;
         g.double = gate.double;
     
-        //gate settings 
+        //gate settings
+        g.parameters = []; 
         gate.parameters.forEach(parameter => {
             g.parameters.push(new GateParameter(
                 parameter.name, 
-                parameter.a === undefined ? null : parameter.a.value, 
-                parameter.b === undefined ? null : parameter.b.value, 
-                parameter.r === undefined ? null : parameter.r.value, 
-                parameter.phi === undefined ? null : parameter.phi.value));
+                parameter.a === undefined ? null : parameter.a.value,
+                parameter.a === undefined ? null : parameter.a.link,
+                parameter.b === undefined ? null : parameter.b.value,
+                parameter.b === undefined ? null : parameter.b.link,
+                parameter.r === undefined ? null : parameter.r.value,
+                parameter.r === undefined ? null : parameter.r.link,
+                parameter.phi === undefined ? null : parameter.phi.value,
+                parameter.phi === undefined ? null : parameter.phi.link));
         });
     
         //measurment settings
@@ -140,14 +145,14 @@ export class Gate {
       r: GateParameterItem;
       phi: GateParameterItem;
 
-      constructor(name: string, a: number, b :number, r :number, phi :number){
+      constructor(name: string, a: number, aL: number, b :number, bL :number, r :number, rL :number, phi :number, phiL :number){
         this.name = name;
-        if(a !== null)this.a = new GateParameterItem(a);
-        if(b !== null)this.b = new GateParameterItem(b);
-        if(r !== null)this.r = new GateParameterItem(r);
-        if(phi !== null)this.phi = new GateParameterItem(phi);
+        if(a !== null || aL !== null)this.a = new GateParameterItem(a, aL);
+        if(b !== null || bL !== null)this.b = new GateParameterItem(b, bL);
+        if(r !== null || rL !== null)this.r = new GateParameterItem(r, rL);
+        if(phi !== null || phiL !== null)this.phi = new GateParameterItem(phi, phiL);
 
-        if(a !== null || b !== null){
+        if(a !== null || b !== null || aL !== null || bL !== null){
             this.phaseMode = false;
         }
         else{
@@ -159,10 +164,17 @@ export class Gate {
   export class GateParameterItem{
       value: number;
       link: number;
-      linkMode: boolean = false;
+      linkMode: boolean;
 
-      constructor(value: number){
+      constructor(value: number, link: number){
         this.value = value;
+        this.link = link;
+        if(this.value === null){
+            this.linkMode = true;
+        }
+        else{
+            this.linkMode = false;
+        }    
       }
   }
 
