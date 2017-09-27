@@ -65,6 +65,8 @@ export class GateCanvasComponent implements OnChanges  {
       for(let spotIdx = 0; spotIdx< this.bits[bitIdx].spots.length; spotIdx++){
         if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement()
         || this.bits[bitIdx].spots[spotIdx].gate.getLink() >= 0){
+          if(!this.bits[bitIdx].spots[spotIdx].gate.coupled)
+            this.bits[bitIdx].spots[spotIdx].gate.line = "bottom";
           for(let i = bitIdx+1; i< this.bits.length; i++){
             this.bits[i].spots[spotIdx].gate = new Gate();
             this.bits[i].spots[spotIdx].gate.bitIdx = i;

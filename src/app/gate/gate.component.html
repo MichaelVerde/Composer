@@ -44,11 +44,20 @@
                 </div>
             </div>
             <div class="row" *ngFor="let parameter of gate.parameters">
-                <div class="settings-cell name col-md-6">
-                    {{parameter.name}}:
+                <div class="settings-cell name col-md-4">  
+                    {{parameter.name}}: &nbsp;
+                </div>  
+                <div class="settings-cell name col-md-1"> 
+                    <div class="btn-group" data-toggle="buttons" *ngIf="(parameter.a && parameter.b) || (parameter.r && parameter.phi)">   
+                        <label class="btn-sm btn-primary" ngbButtonLabel >
+                            <input type="checkbox" ngbButton (click)="togglePhase(parameter)">
+                            <span *ngIf="!parameter.phaseMode" aria-hidden="true">(a,b)</span>
+                            <span *ngIf="parameter.phaseMode" aria-hidden="true">(r,φ)</span>                      
+                        </label> 
+                    </div>  
                 </div>
-                <div class="settings-cell col-md-6" *ngIf="!parameter.phaseMode">
-                    <div *ngIf="parameter.a !== undefined" class="btn-group" data-toggle="buttons">
+                <div class="settings-cell col-md-7" *ngIf="!parameter.phaseMode">
+                    <div *ngIf="parameter.a" class="btn-group" data-toggle="buttons">
                         <label class="btn-sm btn-primary" ngbButtonLabel>
                             <input type="checkbox" ngbButton (click)="toggleLink(parameter.a)">
                             <i *ngIf="parameter.a.linkMode" class="fa fa-link" aria-hidden="true"></i>
@@ -59,8 +68,8 @@
                             <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                         </select>
                     </div>                                  
-                    <span *ngIf="parameter.a !== undefined && parameter.b !== undefined"> + </span>
-                    <span *ngIf="parameter.b !== undefined">ⅈ 
+                    <span *ngIf="parameter.a && parameter.b"> + </span>
+                    <span *ngIf="parameter.b">ⅈ 
                         <div class="btn-group" data-toggle="buttons">
                             <label class="btn-sm btn-primary" ngbButtonLabel>
                                 <input type="checkbox" ngbButton (click)="toggleLink(parameter.b)">
@@ -74,8 +83,8 @@
                         </div>
                     </span>     
                 </div>
-                <div class="settings-cell col-md-6" *ngIf="parameter.phaseMode">
-                    <div *ngIf="parameter.r !== undefined" class="btn-group" data-toggle="buttons">
+                <div class="settings-cell col-md-7" *ngIf="parameter.phaseMode">
+                    <div *ngIf="parameter.r" class="btn-group" data-toggle="buttons">
                         <label class="btn-sm btn-primary" ngbButtonLabel>
                             <input type="checkbox" ngbButton (click)="toggleLink(parameter.r)">
                             <i *ngIf="parameter.r.linkMode" class="fa fa-link" aria-hidden="true"></i>
@@ -86,9 +95,10 @@
                             <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                         </select>
                     </div>
-                    <span *ngIf="parameter.r !== undefined && parameter.phi !== undefined"> • </span>
-                    <span *ngIf="parameter.phi !== undefined">
-                        e<span class="superscript">ⅈ2π • </span>
+                    <span *ngIf="parameter.r && parameter.phi"> • </span>
+                    <span *ngIf="parameter.phi">
+                        <span *ngIf="parameter.phi && parameter.r">e<span class="superscript">ⅈ2π • </span></span>
+                        <span *ngIf="parameter.phi && !parameter.r">2π • </span>
                         <div class="btn-group" data-toggle="buttons">
                             <label class="btn-sm btn-primary" ngbButtonLabel>
                                 <input type="checkbox" ngbButton (click)="toggleLink(parameter.phi)">
@@ -106,48 +116,54 @@
         </div>
         <div class="container" *ngIf="gate.isMeasurement()">
             <div class="row">
-                <div class="settings-cell name col-md-6 label">
+                <div class="settings-cell name col-md-4 label">
                     Classical Bit:
                 </div>
-                <div class="settings-cell col-md-6">
+                <div class="settings-cell col-md-8">
                     <select [(ngModel)]="gate.measurementBit" style="width: 50px;">
                         <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                     </select>
                 </div>
             </div>
             <div class="row">
-                <div class="settings-cell name col-md-6 label">
-                    Quadratures:
+                <div class="settings-cell name col-md-4 label">
+                    Type:
                 </div>
-                <div class="settings-cell col-md-6">
+                <div class="settings-cell col-md-8">
                     <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="gate.measurementType">
                         <label ngbButtonLabel class="btn-primary">
-                          <input ngbButton type="radio" [value]="1"> X
+                            <input ngbButton type="radio" [value]="0"> Quadrature
                         </label>
                         <label ngbButtonLabel class="btn-primary">
-                          <input ngbButton type="radio" value="2"> P
+                            <input ngbButton type="radio" [value]="1"> Photon Number
+                        </label>
+                        <label ngbButtonLabel class="btn-primary">
+                            <input ngbButton type="radio" [value]="2"> Fock
                         </label>
                     </div>     
                 </div>
             </div>
-            <div class="row">
-                <div class="settings-cell name col-md-6 label">
-                    Photon Number:
+            <div class="row" *ngIf="gate.measurementType === 0"> 
+                <div class="settings-cell name col-md-4 label">
+                    Quadrature:
                 </div>
-                <div class="settings-cell col-md-6">
-                    <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="gate.measurementType">
+                <div class="settings-cell col-md-8">
+                    <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="gate.measurementQuad">
                         <label ngbButtonLabel class="btn-primary">
-                          <input ngbButton type="radio" [value]="3"> #
+                          <input ngbButton type="radio" [value]="0"> X
+                        </label>
+                        <label ngbButtonLabel class="btn-primary">
+                            <input ngbButton type="radio" [value]="1"> P
                         </label>
                     </div> 
                 </div>
             </div>
-            <div class="row">
-                <div class="settings-cell name col-md-6 label">
-                    Integer:
+            <div class="row" *ngIf="gate.measurementType === 2">
+                <div class="settings-cell name col-md-4 label">
+                    Fock State:
                 </div>
-                <div class="settings-cell col-md-6">
-                    <input type="number" [(ngModel)]="gate.measurementInt"  (ngModelChange)="measurementIntChange($event)" style="width: 50px; text-align: center;" min="0" step="1"/>     
+                <div class="settings-cell col-md-8">
+                    <input type="number" [(ngModel)]="gate.measurementInt" style="width: 50px; text-align: center;" min="0" step="1"/>     
                 </div>
             </div>
         </div>

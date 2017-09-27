@@ -70,6 +70,11 @@
     left: -14px;
 }
 
+.connector.bottom .gate.double{
+    top: -46px;
+    left: -14px;
+}
+
 .connector.both .gate.couple{
     top: 14px;
     left: -4px;
@@ -110,7 +115,7 @@
 .connector.bottom{
     width: 4px;
     top: 0px;
-    height: 20px;
+    height: 22px;
 }
 
 

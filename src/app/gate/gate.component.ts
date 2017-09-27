@@ -74,10 +74,6 @@ export class GateComponent implements OnChanges {
     return (this.gate.bitIdx >=0  && this.gate.spotIdx >= 0 && this.gate.typeId !== 0);
   }
 
-  measurementIntChange($event: any){
-    this.gate.measurementType = 4;
-  }
-
   toggleLink(parameter: GateParameterItem){
     if(parameter.linkMode){
       parameter.value = 0;
@@ -88,6 +84,23 @@ export class GateComponent implements OnChanges {
       parameter.value = null;
       parameter.link = 1;
       parameter.linkMode = true;
+    }
+  }
+
+  togglePhase(parameter: GateParameter){
+    if(parameter.phaseMode){
+      parameter.phaseMode = false;
+      parameter.r = undefined;
+      parameter.phi = undefined;
+      parameter.a = new GateParameterItem(0,null);
+      parameter.b = new GateParameterItem(0,null);
+    }
+    else{
+      parameter.phaseMode = true;
+      parameter.a = undefined;
+      parameter.b = undefined;
+      parameter.r = new GateParameterItem(0,null);
+      parameter.phi = new GateParameterItem(0,null);
     }
   }
 
