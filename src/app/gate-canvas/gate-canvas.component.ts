@@ -261,10 +261,10 @@ export class GateCanvasComponent implements OnChanges  {
         }
         if(gate.parameters[i].phi){
           if(gate.parameters[i].phi.linkMode){
-            paramstring += " phi <- " + (gate.parameters[i].phi.link +1).toString();
+            paramstring += " φ <- " + (gate.parameters[i].phi.link +1).toString();
           }
           else{
-            paramstring += " phi: " + gate.parameters[i].phi.value.toString();
+            paramstring += " φ: " + gate.parameters[i].phi.value.toString();
           }
         }
       }

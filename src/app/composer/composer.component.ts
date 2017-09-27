@@ -46,4 +46,13 @@ export class ComposerComponent implements OnInit {
     this.savesService.refreshSave(); 
   }
 
+  downloadJSON(){
+    var myjson = JSON.stringify(this.savesService.saves[this.savesService.currentSave]);
+    console.log(myjson);
+    var x = window.open();
+    x.document.open();
+    x.document.write('<html><body><pre>' + myjson + '</pre></body></html>');
+    x.document.close();
+  }
+
 }
