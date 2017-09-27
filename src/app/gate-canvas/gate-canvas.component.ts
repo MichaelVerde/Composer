@@ -20,6 +20,7 @@ export class GateCanvasComponent implements OnChanges  {
   numCBits: number;
   numQBits: number;
   canvasLength: number;
+  gateInfo: string[];
 
   constructor(public savesService: SavesService) { 
     polyfill({});
@@ -218,6 +219,61 @@ export class GateCanvasComponent implements OnChanges  {
     else {
       return "";
     }
+  }
+
+  showGateInfo($event: any, gate: Gate){
+    this.gateInfo = [];
+    for(let i = 0; i < gate.parameters.length; i++){
+      let paramstring = "";
+      paramstring += gate.parameters[i].name + "=";
+      if(!gate.parameters[i].phaseMode){
+        if(gate.parameters[i].a){
+          if(gate.parameters[i].a.linkMode){
+            paramstring += " a <- " + (gate.parameters[i].a.link + 1).toString();
+          }
+          else{
+            paramstring += " a: " + gate.parameters[i].a.value.toString();
+          }
+        }
+        if(gate.parameters[i].b && gate.parameters[i].a){
+          paramstring += ",";
+        }
+        if(gate.parameters[i].b){
+          if(gate.parameters[i].b.linkMode){
+            paramstring += " b <- " + (gate.parameters[i].b.link + 1).toString();
+          }
+          else{
+            paramstring += " b: " + gate.parameters[i].b.value.toString();
+          }
+        }
+      }
+      else if(gate.parameters[i].phaseMode){
+        if(gate.parameters[i].r){
+          if(gate.parameters[i].r.linkMode){
+            paramstring += " r <- " + (gate.parameters[i].r.link + 1).toString();
+          }
+          else{
+            paramstring += " r: " + gate.parameters[i].r.value.toString();
+          }
+        }
+        if(gate.parameters[i].r && gate.parameters[i].phi){
+          paramstring += ",";
+        }
+        if(gate.parameters[i].phi){
+          if(gate.parameters[i].phi.linkMode){
+            paramstring += " phi <- " + (gate.parameters[i].phi.link +1).toString();
+          }
+          else{
+            paramstring += " phi: " + gate.parameters[i].phi.value.toString();
+          }
+        }
+      }
+      this.gateInfo.push(paramstring);
+    }
+  }
+
+  hideGateInfo($event: any){
+    this.gateInfo = [];
   }
 
   setDragging($event: any, gate: Gate){
