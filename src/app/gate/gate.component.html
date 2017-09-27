@@ -19,20 +19,24 @@
     <div class="modal-body">
         <div class="container" *ngIf="!gate.isMeasurement()">
             <div class="row" *ngIf="gate.coupled">
-                <div class="settings-cell name col-md-6 ">
-                    Coupling:
+                <div class="settings-cell name col-md-4">
+                    Control:
                 </div>
-                <div class="settings-cell col-md-6">
+                <div class="settings-cell col-md-1"> 
+                </div>  
+                <div class="settings-cell col-md-7">
                     <select [(ngModel)]="gate.couplingIdx" (ngModelChange)="couplingChanged($event)" style="width: 50px;">
                         <option *ngFor="let c of allowedCouples" [ngValue]="c">{{c + 1}}</option>
                     </select>   
                 </div>
             </div>
             <div class="row">
-                <div class="settings-cell name col-md-6 ">
+                <div class="settings-cell name col-md-4">
                     Conjugate:
                 </div>
-                <div class="settings-cell col-md-6">
+                <div class="settings-cell col-md-1"> 
+                </div>  
+                <div class="settings-cell col-md-7">
                     <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="gate.conjugate">
                         <label ngbButtonLabel class="btn-primary">
                             <input ngbButton type="radio" [value]="false"> {{gate.typeName}}
