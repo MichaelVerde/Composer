@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3 tab-box">        
-            <ngb-tabset [justify]="fill" type="pills">
+            <ngb-tabset [justify]="'fill'" type="pills">
                 <ngb-tab title="Gates">
                     <ng-template ngbTabContent>
                         <gate-toolbox (draggingData)="setDragging($event)"></gate-toolbox>
