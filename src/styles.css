@@ -28,19 +28,8 @@ input[type="text"]{
 
 .tab-pane{
   margin:5px 0px;
-  border: 1px solid #aaa;
-  border-radius: 5px;
   padding: 5px;
   min-height: 400px;
-}
-
-.nav-pills{
-  border-radius: 5px;
-  height: 46px;
-}
-.nav-link{
-  height: 46px;
-  line-height: 28px;
 }
 
 .modal-body{

@@ -5,6 +5,11 @@ gate-canvas{
 }
 .tab-box{
     margin: 15px 0px 15px 0px;
+    padding: 10px;
+    border: 1px solid #aaa;
+    background-color: white;
+    border-radius: 5px;
+    text-align: left;
 }
 
 .settings-cell{
@@ -21,4 +26,7 @@ gate-canvas{
     background-color: white;
     border-radius: 5px;
     text-align: left;
+}
+.spacer{
+    margin: 15px 0px 15px 0px;
 }

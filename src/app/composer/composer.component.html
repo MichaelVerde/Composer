@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3 tab-box">        
-            <ngb-tabset [justify]="'fill'" type="pills">
+            <ngb-tabset>
                 <ngb-tab title="Gates">
                     <ng-template ngbTabContent>
                         <gate-toolbox (draggingData)="setDragging($event)"></gate-toolbox>
@@ -55,12 +55,13 @@
             </ngb-tabset>	          
         </div>
         <div class="col-md-9">
-            <div class="row">
-                <div class="runner col-md-12">Simulate</div>
-            </div>
+            <div class="row spacer">
+            </div>  
             <gate-canvas [dragData]="dragData" (draggingData)="setDragging($event)"></gate-canvas>
             <div class="row">
-                <div class="runner col-md-12">Outputs</div>
+                <div class="runner col-md-12">
+                    <outputs></outputs>
+                </div>
             </div>
         </div>
     </div>

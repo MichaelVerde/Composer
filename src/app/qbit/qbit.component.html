@@ -30,35 +30,35 @@
                 </div>
             </div>
             <div class="row" *ngIf="qbit.mode === 1 || qbit.mode === 2">
-                <div class="settings-cell name col-md-6">
+                <div class="settings-cell name col-md-4">
                     α:
                 </div>
-                <div class="settings-cell col-md-6" >
+                <div class="settings-cell col-md-8" >
                     <input type="number" [(ngModel)]="qbit.a" style="width: 50px;" step="0.01"/>
-                     + ⅈ • <input type="number" [(ngModel)]="qbit.b" style="width: 50px;" step="0.01"/>  
+                     + ⅈ <input type="number" [(ngModel)]="qbit.b" style="width: 50px;" step="0.01"/>  
                 </div>
             </div>
             <div class="row" *ngIf="qbit.mode === 2">
-                <div class="settings-cell name col-md-6">
+                <div class="settings-cell name col-md-4">
                     ℝ:
                 </div>
-                <div class="settings-cell col-md-6" >
+                <div class="settings-cell col-md-8" >
                     <input type="number" [(ngModel)]="qbit.r" style="width: 50px;" step="0.01"/> 
                 </div>
             </div>
             <div class="row" *ngIf="qbit.mode === 2">
-                <div class="settings-cell name col-md-6">
+                <div class="settings-cell name col-md-4">
                     φ:
                 </div>
-                <div class="settings-cell col-md-6" >
-                    <input type="number" [(ngModel)]="qbit.phi" style="width: 50px;" step="0.01" min="0" max="1"/> • 2π
+                <div class="settings-cell col-md-8" >
+                    2π • <input type="number" [(ngModel)]="qbit.phi" style="width: 50px;" step="0.01" min="0" max="1"/>
                 </div>
             </div>
             <div class="row" *ngIf="qbit.mode === 3">
-                <div class="settings-cell name col-md-6">
+                <div class="settings-cell name col-md-4">
                     n:
                 </div>
-                <div class="settings-cell col-md-6" >
+                <div class="settings-cell col-md-8" >
                     <input type="number" [(ngModel)]="qbit.n" style="width: 50px;" step="1" min="0"/> 
                 </div>
             </div>

@@ -99,17 +99,16 @@
                             <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                         </select>
                     </div>
-                    <span *ngIf="parameter.r && parameter.phi"> • </span>
+                    <span *ngIf="parameter.r && parameter.phi"> • e<span class="superscript">ⅈ2π • </span></span>
+                    <span *ngIf="!parameter.r">2π • </span>
                     <span *ngIf="parameter.phi">
-                        <span *ngIf="parameter.phi && parameter.r">e<span class="superscript">ⅈ2π • </span></span>
-                        <span *ngIf="parameter.phi && !parameter.r">2π • </span>
                         <div class="btn-group" data-toggle="buttons">
                             <label class="btn-sm btn-primary" ngbButtonLabel>
                                 <input type="checkbox" ngbButton (click)="toggleLink(parameter.phi)">
                                 <i *ngIf="parameter.phi.linkMode" class="fa fa-link" aria-hidden="true"></i>
                                 <i *ngIf="!parameter.phi.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
                             </label>
-                            <input *ngIf="!parameter.phi.linkMode" type="number" [(ngModel)]="parameter.phi.value" style="width: 50px;" step="0.01" min="0" max="1"/>
+                            <input *ngIf="!parameter.phi.linkMode" type="number" [(ngModel)]="parameter.phi.value" style="width: 50px; text-align: center;" step="0.01" min="0" max="1"/>
                             <select *ngIf="parameter.phi.linkMode" [(ngModel)]="parameter.phi.link" style="width: 50px;">
                                 <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                             </select>

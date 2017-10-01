@@ -1,0 +1,37 @@
+<ngb-tabset>
+    <ngb-tab title="{{output.typeName}}" *ngFor="let output of outputs">
+        <ng-template ngbTabContent>
+            <ngx-charts-bar-vertical 
+            *ngIf="output.chartType === 'vbar'"
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="output.chartData"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>
+            <ngx-charts-line-chart
+            *ngIf="output.chartType === 'line'"
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="output.chartData"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [autoScale]="autoScale"
+            (select)="onSelect($event)">
+          </ngx-charts-line-chart>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>

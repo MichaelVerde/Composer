@@ -13,9 +13,12 @@ import { GateComponent } from './gate/gate.component';
 import { GateService } from './gate/gate.service';
 import { SavesService } from './saves/saves.service';
 import { SavesComponent } from './saves/saves.component';
-import { SelectModule } from 'ng2-select';
 import { HttpModule } from '@angular/http';
 import { QbitComponent } from './qbit/qbit.component';
+import { OutputsComponent } from './outputs/outputs.component';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -25,10 +28,13 @@ import { QbitComponent } from './qbit/qbit.component';
     GateCanvasComponent,
     GateComponent,
     SavesComponent,
-    QbitComponent
+    QbitComponent,
+    OutputsComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule, 
+    NgxChartsModule,
     FormsModule,
     DndModule.forRoot(),
     NgbModule.forRoot(),
