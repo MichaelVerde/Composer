@@ -45,11 +45,14 @@ export class OutputsComponent {
   }
   
   addOutput(){
-    this.outputs.push(this.outputsList[this.outputToAdd]);
-    this.outputsList.splice(this.outputToAdd,1);
-    let id = 'tab' + (this.outputs.length -1).toString();
-    if(this.t){
-      this.t.activeId = id;
+    if(this.outputToAdd >= 0){
+      this.outputs.push(this.outputsList[this.outputToAdd]);
+      this.outputsList.splice(this.outputToAdd,1);
+      let id = 'tab' + (this.outputs.length -1).toString();
+      if(this.t){
+        this.t.activeId = id;
+      }
+      this.outputToAdd = 0;
     }
   }
 
