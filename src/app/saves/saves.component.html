@@ -31,8 +31,12 @@
     <div class="save-cell name col-md-7">
       <input type="text" [(ngModel)]="saveName"/> 
     </div>
-    <div class="save-cell date col-md-3">    
-      <button type="button" class="btn-xs" (click)="createSave()">Add</button>
+    <div class="save-cell date col-md-3"> 
+      <div class="btn-group">
+          <label class="btn-sm btn-primary" ngbButtonLabel (click)="createSave()">
+              Add
+          </label>
+      </div>   
     </div>
   </div>
 </div>

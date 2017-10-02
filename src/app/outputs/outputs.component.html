@@ -1,37 +1,85 @@
-<ngb-tabset>
-    <ngb-tab title="{{output.typeName}}" *ngFor="let output of outputs">
+<div>
+  <div class="row labels">
+    <div class="col-md-2">
+      Type of Simulation
+    </div>
+    <div class="col-md-2">
+      Number of Shots 
+    </div>
+    <div class="col-md-2">
+        Outputs
+    </div>
+    <div class="col-md-6"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <select [(ngModel)]="backendType" style="width: 125px; height: 31px;">
+          <option *ngFor="let backend of backendList" [ngValue]="backend">{{backend}}</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <input type="number" [(ngModel)]="numShots" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
+    </div>
+    <div class="col-md-2">
+      <div class="btn-group">
+          <label class="btn-sm btn-primary" ngbButtonLabel (click)="addOutput()">
+              <i  class="fa fa-plus" aria-hidden="true"></i>
+          </label>
+          <select [(ngModel)]="outputToAdd" style="width: 150px; text-align: center;">
+              <option *ngFor="let output of outputsList; let i = index" [ngValue]="i">{{output.typeName}}</option>
+              <option *ngIf="outputsList.length === 0" [ngValue]="-1">all options added</option>
+          </select>
+      </div>
+    </div>
+    <div class="col-md-5"></div>
+    <div class="col-md-1">
+      <div class="btn-group">
+          <label class="btn-sm btn-primary" ngbButtonLabel (click)="runSimulation()">
+              Go
+          </label>
+      </div>
+    </div>
+  </div>
+</div>
+<hr *ngIf="outputs.length > 0">
+<ngb-tabset #t="ngbTabset" *ngIf="outputs.length > 0">
+    <ngb-tab id="tab{{i}}" *ngFor="let output of outputs; let i = index">    
+        <ng-template ngbTabTitle>
+          {{output.typeName}}
+          <span aria-hidden="true" (click)="rmOutput(i, $event)">&times;</span>
+        </ng-template>
         <ng-template ngbTabContent>
+          <div class="chart-area">
             <ngx-charts-bar-vertical 
-            *ngIf="output.chartType === 'vbar'"
+            *ngIf="output.chart.type === 'vbar'"
             [view]="view"
             [scheme]="colorScheme"
-            [results]="output.chartData"
+            [results]="output.chart.data"
             [gradient]="gradient"
-            [xAxis]="showXAxis"
-            [yAxis]="showYAxis"
-            [legend]="showLegend"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="showYAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yAxisLabel]="yAxisLabel"
-            (select)="onSelect($event)">
+            [xAxis]="output.chart.showXAxis"
+            [yAxis]="output.chart.showYAxis"
+            [legend]="output.chart.showLegend"
+            [showXAxisLabel]="output.chart.showXAxisLabel"
+            [showYAxisLabel]="output.chart.showYAxisLabel"
+            [xAxisLabel]="output.chart.xAxisLabel"
+            [yAxisLabel]="output.chart.yAxisLabel">
             </ngx-charts-bar-vertical>
             <ngx-charts-line-chart
-            *ngIf="output.chartType === 'line'"
+            *ngIf="output.chart.type === 'line'"
             [view]="view"
             [scheme]="colorScheme"
-            [results]="output.chartData"
+            [results]="output.chart.data"
             [gradient]="gradient"
-            [xAxis]="showXAxis"
-            [yAxis]="showYAxis"
-            [legend]="showLegend"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="showYAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yAxisLabel]="yAxisLabel"
-            [autoScale]="autoScale"
-            (select)="onSelect($event)">
-          </ngx-charts-line-chart>
+            [xAxis]="output.chart.showXAxis"
+            [yAxis]="output.chart.showYAxis"
+            [legend]="output.chart.showLegend"
+            [showXAxisLabel]="output.chart.showXAxisLabel"
+            [showYAxisLabel]="output.chart.showYAxisLabel"
+            [xAxisLabel]="output.chart.xAxisLabel"
+            [yAxisLabel]="output.chart.yAxisLabel"
+            [autoScale]="autoScale">
+            </ngx-charts-line-chart>
+          </div>
         </ng-template>
     </ngb-tab>
 </ngb-tabset>

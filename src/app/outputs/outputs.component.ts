@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Output } from './output'
+import { SavesService } from '../saves/saves.service';
+import { Save } from '../saves/save';
 
 @Component({
   selector: 'outputs',
@@ -8,35 +10,74 @@ import { Output } from './output'
 })
 export class OutputsComponent {
   outputs: Output[];
-  selectedOutput: number; 
-  view: any[] = [800, 400];
+  numShots: number;
+  backendType: string;
+  outputToAdd: number;
+  view: any[] = [800, 300];
 
-  // options
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Country';
-  showYAxisLabel = true;
-  yAxisLabel = 'Population';
-  
+  @ViewChild('t') public t;
+
+  backendList: string[] =[
+    "Simulate",
+    "Run"
+  ]
+
+  outputsList: Output[];
+
+
    // line, area
-   autoScale = true;
+   autoScale = false;
 
   colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#5AA454']
   };
 
-  constructor() {
+  constructor(public savesService: SavesService) {
+    this.outputsList = [];
+    this.outputsList.push(new Output(1, "Photon Numbers", savesService.numCBits));
+    this.outputsList.push(new Output(2, "Probabilities", savesService.numCBits));
+    this.outputsList.push(new Output(3, "Wigner Function", 4));
+    this.outputToAdd = 0;
+
     this.outputs = [];
-    this.outputs.push(new Output(1, "Photon Counts"));
-    this.outputs.push(new Output(2, "Probabilities"));
-    this.outputs.push(new Output(3, "Wigner Function"));
+    this.backendType = this.backendList[0];
+    this.numShots = 100;
   }
   
-  onSelect(event) {
-    console.log(event);
+  addOutput(){
+    this.outputs.push(this.outputsList[this.outputToAdd]);
+    this.outputsList.splice(this.outputToAdd,1);
+    let id = 'tab' + (this.outputs.length -1).toString();
+    if(this.t){
+      this.t.activeId = id;
+    }
   }
 
+  rmOutput(idx: number, $event: any){
+    $event.preventDefault();
+    this.outputsList.push(this.outputs[idx]);
+    this.outputs.splice(idx,1);
+    this.outputsList.sort((a,b) => {
+      return a.typeId - b.typeId;
+    })
+  }
+
+  runSimulation(){
+    let sim: Simulation = {
+      outputs: this.outputs,
+      numShots: this.numShots,
+      backendType: this.backendType,
+      save: this.savesService.saves[this.savesService.currentSave]
+    }
+    JSON.stringify(sim);
+  }
 }
+
+interface Simulation {
+  outputs: Output[];
+  numShots: number;
+  backendType: string;
+  save: Save;
+}
+
+
