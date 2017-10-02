@@ -45,7 +45,7 @@ export class OutputsComponent {
   }
   
   addOutput(){
-    if(this.outputToAdd >= 0){
+    if(this.outputsList.length > 0){
       this.outputs.push(this.outputsList[this.outputToAdd]);
       this.outputsList.splice(this.outputToAdd,1);
       let id = 'tab' + (this.outputs.length -1).toString();

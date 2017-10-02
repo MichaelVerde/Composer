@@ -27,7 +27,7 @@
           </label>
           <select [(ngModel)]="outputToAdd" style="width: 150px; text-align: center;">
               <option *ngFor="let output of outputsList; let i = index" [ngValue]="i">{{output.typeName}}</option>
-              <option *ngIf="outputsList.length === 0" [ngValue]="-1">all options added</option>
+              <option *ngIf="outputsList.length === 0">all options added</option>
           </select>
       </div>
     </div>
