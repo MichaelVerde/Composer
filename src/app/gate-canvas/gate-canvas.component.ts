@@ -40,6 +40,7 @@ export class GateCanvasComponent implements OnChanges  {
         this.numQBits = this.savesService.saves[value].numQBits; 
         this.canvasLength = this.savesService.saves[value].canvasLength; 
         this.initialized = true;
+        this.recalcAllGateIdx();
       });
     }
     else{
