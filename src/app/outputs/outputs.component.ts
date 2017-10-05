@@ -76,15 +76,11 @@ export class OutputsComponent {
         backendType: this.backendType,
         save: this.savesService.saves[this.savesService.currentSave]
       }
-      this.savesService.runSimulation(sim).subscribe(this.extractData);
-    }
-  }
-
-  extractData(res: any) {
-    let body = res;
-    this.outputs = [];
-    for(let i = 0; i<body.length; i++){
-      this.outputs.push(body[i]);
+      this.savesService.runSimulation(sim).subscribe(
+        outputs => {
+          this.outputs = outputs;
+          console.log( this.outputs );
+        });
     }
   }
 }
