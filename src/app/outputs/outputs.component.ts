@@ -78,8 +78,8 @@ export class OutputsComponent {
   }
 
   extractData(res: any) {
-    let body = res.json();
-    this.showThisStuff = body.data || "";
+    let body = res._body;
+    this.showThisStuff = body || "";
   }
 }
 
