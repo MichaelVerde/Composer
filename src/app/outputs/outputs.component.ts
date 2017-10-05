@@ -79,7 +79,7 @@ export class OutputsComponent {
   }
 
   extractData(res: any) {
-    let body: Output[] = res._body;
+    let body = res;
     this.outputs = body;
   }
 }
