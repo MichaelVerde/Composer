@@ -32,7 +32,6 @@ export class GateCanvasComponent implements OnChanges  {
 
   setUpCanvas(){ 
     if(!this.initialized){
-      this.savesService.getSaves();
       this.savesService.currentSaveChange.subscribe((value) => { 
         this.bits = this.savesService.saves[value].bits; 
         this.cbit = this.savesService.saves[value].cbit; 
@@ -42,6 +41,7 @@ export class GateCanvasComponent implements OnChanges  {
         this.initialized = true;
         this.recalcAllGateIdx();
       });
+      this.savesService.getSaves();
     }
     else{
       this.recalcAllGateIdx();
@@ -148,7 +148,7 @@ export class GateCanvasComponent implements OnChanges  {
     && (bitIdx === this.numQBits -1 || !this.bits[bitIdx+1].spots[spotIdx].gate.double)
     && ((!dragData.isMeasurement() && this.spotLessThanMeasureGate(bitIdx, spotIdx)) 
       ||(dragData.isMeasurement() && !this.bitHasMeasureGate(bitIdx) && !this.spotHasLowerGate(bitIdx, spotIdx) && this.spotIsLastGate(bitIdx, spotIdx)))
-    && (!dragData.double || bitIdx !== 0); 
+    && (!dragData.double || (this.bits[bitIdx-1] && this.bits[bitIdx-1].spots[spotIdx].gate.typeId === 0)); 
   }
 
   bitHasMeasureGate(bitIdx: number){
@@ -295,6 +295,7 @@ export class GateCanvasComponent implements OnChanges  {
   save(){
     this.savesService.saves[this.savesService.currentSave].bits = this.bits;
     this.savesService.saves[this.savesService.currentSave].lastModified = new Date();
+    this.savesService.saveChanged();
   }
 }
 

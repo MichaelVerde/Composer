@@ -20,6 +20,11 @@ input[type="text"]{
   height: 31px;
 }
 
+.btn-disabled{
+  opacity: 0.4;
+}
+
+
 .superscript{
   font-size:60%;
   position: relative;

@@ -11,7 +11,7 @@ export class SavesService {
   public numQBits: number = 5;
   public numCBits: number = 5;
   public canvasLength: number = 40;
-  public saves: Save[] = [];
+  public saves: Save[];
   public currentSave: number;  
   savesChange: Subject<number> = new Subject<number>();
   currentSaveChange: Subject<number> = new Subject<number>();
@@ -19,12 +19,30 @@ export class SavesService {
   constructor(public http: Http) {}
 
   getSaves(){
-    this.getPresets().subscribe(presets => {
-      presets.forEach(save =>{
-        this.saves.push(Save.serialize(save));
-      });
-      this.newSave("New");
-    }, error => console.log(error));
+    this.saves = [];
+    if(localStorage['saves'] !== undefined){
+      try{
+        JSON.parse(localStorage['saves']).forEach(save =>{
+          this.saves.push(Save.serialize(save));
+        });
+        this.selectSave(this.saves.length-1);
+      }
+      catch (error){
+        delete localStorage['saves'];
+      }
+    }
+    if(this.saves.length === 0){
+      this.getPresets().subscribe(presets => {
+        presets.forEach(save =>{
+          this.saves.push(Save.serialize(save));
+        });
+        this.newSave("New");
+      }, error => console.log(error));
+    }
+  }
+
+  saveToLocalStorage(){
+    localStorage['saves'] = JSON.stringify(this.saves);
   }
 
   newSave(name: string){
@@ -45,8 +63,11 @@ export class SavesService {
   selectSave(currentSave: number){
     this.currentSave = currentSave;
     this.currentSaveChange.next(this.currentSave);
-    console.log(JSON.stringify(this.saves));
   } 
+
+  saveChanged(){
+    this.saveToLocalStorage();
+  }
 
   getPresets(): Observable<any> {
     return this.http.get("../assets/presets.json")

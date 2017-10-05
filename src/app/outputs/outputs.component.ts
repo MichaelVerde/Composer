@@ -39,10 +39,11 @@ export class OutputsComponent {
     this.outputsList.push(new Output(1, "Photon Numbers", savesService.numCBits));
     this.outputsList.push(new Output(2, "Probabilities", savesService.numCBits));
     this.outputsList.push(new Output(3, "Wigner Function", 4));
-    this.outputsList.push(new Output(4, "Code", 0));
+    
+    this.outputs = [];
+    this.outputs.push(new Output(4, "Code", 0));
     this.outputToAdd = 0;
 
-    this.outputs = [];
     this.backendType = this.backendList[0];
     this.numShots = 100;
   }
@@ -80,7 +81,11 @@ export class OutputsComponent {
         outputs => {
           this.outputs = outputs;
           console.log( this.outputs );
-        });
+        },
+        error => {
+          window.alert("Unable to connect to server to run simulation. " + error);
+        }
+      );
     }
   }
 }

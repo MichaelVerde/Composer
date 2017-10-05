@@ -34,7 +34,7 @@
     <div class="col-md-5"></div>
     <div class="col-md-1">
       <div class="btn-group">
-          <label class="btn-sm btn-primary" ngbButtonLabel (click)="runSimulation()">
+          <label class="btn-sm btn-primary" [ngClass]="{'btn-disabled': outputs.length === 0}" ngbButtonLabel (click)="runSimulation()">
               Go
           </label>
       </div>

@@ -35,4 +35,9 @@ export class SavesComponent implements OnInit {
     this.savesService.selectSave(currentSave);
   }
 
+  nameChanged($event: any){
+    this.savesService.saves = this.savesList;
+    this.savesService.saveChanged();
+  }
+
 }

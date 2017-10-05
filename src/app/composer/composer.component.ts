@@ -43,6 +43,7 @@ export class ComposerComponent implements OnInit {
     this.savesService.numQBits = this.numQBits;
     this.savesService.numCBits = this.numCBits;
     this.savesService.canvasLength = this.canvasLength;
+    this.savesService.saveChanged(); 
     this.savesService.refreshSave(); 
   }
 
