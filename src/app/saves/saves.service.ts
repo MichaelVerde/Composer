@@ -53,13 +53,7 @@ export class SavesService {
                     .map((res: Response) => res.json());
   }
 
-  runSimulation(sim: any){
-    this.http.post("localhost:5000/qcircuit.py", sim)
-                  .subscribe(this.extractData);
-  }
-
-  extractData(res: Response) {
-    let body = res.json();
-    return body.data || {};
+  runSimulation(sim: any): Observable<any>{
+    return this.http.post("localhost:5000/qcircuit.py", sim);
   }
 }

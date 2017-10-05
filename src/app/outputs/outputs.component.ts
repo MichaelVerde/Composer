@@ -13,6 +13,7 @@ export class OutputsComponent {
   numShots: number;
   backendType: string;
   outputToAdd: number;
+  showThisStuff: string = "";
   view: any[] = [800, 300];
 
   @ViewChild('t') public t;
@@ -73,7 +74,12 @@ export class OutputsComponent {
       backendType: this.backendType,
       save: this.savesService.saves[this.savesService.currentSave]
     }
-    this.savesService.runSimulation(sim);
+    this.savesService.runSimulation(sim).subscribe(this.extractData);
+  }
+
+  extractData(res: any) {
+    let body = res.json();
+    this.showThisStuff = body.data || "";
   }
 }
 
