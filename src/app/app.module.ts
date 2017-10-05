@@ -18,7 +18,8 @@ import { QbitComponent } from './qbit/qbit.component';
 import { OutputsComponent } from './outputs/outputs.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxChartsModule } from '@swimlane/ngx-charts'; 
+import { HighlightJsModule, HighlightJsService } from 'angular2-highlight-js';
 
 @NgModule({
   declarations: [
@@ -39,9 +40,10 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     DndModule.forRoot(),
     NgbModule.forRoot(),
     OrderModule,
-    HttpModule
+    HttpModule,
+    HighlightJsModule
   ],
-  providers: [GateService, SavesService],
+  providers: [GateService, SavesService, HighlightJsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

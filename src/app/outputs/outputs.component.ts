@@ -39,6 +39,7 @@ export class OutputsComponent {
     this.outputsList.push(new Output(1, "Photon Numbers", savesService.numCBits));
     this.outputsList.push(new Output(2, "Probabilities", savesService.numCBits));
     this.outputsList.push(new Output(3, "Wigner Function", 4));
+    this.outputsList.push(new Output(4, "Code", 0));
     this.outputToAdd = 0;
 
     this.outputs = [];
@@ -78,8 +79,8 @@ export class OutputsComponent {
   }
 
   extractData(res: any) {
-    let body = res._body;
-    this.showThisStuff = body || "";
+    let body: Output[] = res._body;
+    this.outputs = body;
   }
 }
 

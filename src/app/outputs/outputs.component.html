@@ -49,39 +49,44 @@
           <span aria-hidden="true" (click)="rmOutput(i, $event)">&times;</span>
         </ng-template>
         <ng-template ngbTabContent>
-          <div class="chart-area">
-            <ngx-charts-bar-vertical 
-            *ngIf="output.chart.type === 'vbar'"
-            [view]="view"
-            [scheme]="colorScheme"
-            [results]="output.chart.data"
-            [gradient]="gradient"
-            [xAxis]="output.chart.showXAxis"
-            [yAxis]="output.chart.showYAxis"
-            [legend]="output.chart.showLegend"
-            [showXAxisLabel]="output.chart.showXAxisLabel"
-            [showYAxisLabel]="output.chart.showYAxisLabel"
-            [xAxisLabel]="output.chart.xAxisLabel"
-            [yAxisLabel]="output.chart.yAxisLabel">
-            </ngx-charts-bar-vertical>
-            <ngx-charts-line-chart
-            *ngIf="output.chart.type === 'line'"
-            [view]="view"
-            [scheme]="colorScheme"
-            [results]="output.chart.data"
-            [gradient]="gradient"
-            [xAxis]="output.chart.showXAxis"
-            [yAxis]="output.chart.showYAxis"
-            [legend]="output.chart.showLegend"
-            [showXAxisLabel]="output.chart.showXAxisLabel"
-            [showYAxisLabel]="output.chart.showYAxisLabel"
-            [xAxisLabel]="output.chart.xAxisLabel"
-            [yAxisLabel]="output.chart.yAxisLabel"
-            [autoScale]="autoScale">
-            </ngx-charts-line-chart>
+          <div *ngIf="output.chart">
+            <div class="chart-area">
+              <ngx-charts-bar-vertical 
+              *ngIf="output.chart.type === 'vbar'"
+              [view]="view"
+              [scheme]="colorScheme"
+              [results]="output.chart.data"
+              [gradient]="gradient"
+              [xAxis]="output.chart.showXAxis"
+              [yAxis]="output.chart.showYAxis"
+              [legend]="output.chart.showLegend"
+              [showXAxisLabel]="output.chart.showXAxisLabel"
+              [showYAxisLabel]="output.chart.showYAxisLabel"
+              [xAxisLabel]="output.chart.xAxisLabel"
+              [yAxisLabel]="output.chart.yAxisLabel">
+              </ngx-charts-bar-vertical>
+              <ngx-charts-line-chart
+              *ngIf="output.chart.type === 'line'"
+              [view]="view"
+              [scheme]="colorScheme"
+              [results]="output.chart.data"
+              [gradient]="gradient"
+              [xAxis]="output.chart.showXAxis"
+              [yAxis]="output.chart.showYAxis"
+              [legend]="output.chart.showLegend"
+              [showXAxisLabel]="output.chart.showXAxisLabel"
+              [showYAxisLabel]="output.chart.showYAxisLabel"
+              [xAxisLabel]="output.chart.xAxisLabel"
+              [yAxisLabel]="output.chart.yAxisLabel"
+              [autoScale]="autoScale">
+              </ngx-charts-line-chart>
+            </div>
+          </div>
+          <div *ngIf="output.code" class="code-area" highlight-js-content="">
+              <code>
+                {{output.code}}
+              </code>
           </div>
         </ng-template>
     </ngb-tab>
 </ngb-tabset>
-
-{{showThisStuff}}

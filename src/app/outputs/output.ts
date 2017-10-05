@@ -2,6 +2,7 @@ export class Output {
     typeId: number;
     typeName: string;
     chart: Chart; 
+    code: string; 
 
 
     constructor(typeId: number, typeName: string, length: number){
@@ -22,6 +23,7 @@ export class Output {
         }
         
         if(typeId === 3){ 
+            this.code = null;
             this.chart.type = "line";
             this.chart.data = [{
                 "name": "Wigner Function",
@@ -30,17 +32,22 @@ export class Output {
             for(let i = -length; i < length; i+= 0.1){
                 this.chart.data[0].series.push({                    
                     "name": i,
-                    "value": this.gaussian(i)             
+                    "value": 0            
                 });
             }  
         }
+        else if (typeId === 4){
+            this.chart = null;
+            this.code = " ";
+        }
         else{
+            this.code = null;
             this.chart.type = "vbar";
             this.chart.data = [];
             for(let i = 0; i < length; i++){
                 this.chart.data.push({                    
                     "name": i+1,
-                    "value": i              
+                    "value": 0             
                 });
             }         
         }
