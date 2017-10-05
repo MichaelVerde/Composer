@@ -82,10 +82,10 @@
               </ngx-charts-line-chart>
             </div>
           </div>
-          <div *ngIf="output.code" class="code-area" highlight-js-content="">
-              <code>
+          <div *ngIf="output.code" class="code-area" highlight-js-content=".highlight">
+              <pre class="highlight python">
                 {{output.code}}
-              </code>
+              </pre>
           </div>
         </ng-template>
     </ngb-tab>
