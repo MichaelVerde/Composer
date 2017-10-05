@@ -49,14 +49,14 @@ export class Gate {
         if([2].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Displacement", 0, null, 0, null, null, null, null, null));
         }
-        if([3,4,5].indexOf(typeId) !== -1){
-            this.parameters.push(new GateParameter("Value", 0, null, null, null, null, null, null, null));
+        if([3,4,5,8, 10, 14].indexOf(typeId) !== -1){
+            this.parameters.push(new GateParameter("Parameter", 0, null, null, null, null, null, null, null));
         }
-        if([7,8,10,11,14].indexOf(typeId) !== -1){
+        if([7,11].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Phase", null, null, null, null, null, null, 0, null));
         }
         if([11].indexOf(typeId) !== -1){
-            this.parameters.push(new GateParameter("Transmittivity", 0, null, null, null, null, null, null, null));
+            this.parameters.push(new GateParameter("Transmittivity", null, null, null, null, null, null, 0, null));
         }
 
         //Set Up Coupling
