@@ -54,7 +54,7 @@ export class SavesService {
   }
 
   runSimulation(sim: any): Observable<any>{
-    return this.http.post("http://localhost:5000/qcircuit_run", sim)
+    return this.http.post("http://localhost:5000/qcircuit/run", sim)
                     .map((res: Response) => res.json());
   }
 }
