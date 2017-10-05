@@ -18,8 +18,9 @@ export class OutputsComponent {
   @ViewChild('t') public t;
 
   backendList: string[] =[
-    "Simulate",
-    "Run"
+    "NumPy",
+    "TensorFlow",
+    "Gaussian" 
   ]
 
   outputsList: Output[];
@@ -72,7 +73,7 @@ export class OutputsComponent {
       backendType: this.backendType,
       save: this.savesService.saves[this.savesService.currentSave]
     }
-    JSON.stringify(sim);
+    this.savesService.runSimulation(sim);
   }
 }
 

@@ -52,4 +52,9 @@ export class SavesService {
     return this.http.get("../assets/presets.json")
                     .map((res: Response) => res.json());
   }
+
+  runSimulation(sim: any): Observable<any> {
+    return this.http.post("localhost:5000/qcircuit.py", sim)
+                    .map((res: Response) => res.json());
+  }
 }

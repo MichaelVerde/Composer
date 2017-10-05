@@ -25,7 +25,7 @@ export class QbitComponent implements OnInit {
       return "α";
     }
     else if (this.qbit.mode === 2){
-      return "α, ℝ, φ";
+      return "α";
     }
     else if (this.qbit.mode === 3){
       return "n";
@@ -33,6 +33,10 @@ export class QbitComponent implements OnInit {
     else{
       return "0";
     }
+  }
+
+  togglePhase(){
+    this.qbit.phaseMode = !this.qbit.phaseMode;
   }
 
 }

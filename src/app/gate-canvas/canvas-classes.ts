@@ -8,6 +8,7 @@ export class QBit {
   r:number = 0;
   phi:number = 0;
   n:number = 0;
+  phaseMode: boolean = true;
 
   constructor(idx:number, length: number) { 
     for(let i = 0; i< length ; i++){
