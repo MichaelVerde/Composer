@@ -82,7 +82,10 @@ export class OutputsComponent {
 
   extractData(res: any) {
     let body = res;
-    this.outputs = body;
+    this.outputs = [];
+    for(let i = 0; i<body.length; i++){
+      this.outputs.push(body[i]);
+    }
   }
 }
 
