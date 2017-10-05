@@ -2,7 +2,7 @@ export class Output {
     typeId: number;
     typeName: string;
     chart: Chart; 
-    code: string; 
+    code: string[]; 
 
 
     constructor(typeId: number, typeName: string, length: number){
@@ -38,7 +38,7 @@ export class Output {
         }
         else if (typeId === 4){
             this.chart = null;
-            this.code = " ";
+            this.code = [" "];
         }
         else{
             this.code = null;

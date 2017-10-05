@@ -84,7 +84,7 @@
           </div>
           <div *ngIf="output.code" class="code-area" highlight-js-content="">
               <code>
-                {{output.code}}
+                <span *ngFor="let line of output.code">{{line}}<br/></span>
               </code>
           </div>
         </ng-template>
