@@ -69,13 +69,15 @@ export class OutputsComponent {
   }
 
   runSimulation(){
-    let sim: Simulation = {
-      outputs: this.outputs,
-      numShots: this.numShots,
-      backendType: this.backendType,
-      save: this.savesService.saves[this.savesService.currentSave]
+    if(this.outputs.length > 0){
+      let sim: Simulation = {
+        outputs: this.outputs,
+        numShots: this.numShots,
+        backendType: this.backendType,
+        save: this.savesService.saves[this.savesService.currentSave]
+      }
+      this.savesService.runSimulation(sim).subscribe(this.extractData);
     }
-    this.savesService.runSimulation(sim).subscribe(this.extractData);
   }
 
   extractData(res: any) {
