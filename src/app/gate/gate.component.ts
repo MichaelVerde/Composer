@@ -70,7 +70,7 @@ export class GateComponent implements OnChanges {
     }
     else{
       parameter.value = null;
-      parameter.link = 1;
+      parameter.link = 0;
       parameter.linkMode = true;
     }
   }

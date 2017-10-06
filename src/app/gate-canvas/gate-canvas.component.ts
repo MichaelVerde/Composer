@@ -243,7 +243,7 @@ export class GateCanvasComponent implements OnChanges  {
       if(!gate.parameters[i].phaseMode){
         if(gate.parameters[i].a){
           if(gate.parameters[i].a.linkMode){
-            paramstring += " a <- " + (gate.parameters[i].a.link + 1).toString();
+            paramstring += " a from Bit: " + (gate.parameters[i].a.link + 1).toString();
           }
           else{
             paramstring += " a: " + gate.parameters[i].a.value.toString();
@@ -254,7 +254,7 @@ export class GateCanvasComponent implements OnChanges  {
         }
         if(gate.parameters[i].b){
           if(gate.parameters[i].b.linkMode){
-            paramstring += " b <- " + (gate.parameters[i].b.link + 1).toString();
+            paramstring += " b from Bit: " + (gate.parameters[i].b.link + 1).toString();
           }
           else{
             paramstring += " b: " + gate.parameters[i].b.value.toString();
@@ -264,7 +264,7 @@ export class GateCanvasComponent implements OnChanges  {
       else if(gate.parameters[i].phaseMode){
         if(gate.parameters[i].r){
           if(gate.parameters[i].r.linkMode){
-            paramstring += " r <- " + (gate.parameters[i].r.link + 1).toString();
+            paramstring += " r from Bit: " + (gate.parameters[i].r.link + 1).toString();
           }
           else{
             paramstring += " r: " + gate.parameters[i].r.value.toString();
@@ -275,7 +275,7 @@ export class GateCanvasComponent implements OnChanges  {
         }
         if(gate.parameters[i].phi){
           if(gate.parameters[i].phi.linkMode){
-            paramstring += " φ <- " + (gate.parameters[i].phi.link +1).toString();
+            paramstring += " φ from Bit: " + (gate.parameters[i].phi.link +1).toString();
           }
           else{
             paramstring += " φ: " + gate.parameters[i].phi.value.toString();
@@ -283,6 +283,21 @@ export class GateCanvasComponent implements OnChanges  {
         }
       }
       this.gateInfo.push(paramstring);
+    }
+    if(gate.isMeasurement()){
+      if(gate.measurementType === 0 && gate.measurementQuad === 0){
+        this.gateInfo.push("Quadrature: X");
+      }
+      else if(gate.measurementType === 0 && gate.measurementQuad === 1){
+        this.gateInfo.push("Quadrature: P");
+      }
+      else if(gate.measurementType === 1){
+        this.gateInfo.push("Photon Number");
+      }
+      else if(gate.measurementType === 2){
+        this.gateInfo.push("Fock State: " + gate.measurementInt);
+      }
+      this.gateInfo.push("to Bit: " + (gate.measurementBit + 1).toString());
     }
   }
 
