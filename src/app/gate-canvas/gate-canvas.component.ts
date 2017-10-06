@@ -52,6 +52,7 @@ export class GateCanvasComponent implements OnChanges  {
     let newGate:Gate = $event.dragData;
     if(newGate){
       this.bits[bitIdx].spots[spotIdx].gate = newGate;
+      this.bits[bitIdx].spots[spotIdx].gate.couplingIdx = -1;
     }
     this.recalcAllGateIdx();
   }
@@ -145,10 +146,12 @@ export class GateCanvasComponent implements OnChanges  {
     return (dragData: any) => 
     this.bits[bitIdx].spots[spotIdx].gate.typeId === 0 
     && this.bits[bitIdx].spots[spotIdx].gate.connector === ""
+    && this.bits[bitIdx].spots[spotIdx].gate.line === ""
     && (bitIdx === this.numQBits -1 || !this.bits[bitIdx+1].spots[spotIdx].gate.double)
     && ((!dragData.isMeasurement() && this.spotLessThanMeasureGate(bitIdx, spotIdx)) 
       ||(dragData.isMeasurement() && !this.bitHasMeasureGate(bitIdx) && !this.spotHasLowerGate(bitIdx, spotIdx) && this.spotIsLastGate(bitIdx, spotIdx)))
-    && (!dragData.double || (this.bits[bitIdx-1] && this.bits[bitIdx-1].spots[spotIdx].gate.typeId === 0)); 
+    && (!dragData.double || (this.bits[bitIdx-1] && this.bits[bitIdx-1].spots[spotIdx].gate.typeId === 0))
+    && (!dragData.coupled || this.getAllowedCouples(this.bits[bitIdx].spots[spotIdx].gate).length > 0); 
   }
 
   bitHasMeasureGate(bitIdx: number){
@@ -273,6 +276,25 @@ export class GateCanvasComponent implements OnChanges  {
       }
       this.gateInfo.push(paramstring);
     }
+  }
+
+  getAllowedCouples(gate: Gate): number[]{
+    let allowedCouples = [];
+    for(let i =0; i< this.numQBits; i++){
+      let coupleSpot = this.bits[i].spots[gate.spotIdx];
+      if(i === gate.couplingIdx 
+        || (i != gate.bitIdx 
+        && coupleSpot
+        && coupleSpot.showBg
+        && coupleSpot.gate
+        && coupleSpot.gate.typeId === 0
+        && coupleSpot.gate.line === "")){
+        allowedCouples.push(i);
+      }
+    }
+    return allowedCouples.sort((a: number, b: number) => {
+      return Math.abs(a-gate.bitIdx) - Math.abs(b-gate.bitIdx);
+    });
   }
 
   hideGateInfo($event: any){

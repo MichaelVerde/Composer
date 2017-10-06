@@ -12,11 +12,11 @@ export class GateComponent implements OnChanges {
   @ViewChild('content') public content;
   @Input() numCBits: number;
   @Input() numQBits: number;
+  @Input() allowedCouples: number[] = [];
 
   @Output() onModalClose = new EventEmitter();  
 
   cbitList: number[] = [];
-  allowedCouples: number[] = [];
 
   constructor(public modalService: NgbModal) { }
 
@@ -38,19 +38,8 @@ export class GateComponent implements OnChanges {
 
     //set up options for coupling
     if(this.gate.coupled){
-      this.allowedCouples = [];
-      for(let i =0; i< this.numQBits; i++){
-        if(i != this.gate.bitIdx){
-          this.allowedCouples.push(i);
-        }
-      }
       if(this.allowedCouples.indexOf(this.gate.couplingIdx) === -1){
-        if(this.gate.bitIdx === 0){
-          this.gate.couplingIdx = this.gate.bitIdx + 1;
-        }
-        else{
-          this.gate.couplingIdx = this.gate.bitIdx - 1;
-        }
+        this.gate.couplingIdx = this.allowedCouples[0];
       }
     }
   }

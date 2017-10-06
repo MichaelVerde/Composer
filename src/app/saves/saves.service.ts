@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 export class SavesService {
   public numQBits: number = 5;
   public numCBits: number = 5;
-  public canvasLength: number = 40;
+  public canvasLength: number = 20;
   public saves: Save[];
   public currentSave: number;  
   savesChange: Subject<number> = new Subject<number>();

@@ -14,7 +14,7 @@
                     <div class="bit-drop-area" dnd-droppable [allowDrop]="allowDropFunction(spot.bitIdx, spot.spotIdx)" (onDropSuccess)="setNewGate($event, spot.bitIdx, spot.spotIdx)" (onDragEnter)="preventDefault($event)" (onDragOver)="preventDefault($event)" (onDragLeave)="preventDefault($event)">
                         <div class="bit-background" [ngClass]="{'clear' : !spot.showBg}">
                             <div [ngClass]="getDraggingClass(spot.bitIdx, spot.spotIdx)">
-                                <gate [gate]="spot.gate" [numCBits]="numCBits" [numQBits]="numQBits" (mouseover)="showGateInfo($event, spot.gate)" (mouseleave)="hideGateInfo($event)" (onModalClose)="recalcAllGateIdx($event)"></gate>
+                                <gate [gate]="spot.gate" [numCBits]="numCBits" [numQBits]="numQBits" [allowedCouples]="getAllowedCouples(spot.gate)" (mouseover)="showGateInfo($event, spot.gate)" (mouseleave)="hideGateInfo($event)" (onModalClose)="recalcAllGateIdx($event)"></gate>
                             </div>
                         </div>
                         <span *ngIf="showIdx"> {{spot.gate.bitIdx}},{{spot.gate.spotIdx}}</span>
