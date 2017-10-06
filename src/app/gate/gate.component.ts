@@ -12,7 +12,7 @@ export class GateComponent implements OnChanges {
   @ViewChild('content') public content;
   @Input() numCBits: number;
   @Input() numQBits: number;
-  @Input() allowedCouples: number[] = [];
+  @Input() allowedCouples: number[];
 
   @Output() onModalClose = new EventEmitter();  
 
@@ -29,7 +29,6 @@ export class GateComponent implements OnChanges {
           this.open();
         }, 0);
     }
-
     //set up options for measurement
     this.cbitList = [];
     for(let i = 0; i < this.numCBits; i++){
@@ -37,7 +36,7 @@ export class GateComponent implements OnChanges {
     }
 
     //set up options for coupling
-    if(this.gate.coupled){
+    if(this.gate.coupled && this.allowedCouples){
       if(this.allowedCouples.indexOf(this.gate.couplingIdx) === -1){
         this.gate.couplingIdx = this.allowedCouples[0];
       }
@@ -51,7 +50,7 @@ export class GateComponent implements OnChanges {
         this.onModalClose.emit();
       }, (reason) => {
         this.onModalClose.emit();
-      });;       
+      });       
     }
   }
 
