@@ -49,7 +49,7 @@ export class Gate {
         if([2].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Displacement", 0, null, 0, null, null, null, null, null));
         }
-        if([3,4,5,8, 10, 14].indexOf(typeId) !== -1){
+        if([3,4,5,8, 10, 13].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Parameter", 0, null, null, null, null, null, null, null));
         }
         if([7,11].indexOf(typeId) !== -1){
@@ -89,6 +89,23 @@ export class Gate {
             }
         }
         return -1;
+    }
+
+    resetLinks(numBits: number){
+        for(let i = 0; i<this.parameters.length; i++){
+            if(this.parameters[i].phaseMode){
+                if (this.parameters[i].r !== undefined && this.parameters[i].r.linkMode && this.parameters[i].r.link >= numBits)
+                    this.parameters[i].r.link = numBits;
+                else if (this.parameters[i].phi !== undefined && this.parameters[i].phi.linkMode && this.parameters[i].phi.link >= numBits)
+                    this.parameters[i].phi.link = numBits;
+            }
+            else if (!this.parameters[i].phaseMode){
+                if (this.parameters[i].a !== undefined && this.parameters[i].a.linkMode && this.parameters[i].a.link >= numBits)
+                    this.parameters[i].a.link = numBits;
+                else if (this.parameters[i].b !== undefined && this.parameters[i].b.linkMode && this.parameters[i].b.link >= numBits)
+                    this.parameters[i].b.link = numBits;
+            }
+        }
     }
 
     isCouple():boolean{

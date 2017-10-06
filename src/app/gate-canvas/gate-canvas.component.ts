@@ -193,19 +193,27 @@ export class GateCanvasComponent implements OnChanges  {
   recalcAllGateIdx(){
     for(let bitIdx = 0; bitIdx< this.bits.length; bitIdx++){
       for(let spotIdx = 0; spotIdx< this.bits[bitIdx].spots.length; spotIdx++){
-        if(this.bits[bitIdx].spots[spotIdx].gate.double && bitIdx === 0){
+        let gate:Gate = this.bits[bitIdx].spots[spotIdx].gate;
+        if(gate.isMeasurement() && gate.measurementBit >= this.numCBits-1){
+          gate.measurementBit = this.numCBits-1;
+        }
+        else{
+          gate.resetLinks(this.numCBits-1);
+        }
+
+        if(gate.double && bitIdx === 0){
           this.bits[bitIdx].spots[spotIdx].gate = new Gate(); 
         }
-        if(this.bits[bitIdx].spots[spotIdx].gate.typeId === 19){
+        if(gate.typeId === 19){
           this.bits[bitIdx].spots[spotIdx].gate = new Gate(); 
         }
 
         this.bits[bitIdx].spots[spotIdx].bitIdx = bitIdx;
         this.bits[bitIdx].spots[spotIdx].spotIdx = spotIdx;
-        this.bits[bitIdx].spots[spotIdx].gate.bitIdx = bitIdx;
-        this.bits[bitIdx].spots[spotIdx].gate.spotIdx = spotIdx;
-        this.bits[bitIdx].spots[spotIdx].gate.connector = "";
-        this.bits[bitIdx].spots[spotIdx].gate.line = "";
+        gate.bitIdx = bitIdx;
+        gate.spotIdx = spotIdx;
+        gate.connector = "";
+        gate.line = "";
 
         if(bitIdx === 0){
           this.cbit.measurements[spotIdx].active = false;
