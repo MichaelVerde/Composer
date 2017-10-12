@@ -34,16 +34,6 @@
                                     <input type="number" [(ngModel)]="canvasLength" style="width: 50px; text-align: center;" min="20" max="200" step="1" (ngModelChange)="updateSettings($event)"/>     
                                 </div>
                             </div>
-                            <div class="row">
-                                    <div class="settings-cell col-md-8">
-                                        Download JSON:
-                                    </div>
-                                    <div class="settings-cell col-md-4">
-                                        <button type="button" class="btn-xs" (click)="downloadJSON()">
-                                            <i class="fa fa-download"></i>
-                                        </button>
-                                    </div>
-                                </div>
                         </div>
                     </ng-template>
                 </ngb-tab>
@@ -55,8 +45,6 @@
             </ngb-tabset>	          
         </div>
         <div class="col-md-9">
-            <div class="row spacer">
-            </div>  
             <gate-canvas [dragData]="dragData" (draggingData)="setDragging($event)"></gate-canvas>
             <div class="row">
                 <div class="runner col-md-12">

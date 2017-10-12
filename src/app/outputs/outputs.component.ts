@@ -13,7 +13,8 @@ export class OutputsComponent {
   numShots: number;
   backendType: string;
   outputToAdd: number;
-  showThisStuff: string = "";
+  errorMsg: string = "";
+  running: boolean = false;
   view: any[] = [800, 300];
 
   @ViewChild('t') public t;
@@ -71,6 +72,7 @@ export class OutputsComponent {
 
   runSimulation(){
     if(this.outputs.length > 0){
+      this.running = true;
       let sim: Simulation = {
         outputs: this.outputs,
         numShots: this.numShots,
@@ -79,11 +81,13 @@ export class OutputsComponent {
       }
       this.savesService.runSimulation(sim).subscribe(
         outputs => {
+          this.running = false;
           this.outputs = outputs;
           console.log( this.outputs );
         },
         error => {
-          window.alert("Unable to connect to server to run simulation. " + error);
+          this.running = false;
+          this.errorMsg = "Unable to connect to server to run simulation. " + error;
         }
       );
     }

@@ -1,3 +1,13 @@
+<div class="row delete">
+    <div class="col-md-1">
+        <div *ngIf="dragData && dragData.bitIdx >= 0 && dragData.spotIdx >= 0" dnd-droppable (onDragEnter)="preventDefault($event)" (onDragOver)="preventDefault($event)" (onDragLeave)="preventDefault($event)">
+            <div class="trash">
+                Delete <i class="fa fa-trash" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-11"></div>
+</div>
 <div class="row" *ngIf="initialized">
     <div class="left-line col-md-1" dnd-sortable-container [sortableData]="bits">
         <div class="left-row" *ngFor="let qbit of bits; let i = index" dnd-sortable [sortableIndex]="i" (onDragEnd)="recalcAllGateIdx($event)">

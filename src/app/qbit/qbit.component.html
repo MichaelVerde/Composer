@@ -20,18 +20,18 @@
                         <label ngbButtonLabel class="btn-primary">
                             <input ngbButton type="radio" [value]="2"> Squeezing
                         </label>
-                        <label ngbButtonLabel class="btn-primary">
-                            <input ngbButton type="radio" [value]="3"> Fock
-                        </label>
-                        <label ngbButtonLabel class="btn-primary">
-                            <input ngbButton type="radio" [value]="4"> Squeezed Coherent
-                        </label>
                     </div> 
                 </div>
             </div>
             <div class="row">
                 <div class="settings-cell col-md-12" >
                     <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="qbit.mode" (ngModelChange)="setParameters()">
+                        <label ngbButtonLabel class="btn-primary">
+                            <input ngbButton type="radio" [value]="3"> Fock
+                        </label>
+                        <label ngbButtonLabel class="btn-primary">
+                            <input ngbButton type="radio" [value]="4"> Squeezed Coherent
+                        </label>
                         <label ngbButtonLabel class="btn-primary">
                             <input ngbButton type="radio" [value]="5"> Cat
                         </label>

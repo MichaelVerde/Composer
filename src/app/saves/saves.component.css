@@ -24,6 +24,7 @@
 .saved input{
     background: transparent;
     border: none;
+    cursor: pointer;
 }
 .name.saved input:focus{
     background: white;

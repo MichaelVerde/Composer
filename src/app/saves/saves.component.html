@@ -1,42 +1,32 @@
 
 <div class="container">
   <div class="row">
-    <div class="save-header name col-md-9">
+    <div class="save-header name col-md-12">
       Name
-    </div>
-    <div class="save-header date col-md-3">    
-      Modified
     </div>
   </div>
   <div class="row" [ngClass]="{'selected': (i === currentSave)}" *ngFor="let save of savesList; let i = index" (click)="selectSave(i)">
       <div class="save-cell icon col-md-2"> 
           <div class="save">
-              <span class="fa fa-save" aria-hidden="true"></span>
+              <button type="button" class="btn-xs" (click)="downloadJSON(i)">
+                  <i class="fa fa-download"></i>
+              </button>
           </div>
       </div>
-      <div class="save-cell saved col-md-7">
+      <div class="save-cell saved col-md-10">
         <input type="text" [(ngModel)]="save.name" (ngModelChange)="nameChanged($event)"/> 
-      </div>
-      <div class="save-cell date col-md-3">
-        {{save.lastModified | date: 'dd/MM/yyyy'}}<br/>
-        {{save.lastModified | date: 'hh:mm a'}}
       </div>
   </div>
   <div class="row">
     <div class="save-cell icon col-md-2"> 
         <div class="add">
-            <span class="fa fa-plus" aria-hidden="true"></span>
+            <button type="button" class="btn-xs" (click)="createSave()">
+                <i class="fa fa-plus"></i>
+            </button>
         </div>
     </div>
-    <div class="save-cell name col-md-7">
+    <div class="save-cell name col-md-10">
       <input type="text" [(ngModel)]="saveName" (ngModelChange)="nameChanged($event)"/> 
-    </div>
-    <div class="save-cell date col-md-3"> 
-      <div class="btn-group">
-          <label class="btn-sm btn-primary" ngbButtonLabel (click)="createSave()">
-              Add
-          </label>
-      </div>   
     </div>
   </div>
 </div>

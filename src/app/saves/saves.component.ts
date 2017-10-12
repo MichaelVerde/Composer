@@ -40,4 +40,13 @@ export class SavesComponent implements OnInit {
     this.savesService.saveChanged();
   }
 
+  downloadJSON(idx: number){
+    var myjson = JSON.stringify(this.savesService.saves[idx]);
+    console.log(myjson);
+    var x = window.open();
+    x.document.open();
+    x.document.write('<html><body><pre>' + myjson + '</pre></body></html>');
+    x.document.close();
+  }
+
 }

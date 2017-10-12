@@ -127,3 +127,21 @@
 .info{
     height: 20px;
 }
+
+.delete{
+    height: 40px;
+    padding-top:15px;
+    padding-bottom: 5px;
+}
+
+.trash{
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    width: 60px;
+    height: 20px;
+    background-color: maroon;
+    color: white;
+    border-radius: 2px;
+    font-size: 12px;
+}

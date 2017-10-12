@@ -31,13 +31,22 @@
           </select>
       </div>
     </div>
-    <div class="col-md-5"></div>
+    <div class="col-md-5">
+    </div>
     <div class="col-md-1">
       <div class="btn-group">
-          <label class="btn-sm btn-primary" [ngClass]="{'btn-disabled': outputs.length === 0}" ngbButtonLabel (click)="runSimulation()">
-              Go
+          <label class="btn-sm btn-primary" [ngClass]="{'btn-disabled': outputs.length === 0 || running}" ngbButtonLabel (click)="runSimulation()">
+              <span *ngIf="!running">Go</span>
+              <i *ngIf="running" class="fa fa-cog fa-spin" aria-hidden="true"></i>
           </label>
       </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="errorMsg">
+    <div class="col-md-12">
+      <span class="error">
+        {{errorMsg}}
+      </span>
     </div>
   </div>
 </div>
