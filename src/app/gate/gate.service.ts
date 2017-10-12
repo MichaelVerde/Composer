@@ -22,6 +22,7 @@ export class GateService {
     this.singleGateTypes.push(new Gate (6, "F"));  
     this.singleGateTypes.push(new Gate (7, "\u03A6"));
     this.singleGateTypes.push(new Gate (8, "V"));
+    this.singleGateTypes.push(new Gate (9, "R"));
 
     this.coupledGateTypes.push(new Gate (10, "Cz"));
     this.coupledGateTypes.push(new Gate (13, "C\u2080"));

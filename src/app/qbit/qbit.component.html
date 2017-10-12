@@ -1,4 +1,4 @@
-<span (click)="open()">|{{getKet()}}⟩</span>
+<div (click)="open()">|{{getKet()}}<span class="ket">{{getKetSate()}}</span>⟩</div>
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
         Quantum Mode {{i}} - Settings
@@ -9,13 +9,10 @@
     <div class="modal-body">
         <div class="container">
             <div class="row">
-                <div class="settings-cell name col-md-4">
-                    Mode:
-                </div>
-                <div class="settings-cell col-md-8" >
-                    <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="qbit.mode">
+                <div class="settings-cell col-md-12" >
+                    <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="qbit.mode" (ngModelChange)="setParameters()">
                         <label ngbButtonLabel class="btn-primary">
-                            <input ngbButton type="radio" [value]="0"> Ground
+                            <input ngbButton type="radio" [value]="0"> Vacuum
                         </label>
                         <label ngbButtonLabel class="btn-primary">
                             <input ngbButton type="radio" [value]="1"> Coherent
@@ -26,39 +23,56 @@
                         <label ngbButtonLabel class="btn-primary">
                             <input ngbButton type="radio" [value]="3"> Fock
                         </label>
+                        <label ngbButtonLabel class="btn-primary">
+                            <input ngbButton type="radio" [value]="4"> Squeezed Coherent
+                        </label>
                     </div> 
                 </div>
             </div>
-            <div class="row" *ngIf="qbit.mode === 1 || qbit.mode === 2">
-                <div class="settings-cell name col-md-4">
-                    α:
+            <div class="row">
+                <div class="settings-cell col-md-12" >
+                    <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="qbit.mode" (ngModelChange)="setParameters()">
+                        <label ngbButtonLabel class="btn-primary">
+                            <input ngbButton type="radio" [value]="5"> Cat
+                        </label>
+                    </div> 
                 </div>
-                <div class="settings-cell name col-md-1"> 
+            </div>
+            <div class="row" *ngFor="let parameter of qbit.parameters; let i = index;">
+                <div class="settings-cell name col-md-4">
+                    {{parameter.name}}:
+                </div>
+                <div class="settings-cell name col-md-1" *ngIf="parameter.phaseMode !== undefined"> 
                     <div class="btn-group" data-toggle="buttons">   
                         <label class="btn-sm btn-primary" ngbButtonLabel >
-                            <input type="checkbox" ngbButton (click)="togglePhase()">
-                            <span *ngIf="!qbit.phaseMode" aria-hidden="true">(a,b)</span>
-                            <span *ngIf="qbit.phaseMode" aria-hidden="true">(r,φ)</span>                      
+                            <input type="checkbox" ngbButton (click)="togglePhase(i)">
+                            <span *ngIf="!parameter.phaseMode" aria-hidden="true">(a,b)</span>
+                            <span *ngIf="parameter.phaseMode" aria-hidden="true">(r,φ)</span>                      
                         </label> 
                     </div>  
                 </div>
-                <div class="settings-cell col-md-7" >
-                    <span *ngIf="!qbit.phaseMode">
-                        <input type="number" [(ngModel)]="qbit.a" style="width: 50px;" step="0.01"/>
-                        + ⅈ <input type="number" [(ngModel)]="qbit.b" style="width: 50px;" step="0.01"/> 
+                <div class="settings-cell col-md-7" *ngIf="parameter.phaseMode !== undefined">
+                    <span *ngIf="!parameter.phaseMode">
+                        <input type="number" [(ngModel)]="parameter.a" style="width: 50px;" step="0.01"/>
+                        + ⅈ <input type="number" [(ngModel)]="parameter.b" style="width: 50px;" step="0.01"/> 
                     </span> 
-                    <span *ngIf="qbit.phaseMode">
-                     <input type="number" [(ngModel)]="qbit.r" style="width: 50px;" step="0.01"/> 
-                     • e<span class="superscript">ⅈ2π • </span><input type="number" [(ngModel)]="qbit.phi" style="width: 50px;" step="0.01" min="0" max="1"/>
+                    <span *ngIf="parameter.phaseMode">
+                     <input type="number" [(ngModel)]="parameter.r" style="width: 50px;" step="0.01"/> 
+                     • e<span class="superscript">ⅈ2π • </span><input type="number" [(ngModel)]="parameter.phi" style="width: 50px;" step="0.01" min="0" max="1"/>
                     </span>
                 </div>
-            </div>
-            <div class="row" *ngIf="qbit.mode === 3">
-                <div class="settings-cell name col-md-4">
-                    n:
+                <div class="settings-cell col-md-8" *ngIf="parameter.n !== undefined">
+                    <input type="number" [(ngModel)]="parameter.n" style="width: 50px;" step="1" min="0"/> 
                 </div>
-                <div class="settings-cell col-md-8" >
-                    <input type="number" [(ngModel)]="qbit.n" style="width: 50px;" step="1" min="0"/> 
+                <div class="settings-cell col-md-8" *ngIf="parameter.even !== undefined">
+                    <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="parameter.even">
+                        <label ngbButtonLabel class="btn-primary">
+                            <input ngbButton type="radio" [value]="true"> Even
+                        </label>
+                        <label ngbButtonLabel class="btn-primary">
+                            <input ngbButton type="radio" [value]="false"> Odd
+                        </label>
+                    </div> 
                 </div>
             </div>
         </div>

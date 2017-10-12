@@ -44,7 +44,7 @@ export class Gate {
 
         //Set Up Parameters
         if([1,12].indexOf(typeId) !== -1){
-            this.parameters.push(new GateParameter("Squeezing Factor", 0, null, 0, null, null, null, null, null));
+            this.parameters.push(new GateParameter("Squeezing Factor", null, null, null, null, 0, null, 0, null));
         }
         if([2].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Displacement", 0, null, 0, null, null, null, null, null));
@@ -52,7 +52,7 @@ export class Gate {
         if([3,4,5,8, 10, 13].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Parameter", 0, null, null, null, null, null, null, null));
         }
-        if([7,11].indexOf(typeId) !== -1){
+        if([7,9,11].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Phase", null, null, null, null, null, null, 0, null));
         }
         if([11].indexOf(typeId) !== -1){

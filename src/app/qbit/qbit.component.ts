@@ -14,6 +14,43 @@ export class QbitComponent implements OnInit {
   constructor(public modalService: NgbModal) { }
 
   ngOnInit() {
+    this.setParameters();
+  }
+
+  setParameters(){
+    this.qbit.parameters = [];
+    if(this.qbit.mode == 5){
+      this.qbit.parameters.push({
+        'name': 'Parity',
+        'even': true
+      });
+    }
+    if(this.qbit.mode === 1 ||  this.qbit.mode === 4 ||  this.qbit.mode === 5){
+      this.qbit.parameters.push({
+        'name': 'α',
+        'a': 0,
+        'b': 0,
+        'r': 0,
+        'phi': 0,
+        'phaseMode': false
+      });
+    }
+    if(this.qbit.mode === 2 || this.qbit.mode === 4){
+      this.qbit.parameters.push({
+        'name': 'ξ',
+        'a': 0,
+        'b': 0,
+        'r': 0,
+        'phi': 0,
+        'phaseMode': true
+      });
+    }
+    if(this.qbit.mode === 3){
+      this.qbit.parameters.push({
+        'name': 'n',
+        'n': 0
+      });
+    }
   }
 
   open() {
@@ -21,22 +58,34 @@ export class QbitComponent implements OnInit {
   }
 
   getKet(){
-    if (this.qbit.mode === 1){
-      return "α";
+    if(this.qbit.mode === 5){
+      return "cat";
     }
-    else if (this.qbit.mode === 2){
-      return "α";
-    }
-    else if (this.qbit.mode === 3){
-      return "n";
+    else if(this.qbit.parameters.length > 0){
+      let ketStr = "";
+      for(let i = 0; i< this.qbit.parameters.length; i++){
+        ketStr += this.qbit.parameters[i].name;
+        if(i !== this.qbit.parameters.length -1) ketStr += ", ";
+      }
+      return ketStr;
     }
     else{
       return "0";
     }
   }
 
-  togglePhase(){
-    this.qbit.phaseMode = !this.qbit.phaseMode;
+  getKetSate(){
+    if(this.qbit.mode === 5){
+      return this.qbit.parameters[0].even ? "e" : "o";
+    }
+    else{
+      return "";
+    }
+  }
+
+
+  togglePhase(idx: number){
+    this.qbit.parameters[idx].phaseMode = !this.qbit.parameters[idx].phaseMode;
   }
 
 }

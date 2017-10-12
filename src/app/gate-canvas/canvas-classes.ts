@@ -3,12 +3,7 @@ import { Gate } from "../gate/gate"
 export class QBit {
   spots: Spot[] = [];
   mode: number = 0;
-  a: number = 0;
-  b: number = 0;
-  r:number = 0;
-  phi:number = 0;
-  n:number = 0;
-  phaseMode: boolean = true;
+  parameters = [];
 
   constructor(idx:number, length: number) { 
     for(let i = 0; i< length ; i++){
