@@ -88,7 +88,7 @@ export class OutputsComponent {
         error => {
           this.running = false;
           if(error.status === 400){
-            this.errorMsg = error._body.message;
+            this.errorMsg = error.json().message;
           }
           else{
             this.errorMsg = "Unable to connect to server to run simulation. " + error;
