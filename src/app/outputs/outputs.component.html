@@ -3,13 +3,16 @@
     <div class="col-md-2">
       Type of Simulation
     </div>
+    <div class="col-md-1 checkbox-container">
+      Sampling
+      </div>
     <div class="col-md-2">
       Number of Shots 
     </div>
     <div class="col-md-2">
         Outputs
     </div>
-    <div class="col-md-6"></div>
+    <div class="col-md-5"></div>
   </div>
   <div class="row">
     <div class="col-md-2">
@@ -17,8 +20,11 @@
           <option *ngFor="let backend of backendList" [ngValue]="backend">{{backend}}</option>
       </select>
     </div>
+    <div class="col-md-1 checkbox-container">
+      <input type="checkbox" [(ngModel)]="sampling"/> 
+    </div>
     <div class="col-md-2">
-      <input type="number" [(ngModel)]="numShots" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
+      <input type="number" [(ngModel)]="numShots" [disabled]="!sampling" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
     </div>
     <div class="col-md-2">
       <div class="btn-group">
@@ -31,7 +37,7 @@
           </select>
       </div>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-4">
     </div>
     <div class="col-md-1">
       <div class="btn-group">
