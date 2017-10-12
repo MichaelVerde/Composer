@@ -58,3 +58,10 @@ Measurements
 --Cz becomes coupling line
 --Co is box and coupling line
 --Make gate params all generalized into an array
+
+
+/Changes 2017-10-12
+-Upload JSON Files
+-Display initial state parameters
+-Maintain initial state parameters through local storage/parsing
+-Something about settings panel 

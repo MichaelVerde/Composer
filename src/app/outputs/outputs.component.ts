@@ -83,7 +83,7 @@ export class OutputsComponent {
         outputs => {
           this.running = false;
           this.outputs = outputs;
-          console.log( this.outputs );
+          this.errorMsg = "";
         },
         error => {
           this.running = false;
