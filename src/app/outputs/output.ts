@@ -3,13 +3,10 @@ export class Output {
     typeName: string;
     chart: Chart; 
     code: string; 
-    sampling: boolean;
-
 
     constructor(typeId: number, typeName: string, length: number){
         this.typeId = typeId;
         this.typeName = typeName;
-        this.sampling = false;
           // options
         this.chart = {
             type: "",

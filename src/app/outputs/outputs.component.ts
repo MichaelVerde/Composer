@@ -15,6 +15,7 @@ export class OutputsComponent {
   outputToAdd: number;
   errorMsg: string = "";
   running: boolean = false;
+  sampling: boolean = false;
   view: any[] = [800, 300];
 
   @ViewChild('t') public t;
@@ -77,6 +78,7 @@ export class OutputsComponent {
         outputs: this.outputs,
         numShots: this.numShots,
         backendType: this.backendType,
+        sampling: this.sampling,
         save: this.savesService.saves[this.savesService.currentSave]
       }
       this.savesService.runSimulation(sim).subscribe(
@@ -102,6 +104,7 @@ export class OutputsComponent {
 interface Simulation {
   outputs: Output[];
   numShots: number;
+  sampling: boolean;
   backendType: string;
   save: Save;
 }
