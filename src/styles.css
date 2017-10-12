@@ -40,3 +40,7 @@ input[type="text"]{
 .modal-body{
   padding: 5px;
 }
+
+.modal-content{
+  position: absolute;
+}

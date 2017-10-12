@@ -64,4 +64,4 @@ Measurements
 -Upload JSON Files
 -Display initial state parameters
 -Maintain initial state parameters through local storage/parsing
--Something about settings panel 
+-Make it so that settings to not overlap canvas/ with new elements
