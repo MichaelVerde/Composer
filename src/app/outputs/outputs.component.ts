@@ -87,7 +87,12 @@ export class OutputsComponent {
         },
         error => {
           this.running = false;
-          this.errorMsg = "Unable to connect to server to run simulation. " + error;
+          if(error.status === 400){
+            this.errorMsg = error._body.message;
+          }
+          else{
+            this.errorMsg = "Unable to connect to server to run simulation. " + error;
+          }
         }
       );
     }
