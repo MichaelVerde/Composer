@@ -72,6 +72,10 @@ export class ComposerComponent implements OnInit {
     this.savesService.refreshSave();
   }
 
+  canvasSave(){
+    this.savesService.saveChanged();
+  }
+
   setDragging(gate?: Gate){
     this.dragData = gate;
   }
@@ -87,8 +91,7 @@ export class ComposerComponent implements OnInit {
     this.savesService.numQBits = this.numQBits;
     this.savesService.numCBits = this.numCBits;
     this.savesService.canvasLength = this.canvasLength;
-    this.savesService.saveChanged(); 
-    this.savesService.refreshSave(); 
+    this.canvasRefresh(); 
   }
 
   //General Sidebar Functions
@@ -131,6 +134,7 @@ export class ComposerComponent implements OnInit {
   //Bit sidebar
   toggleBitPhase(idx: number){
     this.sidebarBit.parameters[idx].phaseMode = !this.sidebarBit.parameters[idx].phaseMode;
+    this.savesService.saveChanged();
   }
 
   setParameters(parameters?: any[]){
@@ -167,6 +171,7 @@ export class ComposerComponent implements OnInit {
         'n': 0
       });
     }
+    this.savesService.saveChanged();
   }
 
 }

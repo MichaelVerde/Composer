@@ -28,7 +28,7 @@
                         <div class="settings-cell col-md-1"> 
                         </div>  
                         <div class="settings-cell col-md-7">
-                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.conjugate">
+                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.conjugate" (ngModelChange)="canvasSave()">
                                 <label ngbButtonLabel class="btn-primary">
                                     <input ngbButton type="radio" [value]="false"> {{sidebarGate.typeName}}
                                 </label>
@@ -58,7 +58,7 @@
                                     <i *ngIf="parameter.a.linkMode" class="fa fa-link" aria-hidden="true"></i>
                                     <i *ngIf="!parameter.a.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
                                 </label>   
-                                <input *ngIf="!parameter.a.linkMode" type="number" [(ngModel)]="parameter.a.value" style="width: 50px; text-align: center;" step="0.1"/>     
+                                <input *ngIf="!parameter.a.linkMode" type="number" [(ngModel)]="parameter.a.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.1"/>     
                                 <select *ngIf="parameter.a.linkMode" [(ngModel)]="parameter.a.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
                                     <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                                 </select>
@@ -71,7 +71,7 @@
                                         <i *ngIf="parameter.b.linkMode" class="fa fa-link" aria-hidden="true"></i>
                                         <i *ngIf="!parameter.b.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>                      
                                     </label>   
-                                    <input *ngIf="!parameter.b.linkMode" type="number" [(ngModel)]="parameter.b.value" style="width: 50px; text-align: center;" step="0.1"/>
+                                    <input *ngIf="!parameter.b.linkMode" type="number" [(ngModel)]="parameter.b.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.1"/>
                                     <select *ngIf="parameter.b.linkMode" [(ngModel)]="parameter.b.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
                                         <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                                     </select>
@@ -85,7 +85,7 @@
                                     <i *ngIf="parameter.r.linkMode" class="fa fa-link" aria-hidden="true"></i>
                                     <i *ngIf="!parameter.r.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
                                 </label>
-                                <input *ngIf="!parameter.r.linkMode" type="number" [(ngModel)]="parameter.r.value" style="width: 50px; text-align: center;" step="0.1"/> 
+                                <input *ngIf="!parameter.r.linkMode" type="number" [(ngModel)]="parameter.r.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.1"/> 
                                 <select *ngIf="parameter.r.linkMode" [(ngModel)]="parameter.r.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
                                     <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                                 </select>
@@ -99,7 +99,7 @@
                                         <i *ngIf="parameter.phi.linkMode" class="fa fa-link" aria-hidden="true"></i>
                                         <i *ngIf="!parameter.phi.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
                                     </label>
-                                    <input *ngIf="!parameter.phi.linkMode" type="number" [(ngModel)]="parameter.phi.value" style="width: 50px; text-align: center;" step="0.01" min="0" max="1"/>
+                                    <input *ngIf="!parameter.phi.linkMode" type="number" [(ngModel)]="parameter.phi.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.01" min="0" max="1"/>
                                     <select *ngIf="parameter.phi.linkMode" [(ngModel)]="parameter.phi.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
                                         <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                                     </select>
@@ -114,7 +114,7 @@
                             Classical Bit:
                         </div>
                         <div class="settings-cell col-md-8">
-                            <select [(ngModel)]="sidebarGate.measurementBit" style="width: 50px;">
+                            <select [(ngModel)]="sidebarGate.measurementBit" (ngModelChange)="canvasRefresh()" style="width: 50px;">
                                 <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                             </select>
                         </div>
@@ -124,7 +124,7 @@
                             Type:
                         </div>
                         <div class="settings-cell col-md-8">
-                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.measurementType">
+                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.measurementType" (ngModelChange)="canvasSave()">
                                 <label ngbButtonLabel class="btn-primary">
                                     <input ngbButton type="radio" [value]="0"> Quadrature
                                 </label>
@@ -142,7 +142,7 @@
                             Quadrature:
                         </div>
                         <div class="settings-cell col-md-8">
-                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.measurementQuad">
+                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.measurementQuad" (ngModelChange)="canvasSave()">
                                 <label ngbButtonLabel class="btn-primary">
                                     <input ngbButton type="radio" [value]="0"> X
                                 </label>
@@ -157,7 +157,7 @@
                             Fock State:
                         </div>
                         <div class="settings-cell col-md-8">
-                            <input type="number" [(ngModel)]="sidebarGate.measurementInt" style="width: 50px; text-align: center;" min="0" step="1"/>     
+                            <input type="number" [(ngModel)]="sidebarGate.measurementInt" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" min="0" step="1"/>     
                         </div>
                     </div>
                 </div>
@@ -184,12 +184,6 @@
                                 <label ngbButtonLabel class="btn-primary">
                                     <input ngbButton type="radio" [value]="2"> Squeezing
                                 </label>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="settings-cell col-md-12" >
-                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarBit.mode" (ngModelChange)="setParameters()">
                                 <label ngbButtonLabel class="btn-primary">
                                     <input ngbButton type="radio" [value]="3"> Fock
                                 </label>
@@ -217,19 +211,19 @@
                         </div>
                         <div class="settings-cell col-md-7" *ngIf="parameter.phaseMode !== undefined">
                             <span *ngIf="!parameter.phaseMode">
-                                <input type="number" [(ngModel)]="parameter.a" style="width: 50px;" step="0.01"/>
-                                + ⅈ <input type="number" [(ngModel)]="parameter.b" style="width: 50px;" step="0.01"/> 
+                                <input type="number" [(ngModel)]="parameter.a" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01"/>
+                                + ⅈ <input type="number" [(ngModel)]="parameter.b" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01"/> 
                             </span> 
                             <span *ngIf="parameter.phaseMode">
-                                <input type="number" [(ngModel)]="parameter.r" style="width: 50px;" step="0.01"/> 
-                                • e<span class="superscript">ⅈ2π • </span><input type="number" [(ngModel)]="parameter.phi" style="width: 50px;" step="0.01" min="0" max="1"/>
+                                <input type="number" [(ngModel)]="parameter.r" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01"/> 
+                                • e<span class="superscript">ⅈ2π • </span><input type="number" [(ngModel)]="parameter.phi" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01" min="0" max="1"/>
                             </span>
                         </div>
                         <div class="settings-cell col-md-8" *ngIf="parameter.n !== undefined">
                             <input type="number" [(ngModel)]="parameter.n" style="width: 50px;" step="1" min="0"/> 
                         </div>
                         <div class="settings-cell col-md-8" *ngIf="parameter.even !== undefined">
-                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="parameter.even">
+                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="parameter.even" (ngModelChange)="canvasSave()">
                                 <label ngbButtonLabel class="btn-primary">
                                     <input ngbButton type="radio" [value]="true"> Even
                                 </label>
