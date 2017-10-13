@@ -1,6 +1,6 @@
 import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Gate, GateParameter, GateParameterItem } from './gate'
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { GateService } from './gate.service'
 
 @Component({
   selector: 'gate',
@@ -12,13 +12,8 @@ export class GateComponent implements OnChanges {
   @ViewChild('content') public content;
   @Input() numCBits: number;
   @Input() numQBits: number;
-  @Input() allowedCouples: number[];
 
-  @Output() onModalClose = new EventEmitter();  
-
-  cbitList: number[] = [];
-
-  constructor(public modalService: NgbModal) { }
+  constructor(public gateService: GateService) { }
 
   ngOnChanges(changes: SimpleChanges) { 
     if(changes.gate !== undefined 
@@ -29,67 +24,17 @@ export class GateComponent implements OnChanges {
           this.open();
         }, 0);
     }
-    //set up options for measurement
-    this.cbitList = [];
-    for(let i = 0; i < this.numCBits; i++){
-      this.cbitList.push(i);
-    }
-
-    //set up options for coupling
-    if(this.gate.coupled && this.allowedCouples){
-      if(this.allowedCouples.indexOf(this.gate.couplingIdx) === -1){
-        this.gate.couplingIdx = this.allowedCouples[0];
-      }
-    }
   }
 
   open() {
     if(this.onCanvas() && (this.gate.parameters.length > 0 || this.gate.isMeasurement) && !this.gate.isCouple()){
       this.gate.modalOpened = true;
-      this.modalService.open(this.content).result.then((result) => {
-        this.onModalClose.emit();
-      }, (reason) => {
-        this.onModalClose.emit();
-      });       
+      this.gateService.changeSideBarGate(this.gate);     
     }
-  }
-
-  couplingChanged($event: any){
-    this.onModalClose.emit();
   }
 
   onCanvas():boolean{
     return (this.gate.bitIdx >=0  && this.gate.spotIdx >= 0 && this.gate.typeId !== 0);
-  }
-
-  toggleLink(parameter: GateParameterItem){
-    if(parameter.linkMode){
-      parameter.value = 0;
-      parameter.link = null;
-      parameter.linkMode = false;
-    }
-    else{
-      parameter.value = null;
-      parameter.link = 0;
-      parameter.linkMode = true;
-    }
-  }
-
-  togglePhase(parameter: GateParameter){
-    if(parameter.phaseMode){
-      parameter.phaseMode = false;
-      parameter.r = undefined;
-      parameter.phi = undefined;
-      parameter.a = new GateParameterItem(0,null);
-      parameter.b = new GateParameterItem(0,null);
-    }
-    else{
-      parameter.phaseMode = true;
-      parameter.a = undefined;
-      parameter.b = undefined;
-      parameter.r = new GateParameterItem(0,null);
-      parameter.phi = new GateParameterItem(0,null);
-    }
   }
 
   getConnectorClass():string{

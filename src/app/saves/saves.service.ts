@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Save } from './save'
+import { Gate } from '../gate/gate'
 import { Subject } from 'rxjs/Subject';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
@@ -39,6 +40,25 @@ export class SavesService {
         this.newSave("New");
       }, error => console.log(error));
     }
+  }
+
+  getAllowedCouples(gate: Gate): number[]{
+    let allowedCouples = [];
+    for(let i =0; i< this.saves[this.currentSave].numQBits; i++){
+      let coupleSpot = this.saves[this.currentSave].bits[i].spots[gate.spotIdx];
+      if(i === gate.couplingIdx 
+        || (i != gate.bitIdx 
+        && coupleSpot
+        && coupleSpot.showBg
+        && coupleSpot.gate
+        && coupleSpot.gate.typeId === 0
+        && coupleSpot.gate.line === "")){
+        allowedCouples.push(i);
+      }
+    }
+    return allowedCouples.sort((a: number, b: number) => {
+      return Math.abs(a-gate.bitIdx) - Math.abs(b-gate.bitIdx);
+    });
   }
 
   saveToLocalStorage(){

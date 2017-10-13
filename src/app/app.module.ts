@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { DndModule } from 'ng2-dnd';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OrderModule } from 'ngx-order-pipe';
+import { SidebarModule } from 'ng-sidebar';
 
 import { AppComponent } from './app.component';
 import { ComposerComponent } from './composer/composer.component';
@@ -39,6 +40,7 @@ import { HighlightJsModule, HighlightJsService } from 'angular2-highlight-js';
     FormsModule,
     DndModule.forRoot(),
     NgbModule.forRoot(),
+    SidebarModule.forRoot(),
     OrderModule,
     HttpModule,
     HighlightJsModule

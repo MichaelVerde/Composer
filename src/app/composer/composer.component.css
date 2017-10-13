@@ -28,3 +28,9 @@ gate-canvas{
 .spacer{
     margin: 15px 0px 15px 0px;
 }
+
+>>>.ng-sidebar{
+    border: 1px solid #aaa;
+    background: #fff;
+    width: 400px;
+}

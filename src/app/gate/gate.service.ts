@@ -1,11 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Gate } from "./gate";
+import { QBit } from "../gate-canvas/canvas-classes";
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class GateService {
   singleGateTypes: Gate[] = [];
   coupledGateTypes: Gate[] = [];
   measurements: Gate[] = [];
+  sideBarGateChange: Subject<Gate> = new Subject<Gate>();
+  sideBarBitChange: Subject<QBit> = new Subject<QBit>();
 
   constructor() { }
 
@@ -31,4 +38,12 @@ export class GateService {
 
     this.measurements.push(new Gate (20, "M"));
   }
+
+  changeSideBarGate(gate: Gate){
+    this.sideBarGateChange.next(gate);
+  } 
+
+  changeSideBarBit(qbit: QBit){
+    this.sideBarBitChange.next(qbit);
+  } 
 }
