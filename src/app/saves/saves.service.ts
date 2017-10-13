@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Save } from './save'
-import {Subject} from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';

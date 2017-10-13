@@ -301,6 +301,28 @@ export class GateCanvasComponent implements OnChanges  {
     }
   }
 
+  showQBitInfo($event: any, qbit: QBit){
+    this.gateInfo = [];
+    for(let i = 0; i < qbit.parameters.length; i++){
+      let paramstring = "";
+      paramstring += qbit.parameters[i].name + "=";
+      if(qbit.parameters[i].phaseMode !== undefined){
+        if(qbit.parameters[i].phaseMode){
+          paramstring += " r: " + qbit.parameters[i].r.toString();
+          paramstring += ", φ: " + qbit.parameters[i].phi.toString();
+        }
+        else{
+          paramstring += " a: " + qbit.parameters[i].a.toString();
+          paramstring += ", b: " + qbit.parameters[i].b.toString();
+        }
+      }
+      if(qbit.parameters[i].n !== undefined){
+        paramstring += " n: " + qbit.parameters[i].n.toString();
+      }
+      this.gateInfo.push(paramstring);
+    }
+  }
+
   getAllowedCouples(gate: Gate): number[]{
     let allowedCouples = [];
     for(let i =0; i< this.numQBits; i++){

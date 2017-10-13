@@ -71,6 +71,11 @@ export class Save {
         let s = new Save(save.name,save.numQBits, save.numCBits, save.canvasLength);
         s.lastModified = save.lastModified;
         for(let bitIdx = 0; bitIdx < s.bits.length; bitIdx++){
+            s.bits[bitIdx].mode = save.bits[bitIdx].mode;
+            s.bits[bitIdx].parameters = []; 
+            save.bits[bitIdx].parameters.forEach(parameter => {
+                s.bits[bitIdx].parameters.push(parameter);
+            });
             for(let spotIdx = 0; spotIdx < s.bits[bitIdx].spots.length; spotIdx++){
                 let gate = save.bits[bitIdx].spots[spotIdx].gate;
                 s.bits[bitIdx].spots[spotIdx].gate = Gate.serialize(gate);

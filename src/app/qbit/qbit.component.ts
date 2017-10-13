@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { QBit } from "../gate-canvas/canvas-classes";
+import { SavesService } from '../saves/saves.service'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -11,13 +12,15 @@ export class QbitComponent implements OnInit {
   @Input() qbit: QBit;
   @ViewChild('content') public content;
 
-  constructor(public modalService: NgbModal) { }
+  constructor(public modalService: NgbModal, public savesService: SavesService) { }
 
   ngOnInit() {
-    this.setParameters();
+    if(!this.qbit.parameters){
+      this.setParameters();
+    }
   }
 
-  setParameters(){
+  setParameters(parameters?: any[]){
     this.qbit.parameters = [];
     if(this.qbit.mode == 5){
       this.qbit.parameters.push({
@@ -54,7 +57,11 @@ export class QbitComponent implements OnInit {
   }
 
   open() {
-    this.modalService.open(this.content);     
+    this.modalService.open(this.content).result.then((result) => {
+      this.savesService.saveChanged();
+    }, (reason) => {
+      this.savesService.saveChanged();
+    });  ;     
   }
 
   getKet(){
