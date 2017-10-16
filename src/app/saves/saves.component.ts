@@ -35,6 +35,7 @@ export class SavesComponent implements OnInit {
   deleteSave(idx: number){
     this.savesService.saves.splice(idx,1);
     this.savesService.saveChanged();
+    this.selectSave(idx - 1);  
   }
 
   selectSave(currentSave: number){
