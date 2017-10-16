@@ -947,12 +947,7 @@
                     }
                 ],
                 "mode": 0,
-                "a": 0,
-                "b": 0,
-                "r": 0,
-                "phi": 0,
-                "n": 0,
-                "phaseMode": true
+                "parameters": []
             },
             {
                 "spots": [
@@ -1912,12 +1907,7 @@
                     }
                 ],
                 "mode": 0,
-                "a": 0,
-                "b": 0,
-                "r": 0,
-                "phi": 0,
-                "n": 0,
-                "phaseMode": true
+                "parameters": []
             },
             {
                 "spots": [
@@ -2906,12 +2896,7 @@
                     }
                 ],
                 "mode": 0,
-                "a": 0,
-                "b": 0,
-                "r": 0,
-                "phi": 0,
-                "n": 0,
-                "phaseMode": true
+                "parameters": []
             }
         ],
         "numQBits": 3,
@@ -4100,12 +4085,7 @@
                     }
                 ],
                 "mode": 0,
-                "a": 0,
-                "b": 0,
-                "r": 0,
-                "phi": 0,
-                "n": 0,
-                "phaseMode": true
+                "parameters": []
             },
             {
                 "spots": [
@@ -5080,12 +5060,7 @@
                     }
                 ],
                 "mode": 0,
-                "a": 0,
-                "b": 0,
-                "r": 0,
-                "phi": 0,
-                "n": 0,
-                "phaseMode": true
+                "parameters": []
             },
             {
                 "spots": [
@@ -6059,12 +6034,7 @@
                     }
                 ],
                 "mode": 0,
-                "a": 0,
-                "b": 0,
-                "r": 0,
-                "phi": 0,
-                "n": 0,
-                "phaseMode": true
+                "parameters": []
             },
             {
                 "spots": [
@@ -7037,12 +7007,7 @@
                     }
                 ],
                 "mode": 0,
-                "a": 0,
-                "b": 0,
-                "r": 0,
-                "phi": 0,
-                "n": 0,
-                "phaseMode": true
+                "parameters": []
             }
         ],
         "numQBits": 4,

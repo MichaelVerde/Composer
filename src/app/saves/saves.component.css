@@ -3,6 +3,7 @@
     border-bottom: 1px solid #888;
     vertical-align: middle;
     text-align: center;
+    overflow: hidden;
 }
 .save-header{
     font-size: 85%;
@@ -24,8 +25,15 @@
 .saved input{
     background: transparent;
     border: none;
+}
+.saved{
     cursor: pointer;
 }
 .name.saved input:focus{
     background: white;
+}
+
+.error{
+    color: red;
+    font-size: 10px;
 }
