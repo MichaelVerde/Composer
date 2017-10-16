@@ -23,6 +23,9 @@ export class QbitComponent implements OnInit {
     if(this.qbit.mode === 5){
       return "cat";
     }
+    else if(this.qbit.mode === 3){
+      return this.qbit.parameters[0].n;
+    }
     else if(this.qbit.parameters.length > 0){
       let ketStr = "";
       for(let i = 0; i< this.qbit.parameters.length; i++){

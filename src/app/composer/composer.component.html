@@ -1,237 +1,233 @@
 <ng-sidebar-container style="height: 100vh;">
-    <ng-sidebar #sidebar [(opened)]="sidebarOpen">
+    <ng-sidebar #sidebar [(opened)]="sidebarOpen" [position]="'bottom'">
         <div *ngIf="sidebarType === 'gate'">
-            <div class="modal-header">
+            <div class="settings-header">
                 {{sidebarGate.typeName}} - Gate Settings
                 <button type="button" class="close" aria-label="Close" (click)="toggleSidebar()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="container" *ngIf="!sidebarGate.isMeasurement()">
-                    <div class="row" *ngIf="sidebarGate.coupled">
-                        <div class="settings-cell name col-md-4">
-                            Control:
-                        </div>
-                        <div class="settings-cell col-md-1"> 
-                        </div>  
-                        <div class="settings-cell col-md-7">
-                            <select [(ngModel)]="sidebarGate.couplingIdx" (ngModelChange)="canvasRefresh($event)" style="width: 50px;">
-                                <option *ngFor="let c of allowedCouples" [ngValue]="c">{{c + 1}}</option>
-                            </select>   
-                        </div>
+            <div class="container settings"  *ngIf="!sidebarGate.isMeasurement()">
+                <div class="row" *ngIf="sidebarGate.coupled">
+                    <div class="settings-cell name col-md-4">
+                        Control:
                     </div>
-                    <div class="row">
-                        <div class="settings-cell name col-md-4">
-                            Conjugate:
-                        </div>
-                        <div class="settings-cell col-md-1"> 
-                        </div>  
-                        <div class="settings-cell col-md-7">
-                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.conjugate" (ngModelChange)="canvasSave()">
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="false"> {{sidebarGate.typeName}}
-                                </label>
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" value="true"> {{sidebarGate.typeName}}<span class="superscript">†</span>
-                                </label>
-                            </div>     
-                        </div>
+                    <div class="settings-cell col-md-1"> 
+                    </div>  
+                    <div class="settings-cell col-md-7">
+                        <select [(ngModel)]="sidebarGate.couplingIdx" (ngModelChange)="canvasRefresh($event)" style="width: 50px;">
+                            <option *ngFor="let c of allowedCouples" [ngValue]="c">{{c + 1}}</option>
+                        </select>   
                     </div>
-                    <div class="row" *ngFor="let parameter of sidebarGate.parameters">
-                        <div class="settings-cell name col-md-4">  
-                            {{parameter.name}}: &nbsp;
+                </div>
+                <div class="row">
+                    <div class="settings-cell name col-md-4">
+                        Conjugate:
+                    </div>
+                    <div class="settings-cell col-md-1"> 
+                    </div>  
+                    <div class="settings-cell col-md-7">
+                        <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.conjugate" (ngModelChange)="canvasSave()">
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="false"> {{sidebarGate.typeName}}
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" value="true"> {{sidebarGate.typeName}}<span class="superscript">†</span>
+                            </label>
+                        </div>     
+                    </div>
+                </div>
+                <div class="row" *ngFor="let parameter of sidebarGate.parameters">
+                    <div class="settings-cell name col-md-4">  
+                        {{parameter.name}}: &nbsp;
+                    </div>  
+                    <div class="settings-cell name col-md-1"> 
+                        <div class="btn-group" data-toggle="buttons" *ngIf="(parameter.a && parameter.b) || (parameter.r && parameter.phi)">   
+                            <label class="btn-sm btn-primary" ngbButtonLabel >
+                                <input type="checkbox" ngbButton (click)="togglePhase(parameter)">
+                                <span *ngIf="!parameter.phaseMode" aria-hidden="true">(a,b)</span>
+                                <span *ngIf="parameter.phaseMode" aria-hidden="true">(r,φ)</span>                      
+                            </label> 
                         </div>  
-                        <div class="settings-cell name col-md-1"> 
-                            <div class="btn-group" data-toggle="buttons" *ngIf="(parameter.a && parameter.b) || (parameter.r && parameter.phi)">   
-                                <label class="btn-sm btn-primary" ngbButtonLabel >
-                                    <input type="checkbox" ngbButton (click)="togglePhase(parameter)">
-                                    <span *ngIf="!parameter.phaseMode" aria-hidden="true">(a,b)</span>
-                                    <span *ngIf="parameter.phaseMode" aria-hidden="true">(r,φ)</span>                      
-                                </label> 
-                            </div>  
-                        </div>
-                        <div class="settings-cell col-md-7" *ngIf="!parameter.phaseMode">
-                            <div *ngIf="parameter.a" class="btn-group" data-toggle="buttons">
+                    </div>
+                    <div class="settings-cell col-md-7" *ngIf="!parameter.phaseMode">
+                        <div *ngIf="parameter.a" class="btn-group" data-toggle="buttons">
+                            <label class="btn-sm btn-primary" ngbButtonLabel>
+                                <input type="checkbox" ngbButton (click)="toggleLink(parameter.a)">
+                                <i *ngIf="parameter.a.linkMode" class="fa fa-link" aria-hidden="true"></i>
+                                <i *ngIf="!parameter.a.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
+                            </label>   
+                            <input *ngIf="!parameter.a.linkMode" type="number" [(ngModel)]="parameter.a.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.1"/>     
+                            <select *ngIf="parameter.a.linkMode" [(ngModel)]="parameter.a.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
+                                <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
+                            </select>
+                        </div>                                  
+                        <span *ngIf="parameter.a && parameter.b"> + </span>
+                        <span *ngIf="parameter.b">ⅈ 
+                            <div class="btn-group" data-toggle="buttons">
                                 <label class="btn-sm btn-primary" ngbButtonLabel>
-                                    <input type="checkbox" ngbButton (click)="toggleLink(parameter.a)">
-                                    <i *ngIf="parameter.a.linkMode" class="fa fa-link" aria-hidden="true"></i>
-                                    <i *ngIf="!parameter.a.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
+                                    <input type="checkbox" ngbButton (click)="toggleLink(parameter.b)">
+                                    <i *ngIf="parameter.b.linkMode" class="fa fa-link" aria-hidden="true"></i>
+                                    <i *ngIf="!parameter.b.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>                      
                                 </label>   
-                                <input *ngIf="!parameter.a.linkMode" type="number" [(ngModel)]="parameter.a.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.1"/>     
-                                <select *ngIf="parameter.a.linkMode" [(ngModel)]="parameter.a.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
-                                    <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
-                                </select>
-                            </div>                                  
-                            <span *ngIf="parameter.a && parameter.b"> + </span>
-                            <span *ngIf="parameter.b">ⅈ 
-                                <div class="btn-group" data-toggle="buttons">
-                                    <label class="btn-sm btn-primary" ngbButtonLabel>
-                                        <input type="checkbox" ngbButton (click)="toggleLink(parameter.b)">
-                                        <i *ngIf="parameter.b.linkMode" class="fa fa-link" aria-hidden="true"></i>
-                                        <i *ngIf="!parameter.b.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>                      
-                                    </label>   
-                                    <input *ngIf="!parameter.b.linkMode" type="number" [(ngModel)]="parameter.b.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.1"/>
-                                    <select *ngIf="parameter.b.linkMode" [(ngModel)]="parameter.b.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
-                                        <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
-                                    </select>
-                                </div>
-                            </span>     
-                        </div>
-                        <div class="settings-cell col-md-7" *ngIf="parameter.phaseMode">
-                            <div *ngIf="parameter.r" class="btn-group" data-toggle="buttons">
-                                <label class="btn-sm btn-primary" ngbButtonLabel>
-                                    <input type="checkbox" ngbButton (click)="toggleLink(parameter.r)">
-                                    <i *ngIf="parameter.r.linkMode" class="fa fa-link" aria-hidden="true"></i>
-                                    <i *ngIf="!parameter.r.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
-                                </label>
-                                <input *ngIf="!parameter.r.linkMode" type="number" [(ngModel)]="parameter.r.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.1"/> 
-                                <select *ngIf="parameter.r.linkMode" [(ngModel)]="parameter.r.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
+                                <input *ngIf="!parameter.b.linkMode" type="number" [(ngModel)]="parameter.b.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.1"/>
+                                <select *ngIf="parameter.b.linkMode" [(ngModel)]="parameter.b.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
                                     <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                                 </select>
                             </div>
-                            <span *ngIf="parameter.r && parameter.phi"> • e<span class="superscript">ⅈ2π • </span></span>
-                            <span *ngIf="!parameter.r">2π • </span>
-                            <span *ngIf="parameter.phi">
-                                <div class="btn-group" data-toggle="buttons">
-                                    <label class="btn-sm btn-primary" ngbButtonLabel>
-                                        <input type="checkbox" ngbButton (click)="toggleLink(parameter.phi)">
-                                        <i *ngIf="parameter.phi.linkMode" class="fa fa-link" aria-hidden="true"></i>
-                                        <i *ngIf="!parameter.phi.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
-                                    </label>
-                                    <input *ngIf="!parameter.phi.linkMode" type="number" [(ngModel)]="parameter.phi.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.01" min="0" max="1"/>
-                                    <select *ngIf="parameter.phi.linkMode" [(ngModel)]="parameter.phi.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
-                                        <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
-                                    </select>
-                                </div>                       
-                            </span>     
-                        </div>
+                        </span>     
                     </div>
-                </div>
-                <div class="container" *ngIf="sidebarGate.isMeasurement()">
-                    <div class="row">
-                        <div class="settings-cell name col-md-4 label">
-                            Classical Bit:
-                        </div>
-                        <div class="settings-cell col-md-8">
-                            <select [(ngModel)]="sidebarGate.measurementBit" (ngModelChange)="canvasRefresh()" style="width: 50px;">
+                    <div class="settings-cell col-md-7" *ngIf="parameter.phaseMode">
+                        <div *ngIf="parameter.r" class="btn-group" data-toggle="buttons">
+                            <label class="btn-sm btn-primary" ngbButtonLabel>
+                                <input type="checkbox" ngbButton (click)="toggleLink(parameter.r)">
+                                <i *ngIf="parameter.r.linkMode" class="fa fa-link" aria-hidden="true"></i>
+                                <i *ngIf="!parameter.r.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
+                            </label>
+                            <input *ngIf="!parameter.r.linkMode" type="number" [(ngModel)]="parameter.r.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.1"/> 
+                            <select *ngIf="parameter.r.linkMode" [(ngModel)]="parameter.r.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
                                 <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
                             </select>
                         </div>
+                        <span *ngIf="parameter.r && parameter.phi"> • e<span class="superscript">ⅈ2π • </span></span>
+                        <span *ngIf="!parameter.r">2π • </span>
+                        <span *ngIf="parameter.phi">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn-sm btn-primary" ngbButtonLabel>
+                                    <input type="checkbox" ngbButton (click)="toggleLink(parameter.phi)">
+                                    <i *ngIf="parameter.phi.linkMode" class="fa fa-link" aria-hidden="true"></i>
+                                    <i *ngIf="!parameter.phi.linkMode" class="fa fa-hashtag" aria-hidden="true"></i>
+                                </label>
+                                <input *ngIf="!parameter.phi.linkMode" type="number" [(ngModel)]="parameter.phi.value" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" step="0.01" min="0" max="1"/>
+                                <select *ngIf="parameter.phi.linkMode" [(ngModel)]="parameter.phi.link" style="width: 50px;" (ngModelChange)="canvasRefresh($event)">
+                                    <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
+                                </select>
+                            </div>                       
+                        </span>     
                     </div>
-                    <div class="row">
-                        <div class="settings-cell name col-md-4 label">
-                            Type:
-                        </div>
-                        <div class="settings-cell col-md-8">
-                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.measurementType" (ngModelChange)="canvasSave()">
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="0"> Quadrature
-                                </label>
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="1"> Photon Number
-                                </label>
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="2"> Fock
-                                </label>
-                            </div>     
-                        </div>
+                </div>
+            </div>
+            <div class="container settings" *ngIf="sidebarGate.isMeasurement()">
+                <div class="row">
+                    <div class="settings-cell name col-md-4 label">
+                        Classical Bit:
                     </div>
-                    <div class="row" *ngIf="sidebarGate.measurementType === 0"> 
-                        <div class="settings-cell name col-md-4 label">
-                            Quadrature:
-                        </div>
-                        <div class="settings-cell col-md-8">
-                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.measurementQuad" (ngModelChange)="canvasSave()">
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="0"> X
-                                </label>
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="1"> P
-                                </label>
-                            </div> 
-                        </div>
+                    <div class="settings-cell col-md-8">
+                        <select [(ngModel)]="sidebarGate.measurementBit" (ngModelChange)="canvasRefresh()" style="width: 50px;">
+                            <option *ngFor="let c of cbitList" [ngValue]="c">{{c + 1}}</option>
+                        </select>
                     </div>
-                    <div class="row" *ngIf="sidebarGate.measurementType === 2">
-                        <div class="settings-cell name col-md-4 label">
-                            Fock State:
-                        </div>
-                        <div class="settings-cell col-md-8">
-                            <input type="number" [(ngModel)]="sidebarGate.measurementInt" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" min="0" step="1"/>     
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="settings-cell name col-md-4 label">
+                        Type:
+                    </div>
+                    <div class="settings-cell col-md-8">
+                        <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.measurementType" (ngModelChange)="canvasSave()">
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="0"> Quadrature
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="1"> Photon Number
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="2"> Fock
+                            </label>
+                        </div>     
+                    </div>
+                </div>
+                <div class="row" *ngIf="sidebarGate.measurementType === 0"> 
+                    <div class="settings-cell name col-md-4 label">
+                        Quadrature:
+                    </div>
+                    <div class="settings-cell col-md-8">
+                        <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarGate.measurementQuad" (ngModelChange)="canvasSave()">
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="0"> X
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="1"> P
+                            </label>
+                        </div> 
+                    </div>
+                </div>
+                <div class="row" *ngIf="sidebarGate.measurementType === 2">
+                    <div class="settings-cell name col-md-4 label">
+                        Fock State:
+                    </div>
+                    <div class="settings-cell col-md-8">
+                        <input type="number" [(ngModel)]="sidebarGate.measurementInt" (ngModelChange)="canvasSave()" style="width: 50px; text-align: center;" min="0" step="1"/>     
                     </div>
                 </div>
             </div>
         </div>
         <div *ngIf="sidebarType === 'bit'">
-            <div class="modal-header">
+            <div class="settings-header">
                 Quantum Mode {{i}} - Settings
                 <button type="button" class="close" aria-label="Close" (click)="toggleSidebar()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="row">
-                        <div class="settings-cell col-md-12" >
-                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarBit.mode" (ngModelChange)="setParameters()">
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="0"> Vacuum
-                                </label>
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="1"> Coherent
-                                </label>
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="2"> Squeezing
-                                </label>
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="3"> Fock
-                                </label>
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="4"> Squeezed Coherent
-                                </label>
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="5"> Cat
-                                </label>
-                            </div> 
-                        </div>
+            <div class="container settings">
+                <div class="row">
+                    <div class="settings-cell col-md-12" >
+                        <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="sidebarBit.mode" (ngModelChange)="setParameters()">
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="0"> Vacuum
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="1"> Coherent
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="2"> Squeezing
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="3"> Fock
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="4"> Squeezed Coherent
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="5"> Cat
+                            </label>
+                        </div> 
                     </div>
-                    <div class="row" *ngFor="let parameter of sidebarBit.parameters; let i = index;">
-                        <div class="settings-cell name col-md-4">
-                            {{parameter.name}}:
-                        </div>
-                        <div class="settings-cell name col-md-1" *ngIf="parameter.phaseMode !== undefined"> 
-                            <div class="btn-group" data-toggle="buttons">   
-                                <label class="btn-sm btn-primary" ngbButtonLabel >
-                                    <input type="checkbox" ngbButton (click)="toggleBitPhase(i)">
-                                    <span *ngIf="!parameter.phaseMode" aria-hidden="true">(a,b)</span>
-                                    <span *ngIf="parameter.phaseMode" aria-hidden="true">(r,φ)</span>                      
-                                </label> 
-                            </div>  
-                        </div>
-                        <div class="settings-cell col-md-7" *ngIf="parameter.phaseMode !== undefined">
-                            <span *ngIf="!parameter.phaseMode">
-                                <input type="number" [(ngModel)]="parameter.a" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01"/>
-                                + ⅈ <input type="number" [(ngModel)]="parameter.b" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01"/> 
-                            </span> 
-                            <span *ngIf="parameter.phaseMode">
-                                <input type="number" [(ngModel)]="parameter.r" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01"/> 
-                                • e<span class="superscript">ⅈ2π • </span><input type="number" [(ngModel)]="parameter.phi" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01" min="0" max="1"/>
-                            </span>
-                        </div>
-                        <div class="settings-cell col-md-8" *ngIf="parameter.n !== undefined">
-                            <input type="number" [(ngModel)]="parameter.n" style="width: 50px;" step="1" min="0"/> 
-                        </div>
-                        <div class="settings-cell col-md-8" *ngIf="parameter.even !== undefined">
-                            <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="parameter.even" (ngModelChange)="canvasSave()">
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="true"> Even
-                                </label>
-                                <label ngbButtonLabel class="btn-primary">
-                                    <input ngbButton type="radio" [value]="false"> Odd
-                                </label>
-                            </div> 
-                        </div>
+                </div>
+                <div class="row" *ngFor="let parameter of sidebarBit.parameters; let i = index;">
+                    <div class="settings-cell name col-md-4">
+                        {{parameter.name}}:
+                    </div>
+                    <div class="settings-cell name col-md-1" *ngIf="parameter.phaseMode !== undefined"> 
+                        <div class="btn-group" data-toggle="buttons">   
+                            <label class="btn-sm btn-primary" ngbButtonLabel >
+                                <input type="checkbox" ngbButton (click)="toggleBitPhase(i)">
+                                <span *ngIf="!parameter.phaseMode" aria-hidden="true">(a,b)</span>
+                                <span *ngIf="parameter.phaseMode" aria-hidden="true">(r,φ)</span>                      
+                            </label> 
+                        </div>  
+                    </div>
+                    <div class="settings-cell col-md-7" *ngIf="parameter.phaseMode !== undefined">
+                        <span *ngIf="!parameter.phaseMode">
+                            <input type="number" [(ngModel)]="parameter.a" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01"/>
+                            + ⅈ <input type="number" [(ngModel)]="parameter.b" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01"/> 
+                        </span> 
+                        <span *ngIf="parameter.phaseMode">
+                            <input type="number" [(ngModel)]="parameter.r" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01"/> 
+                            • e<span class="superscript">ⅈ2π • </span><input type="number" [(ngModel)]="parameter.phi" (ngModelChange)="canvasSave()" style="width: 50px;" step="0.01" min="0" max="1"/>
+                        </span>
+                    </div>
+                    <div class="settings-cell col-md-8" *ngIf="parameter.n !== undefined">
+                        <input type="number" [(ngModel)]="parameter.n" style="width: 50px;" step="1" min="0"/> 
+                    </div>
+                    <div class="settings-cell col-md-8" *ngIf="parameter.even !== undefined">
+                        <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="parameter.even" (ngModelChange)="canvasSave()">
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="true"> Even
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="false"> Odd
+                            </label>
+                        </div> 
                     </div>
                 </div>
             </div>

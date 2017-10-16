@@ -11,12 +11,6 @@ gate-canvas{
     text-align: left;
 }
 
-.settings-cell{
-    padding: 5px 0px;
-    vertical-align: middle;
-    text-align: center;
-}
-
 
 .runner{
     margin: 15px 0px 15px 15px;
@@ -32,5 +26,24 @@ gate-canvas{
 >>>.ng-sidebar{
     border: 1px solid #aaa;
     background: #fff;
-    width: 400px;
+    min-height: 300px;
 }
+
+.settings-header{
+    padding: 15px;
+    border-bottom: 1px solid #e9ecef;
+    text-align: center;
+}
+
+.settings{
+    max-width: 500px;
+    margin-top: 5px;
+}
+
+.settings-cell{
+    height: 41px;
+    padding: 5px 0px;
+    vertical-align: middle;
+    text-align: center;
+}
+

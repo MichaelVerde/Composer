@@ -47,6 +47,7 @@ export class ComposerComponent implements OnInit {
         if(this.allowedCouples.indexOf(this.sidebarGate.couplingIdx) === -1){
           this.sidebarGate.couplingIdx = this.allowedCouples[0];
         }
+        this.canvasRefresh();
       }
     });
 

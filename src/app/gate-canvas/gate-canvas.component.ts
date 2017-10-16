@@ -305,8 +305,8 @@ export class GateCanvasComponent implements OnChanges  {
     this.gateInfo = [];
     for(let i = 0; i < qbit.parameters.length; i++){
       let paramstring = "";
-      paramstring += qbit.parameters[i].name + "=";
       if(qbit.parameters[i].phaseMode !== undefined){
+        paramstring += qbit.parameters[i].name + "=";
         if(qbit.parameters[i].phaseMode){
           paramstring += " r: " + qbit.parameters[i].r.toString();
           paramstring += ", φ: " + qbit.parameters[i].phi.toString();
@@ -317,7 +317,8 @@ export class GateCanvasComponent implements OnChanges  {
         }
       }
       if(qbit.parameters[i].n !== undefined){
-        paramstring += " n: " + qbit.parameters[i].n.toString();
+        paramstring += "Fock State= ";
+        paramstring += qbit.parameters[i].n.toString();
       }
       this.gateInfo.push(paramstring);
     }
