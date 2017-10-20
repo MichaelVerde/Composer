@@ -27,6 +27,8 @@ gate-canvas{
     border: 1px solid #aaa;
     background: #fff;
     min-height: 300px;
+    width: 500px;
+    margin: 0 auto;
 }
 
 .settings-header{

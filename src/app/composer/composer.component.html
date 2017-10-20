@@ -1,5 +1,5 @@
 <ng-sidebar-container style="height: 100vh; overflow: hidden;">
-    <ng-sidebar #sidebar [(opened)]="sidebarOpen" [position]="'bottom'">
+    <ng-sidebar #sidebar [(opened)]="sidebarOpen" [closeOnClickOutside]="true" [position]="'bottom'">
         <div *ngIf="sidebarType === 'gate'">
             <div class="settings-header">
                 {{sidebarGate.typeName}} - Gate Settings

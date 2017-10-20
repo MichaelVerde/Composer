@@ -103,7 +103,7 @@ export class Output {
     createEmptyMultiLine(){
         let emptyMultiLine = {
             data: [{
-                type: 'line',
+                type: 'scatter',
                 x: [],
                 y: []
             }],
@@ -111,29 +111,21 @@ export class Output {
                 width: 835,
                 height: 500,
                 margin: {
-                    l: 5,
+                    l: 50,
                     r: 5,
-                    b: 5,
+                    b: 50,
                     t: 5,
                     pad: 4
                 },
                 paper_bgcolor: '#efefef',
                 plot_bgcolor: '#efefef',
-                scene: {
-                  bgcolor: '#efefef', 
-                  xaxis: {
-                    gridcolor: '#fff', 
-                    gridwidth: 2, 
-                  }, 
-                  yaxis: {
-                    gridcolor: '#fff', 
-                    gridwidth: 2, 
-                  }, 
-                  zaxis: {
-                    autorange: true, 
-                    gridcolor: '#fff', 
-                    gridwidth: 2, 
-                  }
+                xaxis: {
+                    autorange: true,
+                    autotick: true
+                }, 
+                yaxis: {
+                    range: [0, 1],
+                    autotick: true
                 }, 
                 showTitle: false
             }
