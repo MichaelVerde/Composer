@@ -27,7 +27,7 @@
       <input type="number" [(ngModel)]="cutoff" [disabled]="running" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
     </div>
     <div class="col-md-1 checkbox-container">
-      <input type="checkbox" [(ngModel)]="sampling" [disabled]="running"/> 
+      <input type="checkbox" [(ngModel)]="sampling" [disabled]="running" (ngModelChange)="resetOutputs($event)"/> 
     </div>
     <div class="col-md-2">
       <input type="number" [(ngModel)]="numShots" [disabled]="!sampling || running" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
@@ -65,12 +65,21 @@
 </div>
 <hr *ngIf="outputs.length > 0">
 <ngb-tabset #t="ngbTabset" *ngIf="outputs.length > 0" (tabChange)="outputChange($event)">
-    <ngb-tab id="tab{{i}}" *ngFor="let output of outputs; let i = index">    
+    <ngb-tab id="tab{{i}}" *ngFor="let output of outputs; let i = index;">    
         <ng-template ngbTabTitle>
           {{output.typeName}}
           <span aria-hidden="true" (click)="rmOutput(i, $event)">&times;</span>
         </ng-template>
         <ng-template ngbTabContent>
+          <div class="row" *ngIf="output.charts && output.typeId !== 1"> 
+            <div class="radio-cell col-md-12">
+              <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="selectedChart" (ngModelChange)="plotChart($event)">
+                  <label *ngFor="let chart of output.charts; let i = index;" ngbButtonLabel class="btn-primary chart-select">
+                      <input ngbButton type="radio" [value]="i"> q[{{chart.layout.qbit}}]
+                  </label>
+              </div>
+            </div> 
+          </div>
           <div *ngIf="output.code" class="code-area" highlight-js-content=".highlight">
               <pre class="highlight python">{{output.code}}</pre>
           </div>

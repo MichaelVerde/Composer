@@ -16,6 +16,7 @@ export class SavesService {
   public currentSave: number;  
   savesChange: Subject<number> = new Subject<number>();
   currentSaveChange: Subject<number> = new Subject<number>();
+  onSaveChange: Subject<number> = new Subject<number>();
 
   constructor(public http: Http) {}
 
@@ -87,6 +88,7 @@ export class SavesService {
 
   saveChanged(){
     this.saveToLocalStorage();
+    this.onSaveChange.next(this.currentSave);
   }
 
   getPresets(): Observable<any> {

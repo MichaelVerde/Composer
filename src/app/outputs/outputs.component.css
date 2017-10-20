@@ -21,3 +21,12 @@
     text-align: center;
     padding: 0;
 }
+.radio-cell{
+    height: 41px;
+    padding: 5px 0px;
+    vertical-align: middle;
+    text-align: center;
+}
+.chart-select{
+    margin: 0px 5px;
+}

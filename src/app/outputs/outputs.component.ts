@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Output } from './output'
 import { SavesService } from '../saves/saves.service';
 import { Save } from '../saves/save';
@@ -8,12 +8,13 @@ import { Save } from '../saves/save';
   templateUrl: './outputs.component.html',
   styleUrls: ['./outputs.component.css']
 })
-export class OutputsComponent implements AfterViewInit{
-  outputs: Output[];
+export class OutputsComponent implements AfterViewInit, OnInit{
+  outputs: Output[] = [];
   numShots: number;
   backendType: string;
   outputToAdd: number;
   selectedOutput: number;
+  selectedChart: number;
   errorMsg: string = "";
   running: boolean = false;
   sampling: boolean = false;
@@ -28,17 +29,21 @@ export class OutputsComponent implements AfterViewInit{
     "Gaussian" 
   ]
 
-  outputsList: Output[];
+  outputsList: Output[] = [];
 
-  constructor(public savesService: SavesService) {
-    this.outputsList = [];
-    this.outputsList.push(new Output(1, "Fock States", savesService.numCBits));
-    this.outputsList.push(new Output(2, "Quadratues", savesService.numCBits));
-    
-    this.outputs = [];
-    this.outputs.push(new Output(3, "Wigner Function", 1));
-    this.outputs.push(new Output(4, "Code", 0));
+  constructor(public savesService: SavesService) {}
+
+  ngOnInit(){
+    this.savesService.onSaveChange.subscribe((value) => { 
+      this.resetOutputs();
+    });
+    this.outputsList.push(new Output(1, "Fock States", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
+    this.outputsList.push(new Output(2, "Quadratures", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
+    this.outputsList.push(new Output(3, "Wigner Function", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
+
+    this.outputs.push(new Output(4, "Code", null));
     this.selectedOutput = 0;
+    this.selectedChart = 0;
     this.outputToAdd = 0;
 
     this.backendType = this.backendList[0];
@@ -46,23 +51,36 @@ export class OutputsComponent implements AfterViewInit{
     this.cutoff = 5;
   }
 
-  ngAfterViewInit(){
-    this.basicChart();
+  resetOutputs(){
+    for(let i =0; i< this.outputsList.length; i++){
+      this.outputsList[i] = new Output(this.outputsList[i].typeId, this.outputsList[i].typeName, this.savesService.saves[this.savesService.currentSave].bits, this.sampling);
+    }
+    for(let i =0; i< this.outputs.length; i++){
+      this.outputs[i] = new Output(this.outputs[i].typeId, this.outputs[i].typeName, this.savesService.saves[this.savesService.currentSave].bits, this.sampling);
+    }
+    if(this.outputs[this.selectedOutput].charts.indexOf(this.selectedChart) === -1){
+      this.selectedChart = 0;
+    }
+    this.plotChart();
   }
 
-  basicChart() {
+  ngAfterViewInit(){
+    this.plotChart();
+  }
+
+  plotChart() {
     if(this.chart){
       let element = this.chart.nativeElement;
       Plotly.purge( element );
-      if(this.outputs[this.selectedOutput].chart){
-        Plotly.plot( element, this.outputs[this.selectedOutput].chart);
+      if(this.outputs[this.selectedOutput].charts && this.outputs[this.selectedOutput].charts[this.selectedChart]){
+        Plotly.plot( element, this.outputs[this.selectedOutput].charts[this.selectedChart]);
       }
     }
   }
 
   setSelectedOutput(idx: number){
     this.selectedOutput = idx;
-    this.basicChart();
+    this.plotChart();
   }
 
   outputChange($event: any) {
