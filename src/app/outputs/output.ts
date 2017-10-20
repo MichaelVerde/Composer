@@ -124,7 +124,7 @@ export class Output {
                     autotick: true
                 }, 
                 yaxis: {
-                    range: [0, 1],
+                    autorange: true,
                     autotick: true
                 }, 
                 showTitle: false
