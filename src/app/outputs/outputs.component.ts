@@ -35,7 +35,7 @@ export class OutputsComponent implements AfterViewInit{
     this.outputsList.push(new Output(2, "Probabilities", savesService.numCBits));
     
     this.outputs = [];
-    this.outputs.push(new Output(3, "Wigner Function", 3));
+    this.outputs.push(new Output(3, "Wigner Function", 1));
     this.outputs.push(new Output(4, "Code", 0));
     this.selectedOutput = 0;
     this.outputToAdd = 0;

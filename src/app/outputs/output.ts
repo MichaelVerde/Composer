@@ -47,11 +47,11 @@ export class Output {
                 showTitle: false
             }
         };
-        for(let i = -length; i<=length; i+=0.01){
+        for(let i = -length; i<=length; i+=0.1){
             this.chart.data[0].x.push(i);
             this.chart.data[0].y.push(i);
             let z = [];
-            for(let j = -length; j<=length; j+=0.01){  
+            for(let j = -length; j<=length; j+=0.1){  
                 z.push(this.gaussian(i,j));     
             }
             this.chart.data[0].z.push(z);
