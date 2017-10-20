@@ -18,8 +18,7 @@ import { HttpModule } from '@angular/http';
 import { QbitComponent } from './qbit/qbit.component';
 import { OutputsComponent } from './outputs/outputs.component';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxChartsModule } from '@swimlane/ngx-charts'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { HighlightJsModule, HighlightJsService } from 'angular2-highlight-js';
 
 @NgModule({
@@ -36,7 +35,6 @@ import { HighlightJsModule, HighlightJsService } from 'angular2-highlight-js';
   imports: [
     BrowserModule,
     BrowserAnimationsModule, 
-    NgxChartsModule,
     FormsModule,
     DndModule.forRoot(),
     NgbModule.forRoot(),

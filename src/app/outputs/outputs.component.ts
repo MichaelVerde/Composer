@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Output } from './output'
 import { SavesService } from '../saves/saves.service';
 import { Save } from '../saves/save';
@@ -8,17 +8,18 @@ import { Save } from '../saves/save';
   templateUrl: './outputs.component.html',
   styleUrls: ['./outputs.component.css']
 })
-export class OutputsComponent {
+export class OutputsComponent implements AfterViewInit{
   outputs: Output[];
   numShots: number;
   backendType: string;
   outputToAdd: number;
+  selectedOutput: number;
   errorMsg: string = "";
   running: boolean = false;
   sampling: boolean = false;
-  view: any[] = [800, 300];
 
   @ViewChild('t') public t;
+  @ViewChild('chart') public chart: ElementRef;
 
   backendList: string[] =[
     "NumPy",
@@ -28,36 +29,57 @@ export class OutputsComponent {
 
   outputsList: Output[];
 
-
-   // line, area
-   autoScale = false;
-
-  colorScheme = {
-    domain: ['#5AA454']
-  };
-
   constructor(public savesService: SavesService) {
     this.outputsList = [];
     this.outputsList.push(new Output(1, "Photon Numbers", savesService.numCBits));
     this.outputsList.push(new Output(2, "Probabilities", savesService.numCBits));
-    this.outputsList.push(new Output(3, "Wigner Function", 4));
     
     this.outputs = [];
+    this.outputs.push(new Output(3, "Wigner Function", 3));
     this.outputs.push(new Output(4, "Code", 0));
+    this.selectedOutput = 0;
     this.outputToAdd = 0;
 
     this.backendType = this.backendList[0];
     this.numShots = 100;
+  }
+
+  ngAfterViewInit(){
+    this.basicChart();
+  }
+
+  basicChart() {
+    if(this.chart){
+      let element = this.chart.nativeElement;
+      Plotly.purge( element );
+      if(this.outputs[this.selectedOutput].chart){
+        Plotly.plot( element, this.outputs[this.selectedOutput].chart);
+      }
+    }
+  }
+
+  setSelectedOutput(idx: number){
+    this.selectedOutput = idx;
+    this.basicChart();
+  }
+
+  outputChange($event: any) {
+    this.setSelectedOutput(parseInt($event.nextId.substr(3)));
+  };
+
+  setSelectedTab(idx: number){
+    let id = 'tab' + (idx).toString();
+    if(this.t){
+      this.t.activeId = id;
+    }
+    this.setSelectedOutput(idx);
   }
   
   addOutput(){
     if(this.outputsList.length > 0){
       this.outputs.push(this.outputsList[this.outputToAdd]);
       this.outputsList.splice(this.outputToAdd,1);
-      let id = 'tab' + (this.outputs.length -1).toString();
-      if(this.t){
-        this.t.activeId = id;
-      }
+      this.setSelectedTab(this.outputs.length -1);
       this.outputToAdd = 0;
     }
   }
