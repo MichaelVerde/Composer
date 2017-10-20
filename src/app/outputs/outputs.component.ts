@@ -109,6 +109,7 @@ export class OutputsComponent implements AfterViewInit, OnInit{
       $event.preventDefault();
       this.outputsList.push(this.outputs[idx]);
       this.outputs.splice(idx,1);
+      this.setSelectedTab(idx-1);
       this.outputsList.sort((a,b) => {
         return a.typeId - b.typeId;
       });
