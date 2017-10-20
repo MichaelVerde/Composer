@@ -3,6 +3,9 @@
     <div class="col-md-2">
       Type of Simulation
     </div>
+    <div class="col-md-2">
+      Cutoff Dimension 
+    </div>
     <div class="col-md-1 checkbox-container">
       Sampling
       </div>
@@ -12,32 +15,35 @@
     <div class="col-md-2">
         Outputs
     </div>
-    <div class="col-md-5"></div>
+    <div class="col-md-3"></div>
   </div>
   <div class="row">
     <div class="col-md-2">
-      <select [(ngModel)]="backendType" style="width: 125px; height: 31px;">
+      <select [(ngModel)]="backendType" [disabled]="running" style="width: 125px; height: 31px;">
           <option *ngFor="let backend of backendList" [ngValue]="backend">{{backend}}</option>
       </select>
     </div>
+    <div class="col-md-2">
+      <input type="number" [(ngModel)]="cutoff" [disabled]="running" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
+    </div>
     <div class="col-md-1 checkbox-container">
-      <input type="checkbox" [(ngModel)]="sampling"/> 
+      <input type="checkbox" [(ngModel)]="sampling" [disabled]="running"/> 
     </div>
     <div class="col-md-2">
-      <input type="number" [(ngModel)]="numShots" [disabled]="!sampling" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
+      <input type="number" [(ngModel)]="numShots" [disabled]="!sampling || running" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
     </div>
     <div class="col-md-2">
       <div class="btn-group">
-          <label class="btn-sm btn-primary" ngbButtonLabel (click)="addOutput()">
+          <label class="btn-sm btn-primary" ngbButtonLabel (click)="addOutput()" [ngClass]="{'btn-disabled': outputsList.length === 0 || running}">
               <i  class="fa fa-plus" aria-hidden="true"></i>
           </label>
-          <select [(ngModel)]="outputToAdd" style="width: 150px; text-align: center;">
+          <select [(ngModel)]="outputToAdd" [disabled]="running" style="width: 150px; text-align: center;">
               <option *ngFor="let output of outputsList; let i = index" [ngValue]="i">{{output.typeName}}</option>
               <option *ngIf="outputsList.length === 0">all options added</option>
           </select>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
     </div>
     <div class="col-md-1">
       <div class="btn-group">

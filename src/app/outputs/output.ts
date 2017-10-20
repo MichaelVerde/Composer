@@ -9,7 +9,8 @@ export class Output {
         this.typeName = typeName;
         this.chart = {
             data: [{
-                colorscale: [['0.0', 'rgb(255,0,0)'], ['0.125', 'rgb(255,127,0)'], ['0.25', 'rgb(255,255,0)'], ['0.375', 'rgb(127,255,0)'], ['0.5', 'rgb(0,255,0)'], ['0.625', 'rgb(0,255,127)'], ['0.75', 'rgb(0,255,255)'], ['0.875', 'rgb(0,127,255)'], ['1.0', 'rgb(0,0,255)']], 
+                cmin: -1,
+                cmax: 1,
                 contours: {z: {show: true}}, 
                 type: 'surface',
                 x: [],
@@ -18,7 +19,7 @@ export class Output {
             }],
             layout:{
                 width: 835,
-                height: 600,
+                height: 500,
                 margin: {
                     l: 5,
                     r: 5,

@@ -17,6 +17,7 @@ export class OutputsComponent implements AfterViewInit{
   errorMsg: string = "";
   running: boolean = false;
   sampling: boolean = false;
+  cutoff: number;
 
   @ViewChild('t') public t;
   @ViewChild('chart') public chart: ElementRef;
@@ -31,8 +32,8 @@ export class OutputsComponent implements AfterViewInit{
 
   constructor(public savesService: SavesService) {
     this.outputsList = [];
-    this.outputsList.push(new Output(1, "Photon Numbers", savesService.numCBits));
-    this.outputsList.push(new Output(2, "Probabilities", savesService.numCBits));
+    this.outputsList.push(new Output(1, "Fock States", savesService.numCBits));
+    this.outputsList.push(new Output(2, "Quadratues", savesService.numCBits));
     
     this.outputs = [];
     this.outputs.push(new Output(3, "Wigner Function", 1));
@@ -42,6 +43,7 @@ export class OutputsComponent implements AfterViewInit{
 
     this.backendType = this.backendList[0];
     this.numShots = 100;
+    this.cutoff = 5;
   }
 
   ngAfterViewInit(){
@@ -76,7 +78,7 @@ export class OutputsComponent implements AfterViewInit{
   }
   
   addOutput(){
-    if(this.outputsList.length > 0){
+    if(this.outputsList.length > 0 && !this.running){
       this.outputs.push(this.outputsList[this.outputToAdd]);
       this.outputsList.splice(this.outputToAdd,1);
       this.setSelectedTab(this.outputs.length -1);
@@ -85,16 +87,18 @@ export class OutputsComponent implements AfterViewInit{
   }
 
   rmOutput(idx: number, $event: any){
-    $event.preventDefault();
-    this.outputsList.push(this.outputs[idx]);
-    this.outputs.splice(idx,1);
-    this.outputsList.sort((a,b) => {
-      return a.typeId - b.typeId;
-    })
+    if(!this.running){
+      $event.preventDefault();
+      this.outputsList.push(this.outputs[idx]);
+      this.outputs.splice(idx,1);
+      this.outputsList.sort((a,b) => {
+        return a.typeId - b.typeId;
+      });
+    }
   }
 
   runSimulation(){
-    if(this.outputs.length > 0){
+    if(this.outputs.length > 0 && !this.running){
       this.running = true;
       let sim: Simulation = {
         outputs: this.outputs,

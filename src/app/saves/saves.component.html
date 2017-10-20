@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="save-cell saved col-md-9">
-            <input type="text" [(ngModel)]="save.name" (ngModelChange)="nameChanged($event)"/> 
+            <span>{{save.name}}</span>
         </div>
         <div class="save-cell saved col-md-1">
             <span aria-hidden="true" (click)="deleteSave(i)">&times;</span>
