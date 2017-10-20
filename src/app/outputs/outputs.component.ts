@@ -124,6 +124,7 @@ export class OutputsComponent implements AfterViewInit, OnInit{
         numShots: this.numShots,
         backendType: this.backendType,
         sampling: this.sampling,
+        cutoff: this.cutoff,
         save: this.savesService.saves[this.savesService.currentSave]
       }
       this.savesService.runSimulation(sim).subscribe(
@@ -149,6 +150,7 @@ export class OutputsComponent implements AfterViewInit, OnInit{
 interface Simulation {
   outputs: Output[];
   numShots: number;
+  cutoff: number;
   sampling: boolean;
   backendType: string;
   save: Save;
