@@ -58,7 +58,7 @@ export class OutputsComponent implements AfterViewInit, OnInit{
     for(let i =0; i< this.outputs.length; i++){
       this.outputs[i] = new Output(this.outputs[i].typeId, this.outputs[i].typeName, this.savesService.saves[this.savesService.currentSave].bits, this.sampling);
     }
-    if(this.outputs[this.selectedOutput].charts.indexOf(this.selectedChart) === -1){
+    if(this.outputs[this.selectedOutput].charts && this.outputs[this.selectedOutput].charts.indexOf(this.selectedChart) === -1){
       this.selectedChart = 0;
     }
     this.plotChart();
@@ -132,6 +132,7 @@ export class OutputsComponent implements AfterViewInit, OnInit{
           this.running = false;
           this.outputs = outputs;
           this.errorMsg = "";
+          this.plotChart();
         },
         error => {
           this.running = false;
