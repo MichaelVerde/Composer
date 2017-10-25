@@ -27,7 +27,7 @@
       <input type="number" [(ngModel)]="cutoff" [disabled]="running" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
     </div>
     <div class="col-md-1 checkbox-container">
-      <input type="checkbox" [(ngModel)]="sampling" [disabled]="running" (ngModelChange)="resetOutputs($event)"/> 
+      <input type="checkbox" [(ngModel)]="sampling" [disabled]="running" (ngModelChange)="resetOutputs()"/> 
     </div>
     <div class="col-md-2">
       <input type="number" [(ngModel)]="numShots" [disabled]="!sampling || running" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 

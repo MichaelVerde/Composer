@@ -49,10 +49,13 @@ export class Gate {
         if([2].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Displacement", 0, null, 0, null, null, null, null, null));
         }
-        if([3,4,5,8, 10, 13].indexOf(typeId) !== -1){
+        if([3,4,5,8].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Parameter", 0, null, null, null, null, null, null, null));
         }
-        if([7,9,11].indexOf(typeId) !== -1){
+        if([10, 13].indexOf(typeId) !== -1){
+            this.parameters.push(new GateParameter("Parameter", 1, null, null, null, null, null, null, null));
+        }
+        if([9,11].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Phase", null, null, null, null, null, null, 0, null));
         }
         if([11].indexOf(typeId) !== -1){
