@@ -9,6 +9,7 @@ import { Save } from '../saves/save';
   styleUrls: ['./outputs.component.css']
 })
 export class OutputsComponent implements AfterViewInit, OnInit{
+  initialized: boolean = false;
   outputs: Output[] = [];
   numShots: number;
   backendType: string;
@@ -37,31 +38,37 @@ export class OutputsComponent implements AfterViewInit, OnInit{
     this.savesService.onSaveChange.subscribe((value) => { 
       this.resetOutputs();
     });
-    this.outputsList.push(new Output(1, "Fock States", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
-    this.outputsList.push(new Output(2, "Quadratures", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
-    this.outputsList.push(new Output(3, "Wigner Function", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
-
-    this.outputs.push(new Output(4, "Code", null));
-    this.selectedOutput = 0;
-    this.selectedChart = 0;
-    this.outputToAdd = 0;
-
-    this.backendType = this.backendList[0];
-    this.numShots = 100;
-    this.cutoff = 5;
+    this.savesService.getSaves();
   }
 
   resetOutputs(){
-    for(let i =0; i< this.outputsList.length; i++){
-      this.outputsList[i] = new Output(this.outputsList[i].typeId, this.outputsList[i].typeName, this.savesService.saves[this.savesService.currentSave].bits, this.sampling);
-    }
-    for(let i =0; i< this.outputs.length; i++){
-      this.outputs[i] = new Output(this.outputs[i].typeId, this.outputs[i].typeName, this.savesService.saves[this.savesService.currentSave].bits, this.sampling);
-    }
-    if(!this.outputs[this.selectedOutput].charts || this.outputs[this.selectedOutput].charts.indexOf(this.selectedChart) === -1){
+    if(!this.initialized){
+      this.outputsList.push(new Output(1, "Fock States", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
+      this.outputsList.push(new Output(2, "Quadratures", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
+      this.outputsList.push(new Output(3, "Wigner Function", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
+
+      this.outputs.push(new Output(4, "Code", null));
+      this.selectedOutput = 0;
       this.selectedChart = 0;
+      this.outputToAdd = 0;
+
+      this.backendType = this.backendList[0];
+      this.numShots = 100;
+      this.cutoff = 5;
+      this.initialized = true;
     }
-    this.plotChart();
+    else{
+      for(let i =0; i< this.outputsList.length; i++){
+        this.outputsList[i] = new Output(this.outputsList[i].typeId, this.outputsList[i].typeName, this.savesService.saves[this.savesService.currentSave].bits, this.sampling);
+      }
+      for(let i =0; i< this.outputs.length; i++){
+        this.outputs[i] = new Output(this.outputs[i].typeId, this.outputs[i].typeName, this.savesService.saves[this.savesService.currentSave].bits, this.sampling);
+      }
+      if(!this.outputs[this.selectedOutput].charts || this.outputs[this.selectedOutput].charts.indexOf(this.selectedChart) === -1){
+        this.selectedChart = 0;
+      }
+      this.plotChart();
+    }
   }
 
   ngAfterViewInit(){
@@ -72,7 +79,7 @@ export class OutputsComponent implements AfterViewInit, OnInit{
     if(this.chart){
       let element = this.chart.nativeElement;
       Plotly.purge( element );
-      if(this.outputs[this.selectedOutput].charts && this.outputs[this.selectedOutput].charts[this.selectedChart]){
+      if(this.outputs[this.selectedOutput] && this.outputs[this.selectedOutput].charts && this.outputs[this.selectedOutput].charts[this.selectedChart]){
         try{
           Plotly.plot( element, this.outputs[this.selectedOutput].charts[this.selectedChart]);
         }

@@ -41,7 +41,6 @@ export class GateCanvasComponent implements OnChanges  {
         this.initialized = true;
         this.recalcAllGateIdx();
       });
-      this.savesService.getSaves();
     }
     else{
       this.recalcAllGateIdx();
@@ -78,6 +77,7 @@ export class GateCanvasComponent implements OnChanges  {
           if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement()){
             this.cbit.measurements[spotIdx].active = true;
             this.cbit.measurements[spotIdx].bit = this.bits[bitIdx].spots[spotIdx].gate.measurementBit;
+            this.cbit.measurements[spotIdx].bit2 = this.bits[bitIdx].spots[spotIdx].gate.measurementBit2;
           }
           else if(this.bits[bitIdx].spots[spotIdx].gate.getLink() >= 0){
             this.cbit.measurements[spotIdx].linked = true;
@@ -147,7 +147,6 @@ export class GateCanvasComponent implements OnChanges  {
     this.bits[bitIdx].spots[spotIdx].gate.typeId === 0 
     && this.bits[bitIdx].spots[spotIdx].gate.connector === ""
     && this.bits[bitIdx].spots[spotIdx].gate.line === ""
-    && (bitIdx === this.numQBits -1 || !this.bits[bitIdx+1].spots[spotIdx].gate.double)
     && ((!dragData.isMeasurement() && this.spotLessThanMeasureGate(bitIdx, spotIdx)) 
       ||(dragData.isMeasurement() && !this.bitHasMeasureGate(bitIdx) && !this.spotHasLowerGate(bitIdx, spotIdx) && this.spotIsLastGate(bitIdx, spotIdx)))
     && (!dragData.double || (this.bits[bitIdx-1] && this.bits[bitIdx-1].spots[spotIdx].gate.typeId === 0))
@@ -218,6 +217,8 @@ export class GateCanvasComponent implements OnChanges  {
         if(bitIdx === 0){
           this.cbit.measurements[spotIdx].active = false;
           this.cbit.measurements[spotIdx].linked = false;
+          this.cbit.measurements[spotIdx].bit = null;
+          this.cbit.measurements[spotIdx].bit2 = null;
         }
       }
     }
@@ -285,19 +286,25 @@ export class GateCanvasComponent implements OnChanges  {
       this.gateInfo.push(paramstring);
     }
     if(gate.isMeasurement()){
-      if(gate.measurementType === 0 && gate.measurementQuad === 0){
-        this.gateInfo.push("Quadrature: X");
+      if(gate.measurementType === 1 && gate.measurementQuad === 0){
+        this.gateInfo.push("Homodyne X");
       }
-      else if(gate.measurementType === 0 && gate.measurementQuad === 1){
-        this.gateInfo.push("Quadrature: P");
+      else if(gate.measurementType === 1 && gate.measurementQuad === 1){
+        this.gateInfo.push("Homodyne P");
       }
-      else if(gate.measurementType === 1){
-        this.gateInfo.push("Photon Number");
+      else if(gate.measurementType === 1 && gate.measurementQuad === 2){
+        this.gateInfo.push("Homodyne 2π • " + gate.measurementAngle);
+      }
+      else if(gate.measurementType === 0){
+        this.gateInfo.push("Fock");
       }
       else if(gate.measurementType === 2){
-        this.gateInfo.push("Fock State: " + gate.measurementInt);
+        this.gateInfo.push("Heterodyne " );
       }
-      this.gateInfo.push("to Bit: " + (gate.measurementBit + 1).toString());
+      this.gateInfo.push(" to Bit: " + (gate.measurementBit + 1).toString());
+      if(gate.measurementType === 2){
+        this.gateInfo.push(" and Bit: " + (gate.measurementBit2 + 1).toString());
+      }
     }
   }
 

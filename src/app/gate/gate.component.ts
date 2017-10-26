@@ -72,6 +72,9 @@ export class GateComponent implements OnChanges {
     else if (this.gate.typeId === 19){
       classStr += "gate couple clear";
     }
+    else if (this.gate.typeId === 18){
+      classStr += "gate";
+    }
     else if (this.gate.double){
       classStr += "gate double";
     }

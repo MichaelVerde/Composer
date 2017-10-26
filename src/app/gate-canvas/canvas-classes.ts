@@ -4,6 +4,7 @@ export class QBit {
   spots: Spot[] = [];
   mode: number = 0;
   parameters: any[] = [];
+  random: boolean = false;
 
   constructor(idx:number, length: number) { 
     for(let i = 0; i< length ; i++){
@@ -41,11 +42,13 @@ export class Measurement {
   active:boolean;
   linked:boolean;
   bit:number;
+  bit2:number;
   constructor(measurmentIdx: number) { 
     this.measurmentIdx = measurmentIdx;
     this.active = false;
     this.linked = false;
-    this.bit = 0;
+    this.bit = null;
+    this.bit2 = null;
   }
 }
 

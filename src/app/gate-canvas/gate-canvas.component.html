@@ -38,7 +38,7 @@
                         <div class="cbit-arrow" *ngIf="measurement.active"></div> 
                         <div class="cbit-arrow-reverse" *ngIf="measurement.linked"></div>  
                         <span class="measurement" *ngIf="measurement.active || measurement.linked">
-                            {{measurement.bit + 1}}
+                            {{measurement.bit + 1}}<span *ngIf="measurement.bit2">, {{measurement.bit2 + 1}}</span> 
                         </span>
                     </div>           
                 </div>

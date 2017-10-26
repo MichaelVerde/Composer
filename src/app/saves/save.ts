@@ -72,6 +72,7 @@ export class Save {
         s.lastModified = save.lastModified;
         for(let bitIdx = 0; bitIdx < s.bits.length; bitIdx++){
             s.bits[bitIdx].mode = save.bits[bitIdx].mode;
+            s.bits[bitIdx].random = save.bits[bitIdx].random;
             s.bits[bitIdx].parameters = []; 
             save.bits[bitIdx].parameters.forEach(parameter => {
                 s.bits[bitIdx].parameters.push(parameter);

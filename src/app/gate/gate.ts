@@ -18,9 +18,10 @@ export class Gate {
 
     //measurment settings
     measurementType: number = 0;
-    measurementInt: number = 0;
+    measurementAngle: number = 0;
     measurementQuad: number = 0;
-    measurementBit: number = 0;
+    measurementBit: number = null;
+    measurementBit2: number = null;
 
     //remeber if the settings modal has been openened
     modalOpened = false;
@@ -39,6 +40,7 @@ export class Gate {
 
         if(typeId === 20){
             this.measurementType = 0;
+            this.measurementBit = 0;
             this.icon = "dashboard";
         }
 
@@ -146,8 +148,9 @@ export class Gate {
         //measurment settings
         g.measurementType = gate.measurementType;
         g.measurementQuad = gate.measurementQuad;
-        g.measurementInt = gate.measurementInt;
+        g.measurementAngle = gate.measurementAngle;
         g.measurementBit = gate.measurementBit;
+        g.measurementBit2 = gate.measurementBit2;
     
         //remeber if the settings modal has been openened
         g.modalOpened = gate.modalOpened;

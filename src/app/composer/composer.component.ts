@@ -21,6 +21,7 @@ export class ComposerComponent implements OnInit {
   sidebarBit: QBit;
   allowedCouples: number[];
   cbitList: number[] = [];
+  cbitList2: number[] = [];
 
   constructor(public savesService: SavesService, public gateService: GateService) { 
   }
@@ -35,20 +36,7 @@ export class ComposerComponent implements OnInit {
       this.sidebarGate = value;
       this.sidebarOpen = true;
       this.sidebarType = "gate";
-
-      //set up options for measurement
-      this.cbitList = [];
-      for(let i = 0; i < this.numCBits; i++){
-        this.cbitList.push(i);
-      }
-      this.allowedCouples = this.savesService.getAllowedCouples(this.sidebarGate);
-      //set up options for coupling
-      if(this.sidebarGate.coupled && this.allowedCouples){
-        if(this.allowedCouples.indexOf(this.sidebarGate.couplingIdx) === -1){
-          this.sidebarGate.couplingIdx = this.allowedCouples[0];
-        }
-        this.canvasRefresh();
-      }
+      this.calcOptions();
     });
 
     //listen for sidebar bit change
@@ -69,12 +57,53 @@ export class ComposerComponent implements OnInit {
     });
   }
 
+  calcOptions(){
+    //set up options for measurement
+    this.cbitList = [];
+    this.cbitList2 = [];
+    for(let i = 0; i < this.numCBits; i++){
+      if(this.sidebarGate.measurementBit2 !== i){
+        this.cbitList.push(i);
+      }
+      if(this.sidebarGate.measurementBit !== i){
+        this.cbitList2.push(i);
+      }
+    }
+    this.allowedCouples = this.savesService.getAllowedCouples(this.sidebarGate);
+    //set up options for coupling
+    if(this.sidebarGate.coupled && this.allowedCouples){
+      if(this.allowedCouples.indexOf(this.sidebarGate.couplingIdx) === -1){
+        this.sidebarGate.couplingIdx = this.allowedCouples[0];
+      }
+      this.canvasRefresh();
+    }
+  }
+
   canvasRefresh(){
     this.savesService.refreshSave();
   }
 
   canvasSave(){
     this.savesService.saveChanged();
+    this.canvasRefresh();
+  }
+
+  measurementTypeToggled(){
+    if(this.sidebarGate.measurementType === 2){
+      this.sidebarGate.measurementBit = 0;
+      this.sidebarGate.measurementBit2 = 1;
+    }
+    else{
+      this.sidebarGate.measurementBit = 0;
+      this.sidebarGate.measurementBit2 = null;
+    }
+    this.calcOptions();
+    this.canvasSave();
+  }
+
+  measurementBitToggled(){
+    this.calcOptions();
+    this.canvasRefresh();
   }
 
   setDragging(gate?: Gate){
