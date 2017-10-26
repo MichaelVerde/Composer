@@ -1,6 +1,7 @@
 import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Gate, GateParameter, GateParameterItem } from './gate'
 import { GateService } from './gate.service'
+import { SavesService } from '../saves/saves.service'
 
 @Component({
   selector: 'gate',
@@ -13,12 +14,25 @@ export class GateComponent implements OnChanges {
   @Input() numCBits: number;
   @Input() numQBits: number;
 
-  constructor(public gateService: GateService) { }
+  constructor(public gateService: GateService, public savesService: SavesService) { }
 
   ngOnChanges(changes: SimpleChanges) { 
-    setTimeout(()=> {
-      this.open();
-    }, 0);
+    let allowedCouples =  this.savesService.getAllowedCouples(this.gate);
+    //set up options for coupling
+    if(this.gate.coupled && allowedCouples){
+      if(allowedCouples.indexOf(this.gate.couplingIdx) === -1){
+        this.gate.couplingIdx = allowedCouples[0];
+      }
+    }
+
+    if(changes.gate !== undefined 
+      && changes.gate.previousValue !== undefined 
+      && changes.gate.previousValue.typeId !== changes.gate.currentValue.typeId 
+      && !this.gate.modalOpened){
+        setTimeout(()=> {
+          this.open();
+        }, 0);
+    }
   }
 
   open() {

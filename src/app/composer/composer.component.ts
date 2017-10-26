@@ -70,13 +70,6 @@ export class ComposerComponent implements OnInit {
       }
     }
     this.allowedCouples = this.savesService.getAllowedCouples(this.sidebarGate);
-    //set up options for coupling
-    if(this.sidebarGate.coupled && this.allowedCouples){
-      if(this.allowedCouples.indexOf(this.sidebarGate.couplingIdx) === -1){
-        this.sidebarGate.couplingIdx = this.allowedCouples[0];
-      }
-      this.canvasRefresh();
-    }
   }
 
   canvasRefresh(){
