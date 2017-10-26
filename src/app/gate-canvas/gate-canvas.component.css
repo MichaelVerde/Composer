@@ -26,9 +26,13 @@
 .bit-spot{
     display: table-cell;
 }
-.bit-drop-area{
-    display: table-cell;
-    height: 100%;
+.bit-drag{
+    width: 50px;
+    height: 34px;
+}
+.bit-drop{
+    width: 50px;
+    height: 34px;
 }
 .bit-background{
     position: relative;
@@ -40,11 +44,11 @@
     background: linear-gradient(to bottom, #fff 0%,#fff 46%,#444 47%, #444 53%, #fff 54%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 .bit-background.clear{
-    background-color: transparent;
+    background: none;
 }
 .bit-background .circle{
     position: relative;
-    top:0px;
+    top:2px;
     width: 30px;
     height: 30px;
     margin-left: 9px;
@@ -54,7 +58,7 @@
     opacity: 0.2;
 }
 .bit-background.clear .circle{
-    background-color: transparent;
+    background: none;
 }
 .dragging .bit-background{
     background-color: red;

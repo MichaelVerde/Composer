@@ -29,9 +29,7 @@ export class GateComponent implements OnChanges {
             this.savesService.refreshSave();
           }
         }
-        if(!this.gate.modalOpened){
-          this.open();
-        }
+        this.open();
       }, 0);
     }
   }

@@ -48,15 +48,15 @@
 
 /*connectors*/
 .connector.both .gate{
-    top: 5px;
+    top: 2px;
     left: -10px;
 }
 .connector.top .gate{
-    top: 5px;
+    top: 2px;
     left: -14px;
 }
 .connector.bottom .gate{
-    top: -13px;
+    top: -16px;
     left: -14px;
 }
 
