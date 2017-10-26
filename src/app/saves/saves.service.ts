@@ -46,7 +46,7 @@ export class SavesService {
   getAllowedCouples(gate: Gate): number[]{
     let allowedCouples = [];
     if(this.saves[this.currentSave]){
-      for(let i =gate.bitIdx +1; i< this.saves[this.currentSave].numQBits; i++){
+      for(let i =gate.bitIdx -1; i>= 0; i--){
         let coupleSpot = this.saves[this.currentSave].bits[i].spots[gate.spotIdx];
         if(i === gate.couplingIdx 
           || (i != gate.bitIdx 
@@ -61,7 +61,7 @@ export class SavesService {
           break;
         }
       }
-      for(let i =gate.bitIdx -1; i>= 0; i--){
+      for(let i =gate.bitIdx +1; i< this.saves[this.currentSave].numQBits; i++){
         let coupleSpot = this.saves[this.currentSave].bits[i].spots[gate.spotIdx];
         if(i === gate.couplingIdx 
           || (i != gate.bitIdx 
