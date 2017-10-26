@@ -13,6 +13,7 @@ export class GateToolboxComponent implements OnInit {
   coupledGrid: Gate[][] = [];
   measurementsGrid: Gate[][] = [];
   couple:Gate;
+  doubleCouple: Gate;
   private gridWidth = 4;
   @Output() draggingData= new EventEmitter(); 
 
@@ -20,6 +21,8 @@ export class GateToolboxComponent implements OnInit {
     polyfill({});
     this.couple = new Gate(19, "Couple");
     this.couple.connector = "bottom";
+    this.doubleCouple = new Gate(18, "Couple");
+    this.doubleCouple.connector = "bottom";
     this.setUpGrid();
   }
 

@@ -52,8 +52,7 @@ export class SavesService {
         && coupleSpot
         && coupleSpot.showBg
         && coupleSpot.gate
-        && coupleSpot.gate.typeId === 0
-        && coupleSpot.gate.line === "")){
+        && coupleSpot.gate.typeId === 0)){
         allowedCouples.push(i);
       }
     }

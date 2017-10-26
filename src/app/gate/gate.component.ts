@@ -16,14 +16,9 @@ export class GateComponent implements OnChanges {
   constructor(public gateService: GateService) { }
 
   ngOnChanges(changes: SimpleChanges) { 
-    if(changes.gate !== undefined 
-      && changes.gate.previousValue !== undefined 
-      && changes.gate.previousValue.typeId !== changes.gate.currentValue.typeId 
-      && !this.gate.modalOpened){
-        setTimeout(()=> {
-          this.open();
-        }, 0);
-    }
+    setTimeout(()=> {
+      this.open();
+    }, 0);
   }
 
   open() {
@@ -75,9 +70,6 @@ export class GateComponent implements OnChanges {
     else if (this.gate.typeId === 18){
       classStr += "gate";
     }
-    else if (this.gate.double){
-      classStr += "gate double";
-    }
     else {
       classStr += "gate";
     }
@@ -98,7 +90,7 @@ export class GateComponent implements OnChanges {
   }
 
   getShowText():boolean{
-    if([0,10,19].indexOf(this.gate.typeId) === -1 && !this.gate.isMeasurement()){
+    if([0,10,18,19].indexOf(this.gate.typeId) === -1 && !this.gate.isMeasurement()){
       return true;
     }
     else{

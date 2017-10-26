@@ -14,7 +14,8 @@
   <div class="toolbox-row" *ngFor="let row of coupledGrid">
     <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event, gate)" (onDragEnd)="setNotDragging($event)">
       <div [ngClass]="gate.coupled ? 'coupled-toolbox-background' : 'double-toolbox-background'">
-        <gate *ngIf="gate.coupled" [gate]="couple" class="toolbox-couple"></gate>
+        <gate *ngIf="gate.coupled && gate.double" [gate]="doubleCouple" class="toolbox-couple"></gate>
+        <gate *ngIf="gate.coupled && !gate.double" [gate]="couple" class="toolbox-couple"></gate>
         <gate [gate]="gate"></gate>
       </div> 
     </div>

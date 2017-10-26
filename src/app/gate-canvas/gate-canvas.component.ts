@@ -65,23 +65,27 @@ export class GateCanvasComponent implements OnChanges  {
     for(let bitIdx = 0; bitIdx< this.bits.length; bitIdx++){
       for(let spotIdx = 0; spotIdx< this.bits[bitIdx].spots.length; spotIdx++){
         if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement()
-        || this.bits[bitIdx].spots[spotIdx].gate.getLink() >= 0){
+        || this.bits[bitIdx].spots[spotIdx].gate.getLinks().length > 0){
           if(!this.bits[bitIdx].spots[spotIdx].gate.coupled)
             this.bits[bitIdx].spots[spotIdx].gate.line = "bottom";
           for(let i = bitIdx+1; i< this.bits.length; i++){
-            this.bits[i].spots[spotIdx].gate = new Gate();
-            this.bits[i].spots[spotIdx].gate.bitIdx = i;
-            this.bits[i].spots[spotIdx].gate.spotIdx = spotIdx;
-            this.bits[i].spots[spotIdx].gate.line = "both";
+            if(!this.bits[i].spots[spotIdx].gate.isCouple()){
+              this.bits[i].spots[spotIdx].gate = new Gate();
+              this.bits[i].spots[spotIdx].gate.bitIdx = i;
+              this.bits[i].spots[spotIdx].gate.spotIdx = spotIdx;
+              this.bits[i].spots[spotIdx].gate.line = "both";
+            }
           }
           if(this.bits[bitIdx].spots[spotIdx].gate.isMeasurement()){
             this.cbit.measurements[spotIdx].active = true;
             this.cbit.measurements[spotIdx].bit = this.bits[bitIdx].spots[spotIdx].gate.measurementBit;
             this.cbit.measurements[spotIdx].bit2 = this.bits[bitIdx].spots[spotIdx].gate.measurementBit2;
           }
-          else if(this.bits[bitIdx].spots[spotIdx].gate.getLink() >= 0){
+          let links = this.bits[bitIdx].spots[spotIdx].gate.getLinks(); 
+          if(links.length > 0){
             this.cbit.measurements[spotIdx].linked = true;
-            this.cbit.measurements[spotIdx].bit = this.bits[bitIdx].spots[spotIdx].gate.getLink();
+            this.cbit.measurements[spotIdx].bit = links[0];
+            if(links.length > 1)this.cbit.measurements[spotIdx].bit2 = links[1];
           }
         }
         if(!this.spotLessThanMeasureGate(bitIdx, spotIdx)){
@@ -105,7 +109,8 @@ export class GateCanvasComponent implements OnChanges  {
                 this.bits[i].spots[spotIdx].gate.connector = "bottom";
               }
               else if (i === gate.couplingIdx){
-                this.bits[i].spots[spotIdx].gate = new Gate(19, "Couple");
+                if(gate.double) this.bits[i].spots[spotIdx].gate = new Gate(18, "Couple");
+                else this.bits[i].spots[spotIdx].gate = new Gate(19, "Couple");
                 this.bits[i].spots[spotIdx].gate.bitIdx = gate.couplingIdx;
                 this.bits[i].spots[spotIdx].gate.spotIdx = spotIdx;
                 this.bits[i].spots[spotIdx].gate.connector = "top";
@@ -122,7 +127,8 @@ export class GateCanvasComponent implements OnChanges  {
                 this.bits[i].spots[spotIdx].gate.connector = "top";
               }
               else if (i === gate.couplingIdx){
-                this.bits[i].spots[spotIdx].gate = new Gate(19, "Couple");
+                if(gate.double) this.bits[i].spots[spotIdx].gate = new Gate(18, "Couple");
+                else this.bits[i].spots[spotIdx].gate = new Gate(19, "Couple");
                 this.bits[i].spots[spotIdx].gate.bitIdx = gate.couplingIdx;
                 this.bits[i].spots[spotIdx].gate.spotIdx = spotIdx;
                 this.bits[i].spots[spotIdx].gate.connector = "bottom";
@@ -149,7 +155,6 @@ export class GateCanvasComponent implements OnChanges  {
     && this.bits[bitIdx].spots[spotIdx].gate.line === ""
     && ((!dragData.isMeasurement() && this.spotLessThanMeasureGate(bitIdx, spotIdx)) 
       ||(dragData.isMeasurement() && !this.bitHasMeasureGate(bitIdx) && !this.spotHasLowerGate(bitIdx, spotIdx) && this.spotIsLastGate(bitIdx, spotIdx)))
-    && (!dragData.double || (this.bits[bitIdx-1] && this.bits[bitIdx-1].spots[spotIdx].gate.typeId === 0))
     && (!dragData.coupled || this.savesService.getAllowedCouples(this.bits[bitIdx].spots[spotIdx].gate).length > 0); 
   }
 
@@ -199,11 +204,7 @@ export class GateCanvasComponent implements OnChanges  {
         else{
           gate.resetLinks(this.numCBits-1);
         }
-
-        if(gate.double && bitIdx === 0){
-          this.bits[bitIdx].spots[spotIdx].gate = new Gate(); 
-        }
-        if(gate.typeId === 19){
+        if(gate.typeId === 19 || gate.typeId === 18){
           this.bits[bitIdx].spots[spotIdx].gate = new Gate(); 
         }
 

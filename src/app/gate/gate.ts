@@ -70,6 +70,8 @@ export class Gate {
             this.connector = "top";
         }
         if([11,12].indexOf(typeId) !== -1){
+            this.coupled = true;
+            this.connector = "top";
             this.double = true;
         }
     }
@@ -78,22 +80,23 @@ export class Gate {
         return this.typeId === 20;
     }
 
-    getLink():number{
+    getLinks():number[]{
+        let links = [];
         for(let i = 0; i<this.parameters.length; i++){
             if(this.parameters[i].phaseMode){
                 if (this.parameters[i].r !== undefined && this.parameters[i].r.linkMode)
-                    return this.parameters[i].r.link;
-                else if (this.parameters[i].phi !== undefined && this.parameters[i].phi.linkMode)
-                    return this.parameters[i].phi.link;
+                    links.push(this.parameters[i].r.link);
+                if (this.parameters[i].phi !== undefined && this.parameters[i].phi.linkMode)
+                    links.push(this.parameters[i].phi.link);
             }
-            else if (!this.parameters[i].phaseMode){
+            if (!this.parameters[i].phaseMode){
                 if (this.parameters[i].a !== undefined && this.parameters[i].a.linkMode)
-                    return this.parameters[i].a.link;
-                else if (this.parameters[i].b !== undefined && this.parameters[i].b.linkMode)
-                    return this.parameters[i].b.link;
+                    links.push(this.parameters[i].a.link);
+                if (this.parameters[i].b !== undefined && this.parameters[i].b.linkMode)
+                    links.push(this.parameters[i].b.link);
             }
         }
-        return -1;
+        return links;
     }
 
     resetLinks(numBits: number){
@@ -114,7 +117,7 @@ export class Gate {
     }
 
     isCouple():boolean{
-        return this.typeId === 19;
+        return this.typeId === 19 || this.typeId === 18;
     }
 
     public static serialize(gate: Gate): Gate{
