@@ -49,9 +49,14 @@ export class GateCanvasComponent implements OnChanges  {
 
   setNewGate($event: any, bitIdx: number, spotIdx: number) {
     let newGate:Gate = $event.dragData;
-    if(newGate){
+    if(newGate && !newGate.isCouple()){
       this.bits[bitIdx].spots[spotIdx].gate = newGate;
       this.bits[bitIdx].spots[spotIdx].gate.couplingIdx = -1;
+    }
+    else{
+      let coupledGate = this.savesService.getCoupledGate(newGate);
+      coupledGate.couplingIdx = bitIdx;
+      this.bits[bitIdx].spots[spotIdx].gate = newGate;
     }
     this.recalcAllGateIdx();
   }
@@ -145,17 +150,18 @@ export class GateCanvasComponent implements OnChanges  {
   }
 
   allowDragFunction(bitIdx: number, spotIdx: number): any {
-    return !this.bits[bitIdx].spots[spotIdx].gate.isCouple();
+    return true;
   }
 
   allowDropFunction(bitIdx: number, spotIdx: number): any {
     return (dragData: any) => 
     this.bits[bitIdx].spots[spotIdx].gate.typeId === 0 
-    && this.bits[bitIdx].spots[spotIdx].gate.connector === ""
+    && (dragData.isCouple() || this.bits[bitIdx].spots[spotIdx].gate.connector === "")
     && this.bits[bitIdx].spots[spotIdx].gate.line === ""
     && ((!dragData.isMeasurement() && this.spotLessThanMeasureGate(bitIdx, spotIdx)) 
       ||(dragData.isMeasurement() && !this.bitHasMeasureGate(bitIdx) && !this.spotHasLowerGate(bitIdx, spotIdx) && this.spotIsLastGate(bitIdx, spotIdx)))
-    && (!dragData.coupled || this.savesService.getAllowedCouples(this.bits[bitIdx].spots[spotIdx].gate).length > 0); 
+    && (!dragData.coupled || this.savesService.getAllowedCouples(this.bits[bitIdx].spots[spotIdx].gate).length > 0)
+    && (!dragData.isCouple() || spotIdx === dragData.spotIdx); 
   }
 
   bitHasMeasureGate(bitIdx: number){

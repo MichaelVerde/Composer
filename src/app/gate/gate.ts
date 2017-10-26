@@ -104,13 +104,13 @@ export class Gate {
             if(this.parameters[i].phaseMode){
                 if (this.parameters[i].r !== undefined && this.parameters[i].r.linkMode && this.parameters[i].r.link >= numBits)
                     this.parameters[i].r.link = numBits;
-                else if (this.parameters[i].phi !== undefined && this.parameters[i].phi.linkMode && this.parameters[i].phi.link >= numBits)
+                if (this.parameters[i].phi !== undefined && this.parameters[i].phi.linkMode && this.parameters[i].phi.link >= numBits)
                     this.parameters[i].phi.link = numBits;
             }
             else if (!this.parameters[i].phaseMode){
                 if (this.parameters[i].a !== undefined && this.parameters[i].a.linkMode && this.parameters[i].a.link >= numBits)
                     this.parameters[i].a.link = numBits;
-                else if (this.parameters[i].b !== undefined && this.parameters[i].b.linkMode && this.parameters[i].b.link >= numBits)
+                if (this.parameters[i].b !== undefined && this.parameters[i].b.linkMode && this.parameters[i].b.link >= numBits)
                     this.parameters[i].b.link = numBits;
             }
         }

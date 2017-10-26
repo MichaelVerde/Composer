@@ -1,5 +1,5 @@
 <div [ngClass]="getConnectorClass()">
-    <div [ngClass]="getGateClass()" (click)="open()">
+    <div [ngClass]="getGateClass()" (click)="clickGate($event)" (dblclick)="doubleClickGate($event)">
         <div *ngIf="getShowText()" class="gate-text">
             {{gate.typeName}}<span class="superscript" *ngIf="gate.conjugate">†</span>
         </div>

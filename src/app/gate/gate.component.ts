@@ -36,15 +36,45 @@ export class GateComponent implements OnChanges {
     }
   }
 
+  private timer: any = null;
+  private delay: number = 200;
+  private prevent: boolean = false;
+
+  clickGate($event: any){
+    let gate = this;
+    this.timer = setTimeout(function() {
+      if (!gate.prevent) {
+        gate.open();
+      }
+      gate.prevent = false;
+    }, this.delay);
+  }
+
+  doubleClickGate($event: any){
+    clearTimeout(this.timer);
+    this.prevent = true;
+    this.toggleCojugate();
+  }
+
   open() {
-    if(this.onCanvas() && (this.gate.parameters.length > 0 || this.gate.isMeasurement) && !this.gate.isCouple()){
-      this.gate.modalOpened = true;
-      this.gateService.changeSideBarGate(this.gate);     
+    if(this.onCanvas() && (this.gate.parameters.length > 0 || this.gate.isMeasurement)){
+      if(!this.gate.isCouple()){
+        this.gate.modalOpened = true;
+        this.gateService.changeSideBarGate(this.gate); 
+      }  
+      else{
+        this.gate.modalOpened = true;
+        this.gateService.changeSideBarGate(this.savesService.getCoupledGate(this.gate));
+      }  
     }
   }
 
   onCanvas():boolean{
     return (this.gate.bitIdx >=0  && this.gate.spotIdx >= 0 && this.gate.typeId !== 0);
+  }
+
+  toggleCojugate():void{
+    this.gate.conjugate = !this.gate.conjugate;
   }
 
   getConnectorClass():string{
@@ -80,7 +110,7 @@ export class GateComponent implements OnChanges {
       classStr += "gate couple";
     }
     else if (this.gate.typeId === 19){
-      classStr += "gate couple clear";
+      classStr += "gate couple";
     }
     else if (this.gate.typeId === 18){
       classStr += "gate";

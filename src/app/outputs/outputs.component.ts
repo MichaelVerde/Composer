@@ -46,11 +46,10 @@ export class OutputsComponent implements AfterViewInit, OnInit{
       this.outputsList.push(new Output(1, "Fock States", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
       this.outputsList.push(new Output(2, "Quadratures", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
       this.outputsList.push(new Output(3, "Wigner Function", this.savesService.saves[this.savesService.currentSave].bits, this.sampling));
-
-      this.outputs.push(new Output(4, "Code", null));
+      this.outputsList.push(new Output(4, "Code", null));
       this.selectedOutput = 0;
       this.selectedChart = 0;
-      this.outputToAdd = 0;
+      this.outputToAdd = null;
 
       this.backendType = this.backendList[0];
       this.numShots = 100;
@@ -64,7 +63,7 @@ export class OutputsComponent implements AfterViewInit, OnInit{
       for(let i =0; i< this.outputs.length; i++){
         this.outputs[i] = new Output(this.outputs[i].typeId, this.outputs[i].typeName, this.savesService.saves[this.savesService.currentSave].bits, this.sampling);
       }
-      if(!this.outputs[this.selectedOutput].charts || this.outputs[this.selectedOutput].charts.indexOf(this.selectedChart) === -1){
+      if(this.outputs[this.selectedOutput] && (!this.outputs[this.selectedOutput].charts || this.outputs[this.selectedOutput].charts.indexOf(this.selectedChart) === -1)){
         this.selectedChart = 0;
       }
       this.plotChart();
@@ -79,7 +78,9 @@ export class OutputsComponent implements AfterViewInit, OnInit{
     if(this.chart){
       let element = this.chart.nativeElement;
       Plotly.purge( element );
-      if(this.outputs[this.selectedOutput] && this.outputs[this.selectedOutput].charts && this.outputs[this.selectedOutput].charts[this.selectedChart]){
+      if(this.outputs[this.selectedOutput] && this.outputs[this.selectedOutput].charts 
+        && this.outputs[this.selectedOutput].charts[this.selectedChart]
+        && this.outputs[this.selectedOutput].charts[this.selectedChart].data){
         try{
           Plotly.plot( element, this.outputs[this.selectedOutput].charts[this.selectedChart]);
         }
@@ -115,7 +116,10 @@ export class OutputsComponent implements AfterViewInit, OnInit{
       this.outputs.push(this.outputsList[this.outputToAdd]);
       this.outputsList.splice(this.outputToAdd,1);
       this.setSelectedTab(this.outputs.length -1);
-      this.outputToAdd = 0;
+      let outputs = this;
+      setTimeout(function() {
+        outputs.outputToAdd = null;
+      }, 0);
     }
   }
 

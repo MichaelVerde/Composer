@@ -1,5 +1,8 @@
 <div>
   <div class="row labels">
+    <div class="col-md-3">
+        Add Outputs
+    </div>
     <div class="col-md-2">
       Type of Simulation
     </div>
@@ -12,42 +15,34 @@
     <div class="col-md-2">
       Number of Shots 
     </div>
-    <div class="col-md-3">
-        Outputs
-    </div>
     <div class="col-md-2"></div>
   </div>
   <div class="row">
+    <div class="col-md-3">
+        <select [(ngModel)]="outputToAdd" [disabled]="running" style="width: 100%; text-align: center;" (ngModelChange)="addOutput()">
+          <option style="display:none" value="null">Select an Output</option>  
+          <option *ngFor="let output of outputsList; let i = index" [ngValue]="i">{{output.typeName}}</option>
+        </select>
+      </div>
     <div class="col-md-2">
-      <select [(ngModel)]="backendType" [disabled]="running" style="width: 125px; height: 31px;">
+      <select [(ngModel)]="backendType" [disabled]="running" style="width: 100%; height: 31px;">
           <option *ngFor="let backend of backendList" [ngValue]="backend">{{backend}}</option>
       </select>
     </div>
     <div class="col-md-2">
-      <input type="number" [(ngModel)]="cutoff" [disabled]="running" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
+      <input type="number" [(ngModel)]="cutoff" [disabled]="running" style="width: 100%; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
     </div>
     <div class="col-md-1 checkbox-container">
       <input type="checkbox" [(ngModel)]="sampling" [disabled]="running" (ngModelChange)="resetOutputs()"/> 
     </div>
     <div class="col-md-2">
-      <input type="number" [(ngModel)]="numShots" [disabled]="!sampling || running" style="width: 125px; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
-    </div>
-    <div class="col-md-3">
-      <div class="btn-group">
-          <label class="btn-sm btn-primary" ngbButtonLabel (click)="addOutput()" [ngClass]="{'btn-disabled': outputsList.length === 0 || running}">
-              <i  class="fa fa-plus" aria-hidden="true"></i>
-          </label>
-          <select [(ngModel)]="outputToAdd" [disabled]="running" style="width: 150px; text-align: center;">
-              <option *ngFor="let output of outputsList; let i = index" [ngValue]="i">{{output.typeName}}</option>
-              <option *ngIf="outputsList.length === 0">all options added</option>
-          </select>
-      </div>
+      <input type="number" [(ngModel)]="numShots" [disabled]="!sampling || running" style="width: 100%; height: 31px; text-align: center;" min="1" max="1000" step="1"/> 
     </div>
     <div class="col-md-1">
     </div>
     <div class="col-md-1">
       <div class="btn-group">
-          <label class="btn-sm btn-primary" [ngClass]="{'btn-disabled': outputs.length === 0 || running}" ngbButtonLabel (click)="runSimulation()">
+          <label class="btn-sm btn-primary" [ngClass]="{'btn-disabled': outputs.length === 0 || running}" ngbButtonLabel (click)="runSimulation()" style="width: 100%;">
               <span *ngIf="!running">Go</span>
               <i *ngIf="running" class="fa fa-cog fa-spin" aria-hidden="true"></i>
           </label>

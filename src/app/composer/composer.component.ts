@@ -115,6 +115,10 @@ export class ComposerComponent implements OnInit {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
+  closeSidebar(){
+    this.sidebarOpen = false;
+  }
+
   //Gate Sidebar
   toggleLink(parameter: GateParameterItem){
     if(parameter.linkMode){

@@ -82,6 +82,16 @@ export class SavesService {
     });
   }
 
+  getCoupledGate(gate: Gate){
+    for(let i = 0; this.saves[this.currentSave].bits.length; i++){
+      let retgate = this.saves[this.currentSave].bits[i].spots[gate.spotIdx].gate;
+      if(retgate.couplingIdx === gate.bitIdx){
+        return retgate;
+      }
+    }
+    return gate;
+  }
+
   saveToLocalStorage(){
     localStorage['saves'] = JSON.stringify(this.saves);
   }
