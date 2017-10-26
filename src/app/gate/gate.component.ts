@@ -17,21 +17,22 @@ export class GateComponent implements OnChanges {
   constructor(public gateService: GateService, public savesService: SavesService) {}
 
   ngOnChanges(changes: SimpleChanges) { 
-    let allowedCouples =  this.savesService.getAllowedCouples(this.gate);
-    //set up options for coupling
-    if(this.gate.coupled && allowedCouples){
-      if(allowedCouples.indexOf(this.gate.couplingIdx) === -1){
-        this.gate.couplingIdx = allowedCouples[0];
-      }
-    }
-
     if(changes.gate !== undefined 
       && changes.gate.previousValue !== undefined 
-      && changes.gate.previousValue.typeId !== changes.gate.currentValue.typeId 
-      && !this.gate.modalOpened){
-        setTimeout(()=> {
+      && changes.gate.previousValue.typeId !== changes.gate.currentValue.typeId){
+      setTimeout(()=> { 
+        let allowedCouples =  this.savesService.getAllowedCouples(this.gate);
+        //set up options for coupling
+        if(this.gate.coupled && allowedCouples){
+          if(allowedCouples.indexOf(this.gate.couplingIdx) === -1){
+            this.gate.couplingIdx = allowedCouples[0];
+            this.savesService.refreshSave();
+          }
+        }
+        if(!this.gate.modalOpened){
           this.open();
-        }, 0);
+        }
+      }, 0);
     }
   }
 
