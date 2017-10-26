@@ -14,7 +14,7 @@ export class GateComponent implements OnChanges {
   @Input() numCBits: number;
   @Input() numQBits: number;
 
-  constructor(public gateService: GateService, public savesService: SavesService) { }
+  constructor(public gateService: GateService, public savesService: SavesService) {}
 
   ngOnChanges(changes: SimpleChanges) { 
     let allowedCouples =  this.savesService.getAllowedCouples(this.gate);
