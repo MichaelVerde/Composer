@@ -46,15 +46,34 @@ export class SavesService {
   getAllowedCouples(gate: Gate): number[]{
     let allowedCouples = [];
     if(this.saves[this.currentSave]){
-      for(let i =0; i< this.saves[this.currentSave].numQBits; i++){
+      for(let i =gate.bitIdx +1; i< this.saves[this.currentSave].numQBits; i++){
         let coupleSpot = this.saves[this.currentSave].bits[i].spots[gate.spotIdx];
         if(i === gate.couplingIdx 
           || (i != gate.bitIdx 
           && coupleSpot
           && coupleSpot.showBg
           && coupleSpot.gate
-          && coupleSpot.gate.typeId === 0)){
+          && coupleSpot.gate.typeId === 0
+          && coupleSpot.gate.connector === "")){
           allowedCouples.push(i);
+        }
+        else if(coupleSpot && coupleSpot.showBg){
+          break;
+        }
+      }
+      for(let i =gate.bitIdx -1; i>= 0; i--){
+        let coupleSpot = this.saves[this.currentSave].bits[i].spots[gate.spotIdx];
+        if(i === gate.couplingIdx 
+          || (i != gate.bitIdx 
+          && coupleSpot
+          && coupleSpot.showBg
+          && coupleSpot.gate
+          && coupleSpot.gate.typeId === 0
+          && coupleSpot.gate.connector === "")){
+          allowedCouples.push(i);
+        }
+        else if(coupleSpot && coupleSpot.showBg){
+          break;
         }
       }
     }

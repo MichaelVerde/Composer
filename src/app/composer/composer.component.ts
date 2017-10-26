@@ -103,13 +103,6 @@ export class ComposerComponent implements OnInit {
     this.dragData = gate;
   }
 
-  numQBitsChanged(){
-    if(this.savesService.numCBits > this.savesService.numQBits){
-      this.savesService.numCBits = this.savesService.numQBits;
-    }
-    this.updateSettings();
-  }
-
   updateSettings(){
     this.savesService.numQBits = this.numQBits;
     this.savesService.numCBits = this.numCBits;
