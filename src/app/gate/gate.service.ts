@@ -13,6 +13,11 @@ export class GateService {
   measurements: Gate[] = [];
   sideBarGateChange: Subject<Gate> = new Subject<Gate>();
   sideBarBitChange: Subject<QBit> = new Subject<QBit>();
+  selected = {
+    type: null,
+    gate: null,
+    bit: null
+  }
 
   constructor() { }
 
@@ -39,10 +44,16 @@ export class GateService {
   }
 
   changeSideBarGate(gate: Gate){
+    this.selected.type = "gate";
+    this.selected.gate = gate;
+    this.selected.bit = null;
     this.sideBarGateChange.next(gate);
   } 
 
   changeSideBarBit(qbit: QBit){
+    this.selected.type = "bit";
+    this.selected.gate = null;
+    this.selected.bit = qbit;
     this.sideBarBitChange.next(qbit);
   } 
 }

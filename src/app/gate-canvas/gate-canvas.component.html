@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-11"></div>
 </div>
-<div class="row" *ngIf="initialized">
+<div class="row canvas" *ngIf="initialized">
     <div class="left-line col-md-1" dnd-sortable-container [sortableData]="bits">
         <div class="left-row" *ngFor="let qbit of bits; let i = index" dnd-sortable [sortableIndex]="i" (onDragEnd)="recalcAllGateIdx($event)">
             <qbit [qbit]="qbit" (mouseover)="showQBitInfo($event, qbit)" (mouseleave)="hideGateInfo($event)"></qbit>

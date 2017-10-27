@@ -19,6 +19,14 @@ gate-canvas{
     border-radius: 5px;
     text-align: left;
 }
+.param-box{
+    margin: 10px 0px 0px 15px;
+    padding: 0px 10px;
+    background-color: #efefef;
+    border-radius: 5px;
+    text-align: left;
+}
+
 .spacer{
     margin: 15px 0px 15px 0px;
 }

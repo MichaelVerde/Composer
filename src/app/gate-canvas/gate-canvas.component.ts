@@ -161,7 +161,7 @@ export class GateCanvasComponent implements OnChanges  {
     && ((!dragData.isMeasurement() && this.spotLessThanMeasureGate(bitIdx, spotIdx)) 
       ||(dragData.isMeasurement() && !this.bitHasMeasureGate(bitIdx) && !this.spotHasLowerGate(bitIdx, spotIdx) && this.spotIsLastGate(bitIdx, spotIdx)))
     && (!dragData.coupled || this.savesService.getAllowedCouples(this.bits[bitIdx].spots[spotIdx].gate).length > 0)
-    && (!dragData.isCouple() || spotIdx === dragData.spotIdx); 
+    && (!dragData.isCouple() || (spotIdx === dragData.spotIdx && this.savesService.getAllowedCouples(this.savesService.getCoupledGate(dragData)).indexOf(bitIdx) !== -1)); 
   }
 
   bitHasMeasureGate(bitIdx: number){

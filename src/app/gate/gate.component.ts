@@ -129,6 +129,10 @@ export class GateComponent implements OnChanges {
     else if(this.gate.typeId >= 20 && this.gate.typeId <= 29){
       classStr += " pink";
     }
+
+    if(this.gate === this.gateService.selected.gate || (this.onCanvas() && this.gate.isCouple() && this.savesService.getCoupledGate(this.gate) === this.gateService.selected.gate)){
+      classStr += " selected";
+    }
     return classStr;
   }
 

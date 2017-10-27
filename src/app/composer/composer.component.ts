@@ -35,7 +35,7 @@ export class ComposerComponent implements OnInit {
     this.gateService.sideBarGateChange.subscribe((value) => { 
       this.sidebarGate = value;
       this.sidebarOpen = true;
-      this.sidebarType = "gate";
+      this.sidebarType = this.gateService.selected.type;
       this.calcOptions();
     });
 
@@ -43,17 +43,21 @@ export class ComposerComponent implements OnInit {
     this.gateService.sideBarBitChange.subscribe((value) => { 
       this.sidebarBit = value;
       this.sidebarOpen = true;
-      this.sidebarType = "bit";
+      this.sidebarType = this.gateService.selected.type;
 
       if(!this.sidebarBit.parameters){
         this.setParameters();
       }
     });
 
-    this.savesService.currentSaveChange.subscribe((value) => { 
+    this.savesService.currentSaveChange.subscribe((value) => {   
       this.numQBits = this.savesService.saves[value].numQBits; 
       this.numCBits = this.savesService.saves[value].numCBits; 
       this.canvasLength = this.savesService.saves[value].canvasLength; 
+    });
+
+    this.savesService.onSaveSelect.subscribe((value) => {   
+      this.closeSidebar();
     });
   }
 
@@ -111,12 +115,13 @@ export class ComposerComponent implements OnInit {
   }
 
   //General Sidebar Functions
-  toggleSidebar(){
-    this.sidebarOpen = !this.sidebarOpen;
-  }
-
   closeSidebar(){
     this.sidebarOpen = false;
+    if(!this.sidebarOpen){
+      this.gateService.selected.type = null;
+      this.gateService.selected.bit = null;
+      this.gateService.selected.gate = null;
+    }
   }
 
   //Gate Sidebar

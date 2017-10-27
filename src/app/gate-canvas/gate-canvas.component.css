@@ -134,7 +134,10 @@
 .delete{
     height: 40px;
     padding-top:15px;
-    padding-bottom: 5px;
+    background: transparent;
+}
+.canvas{
+    padding-top: 5px;
 }
 
 .trash{

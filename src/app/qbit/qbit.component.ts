@@ -19,6 +19,15 @@ export class QbitComponent implements OnInit {
     this.gateService.changeSideBarBit(this.qbit);
   }
 
+  isSelected(){
+    if(this.qbit === this.gateService.selected.bit){
+      return "selected";
+    }
+    else{
+      return "";
+    }
+  }
+
   getKet(){
     if(this.qbit.mode === 5){
       return "cat";

@@ -17,6 +17,7 @@ export class SavesService {
   savesChange: Subject<number> = new Subject<number>();
   currentSaveChange: Subject<number> = new Subject<number>();
   onSaveChange: Subject<number> = new Subject<number>();
+  onSaveSelect: Subject<number> = new Subject<number>();
 
   constructor(public http: Http) {}
 
@@ -104,6 +105,7 @@ export class SavesService {
     this.currentSave = this.saves.length -1;
     this.savesChange.next(this.currentSave);
     this.currentSaveChange.next(this.currentSave);
+    this.onSaveSelect.next(this.currentSave);
   }
 
   refreshSave(){
@@ -114,6 +116,7 @@ export class SavesService {
   selectSave(currentSave: number){
     this.currentSave = currentSave;
     this.currentSaveChange.next(this.currentSave);
+    this.onSaveSelect.next(this.currentSave);
   } 
 
   saveChanged(){

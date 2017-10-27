@@ -10,3 +10,9 @@
 .ket{
     font-size: 10px;
 }
+
+.selected{
+    border: 2px solid;
+    border-color: #005cbf !important;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+}

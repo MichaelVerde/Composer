@@ -47,8 +47,8 @@
         <div class="col-md-9">
             <gate-canvas [dragData]="dragData" (draggingData)="setDragging($event)"></gate-canvas>
             <div class="row">
-                <div class="runner col-md-12" *ngIf="sidebarOpen">
-                    <button type="button" class="close" aria-label="Close" (click)="toggleSidebar()">
+                <div class="param-box col-md-12" *ngIf="sidebarOpen">
+                    <button type="button" class="close" aria-label="Close" (click)="closeSidebar()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div *ngIf="sidebarType === 'gate'">
