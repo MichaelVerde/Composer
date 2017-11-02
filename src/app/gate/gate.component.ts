@@ -96,6 +96,10 @@ export class GateComponent implements OnChanges {
     else if(this.gate.line === "top"){
       str += "connector top";
     }
+
+    if(this.gate.isBarrier()){
+      str += " dashed";
+    }
     return str;
   }
 
@@ -113,6 +117,9 @@ export class GateComponent implements OnChanges {
     else if (this.gate.typeId === 18){
       classStr += "gate";
     }
+    else if (this.gate.typeId === 21){
+      classStr += "";
+    }
     else {
       classStr += "gate";
     }
@@ -126,7 +133,7 @@ export class GateComponent implements OnChanges {
     else if(this.gate.typeId >= 10 && this.gate.typeId <= 19){
       classStr += " yellow";
     }
-    else if(this.gate.typeId >= 20 && this.gate.typeId <= 29){
+    else if(this.gate.typeId === 20){
       classStr += " pink";
     }
 

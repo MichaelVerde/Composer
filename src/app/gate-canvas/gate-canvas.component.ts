@@ -62,7 +62,12 @@ export class GateCanvasComponent implements OnChanges  {
   }
 
   setNoGate($event: any, bitIdx: number, spotIdx: number) {
-    this.bits[bitIdx].spots[spotIdx].gate = new Gate();
+    if(this.bits[bitIdx].spots[spotIdx].gate.isBarrier()){
+      this.clearSpot(spotIdx);
+    }
+    else{
+      this.bits[bitIdx].spots[spotIdx].gate = new Gate();
+    }
     this.recalcAllGateIdx();
   }
 
@@ -98,6 +103,16 @@ export class GateCanvasComponent implements OnChanges  {
         }
         else{
           this.bits[bitIdx].spots[spotIdx].showBg = true;
+        }
+      }
+    }
+  }
+
+  setBarriers(){
+    for(let spotIdx = 0; spotIdx< this.bits[0].spots.length; spotIdx++){
+      if(this.spotHasBarrier(spotIdx)){
+        for(let bitIdx = 0; bitIdx< this.bits.length; bitIdx++){
+          this.bits[bitIdx].spots[spotIdx].gate = new Gate(21, ""); 
         }
       }
     }
@@ -161,6 +176,7 @@ export class GateCanvasComponent implements OnChanges  {
     && ((!dragData.isMeasurement() && this.spotLessThanMeasureGate(bitIdx, spotIdx)) 
       ||(dragData.isMeasurement() && !this.bitHasMeasureGate(bitIdx) && !this.spotHasLowerGate(bitIdx, spotIdx) && this.spotIsLastGate(bitIdx, spotIdx)))
     && (!dragData.coupled || this.savesService.getAllowedCouples(this.bits[bitIdx].spots[spotIdx].gate).length > 0)
+    && (!dragData.isBarrier() || this.spotIsEmpty(spotIdx))
     && (!dragData.isCouple() || (spotIdx === dragData.spotIdx && this.savesService.getAllowedCouples(this.savesService.getCoupledGate(dragData)).indexOf(bitIdx) !== -1)); 
   }
 
@@ -180,6 +196,30 @@ export class GateCanvasComponent implements OnChanges  {
       }
     }
     return false;
+  }
+
+  spotHasBarrier(spotIdx: number){
+    for(let i = 0; i < this.bits.length; i++){
+      if(this.bits[i].spots[spotIdx].gate.typeId === 21){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  spotIsEmpty(spotIdx: number){
+    for(let i = 0; i < this.bits.length; i++){
+      if(this.bits[i].spots[spotIdx].gate.typeId !== 0){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  clearSpot(spotIdx: number){
+    for(let i = 0; i < this.bits.length; i++){
+      this.bits[i].spots[spotIdx].gate = new Gate();
+    }
   }
 
   spotLessThanMeasureGate(bitIdx: number, spotIdx: number){
@@ -231,6 +271,7 @@ export class GateCanvasComponent implements OnChanges  {
     }
     this.setMeasurementConnectors();
     this.setCoupledConnectors();
+    this.setBarriers();
     this.save();
   }
 

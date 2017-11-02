@@ -1,13 +1,21 @@
 .toolbox-table{
     display: table;
+    width: 100%;
 }
 .toolbox-row{
     display: table-row;
+    width: 100%;
 }
 .toolbox-cell{
     vertical-align: middle;
     display: table-cell;
     width: 60px;
+    height: 60px;
+}
+.operators-cell{
+    vertical-align: middle;
+    display: table-cell;
+    width: 50%;
     height: 60px;
 }
 .toolbox-background{

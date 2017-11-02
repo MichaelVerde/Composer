@@ -22,8 +22,8 @@
     padding: 0;
 }
 .radio-cell{
-    height: 41px;
-    padding: 5px 0px;
+    height: 51px;
+    padding: 15px 0px 5px 0px;
     vertical-align: middle;
     text-align: center;
 }

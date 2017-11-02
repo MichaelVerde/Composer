@@ -53,18 +53,6 @@
                     </button>
                     <div *ngIf="sidebarType === 'gate'">
                         <div class="container settings"  *ngIf="!sidebarGate.isMeasurement()">
-                            <div class="row" *ngIf="false">
-                                <div class="settings-cell name col-md-4">
-                                    Control:
-                                </div>
-                                <div class="settings-cell col-md-1"> 
-                                </div>  
-                                <div class="settings-cell col-md-7">
-                                    <select [(ngModel)]="sidebarGate.couplingIdx" (ngModelChange)="canvasRefresh()" style="width: 50px;">
-                                        <option *ngFor="let c of allowedCouples" [ngValue]="c">{{c + 1}}</option>
-                                    </select>   
-                                </div>
-                            </div>
                             <div class="row" *ngFor="let parameter of sidebarGate.parameters">
                                 <div class="settings-cell name col-md-4">  
                                     {{parameter.name}}: &nbsp;

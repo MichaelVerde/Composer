@@ -196,6 +196,9 @@ export class ComposerComponent implements OnInit {
         'n': 0
       });
     }
+    if(this.sidebarBit.mode === 3 || this.sidebarBit.mode === 0){
+      this.sidebarBit.random = false;
+    }
     this.savesService.saveChanged();
   }
 

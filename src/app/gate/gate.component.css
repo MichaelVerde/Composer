@@ -93,6 +93,12 @@
     border-left: solid 1px #fff;
     border-right: solid 1px #fff;
 }
+.connector.solid.dashed{
+    border: none;
+    border-right: 4px dashed #888;
+    width: 0px;
+    background: white;
+}
 .connector.both{
     width: 4px;
     top: -2px;

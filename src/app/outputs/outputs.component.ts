@@ -123,6 +123,19 @@ export class OutputsComponent implements AfterViewInit, OnInit{
     }
   }
 
+  toggleChartType(){
+    if(this.outputs && this.outputs[this.selectedOutput] && this.outputs[this.selectedOutput].charts 
+      && this.outputs[this.selectedOutput].charts[this.selectedChart] && this.outputs[this.selectedOutput].charts[this.selectedChart].data){
+      if(this.outputs[this.selectedOutput].charts[this.selectedChart].data[0].type === "surface"){
+        this.outputs[this.selectedOutput].charts[this.selectedChart].data[0].type = "contour";
+      }
+      else if(this.outputs[this.selectedOutput].charts[this.selectedChart].data[0].type === "contour"){
+        this.outputs[this.selectedOutput].charts[this.selectedChart].data[0].type = "surface";
+      }
+    }
+    this.plotChart();
+  }
+
   rmOutput(idx: number, $event: any){
     if(!this.running){
       $event.preventDefault();

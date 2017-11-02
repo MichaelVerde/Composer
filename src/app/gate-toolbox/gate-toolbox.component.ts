@@ -55,7 +55,7 @@ export class GateToolboxComponent implements OnInit {
     row = [];
     for(let i = 0; i< this.gateService.measurements.length; i++){
       row.push(this.gateService.measurements[i]);
-      if(i%this.gridWidth === this.gridWidth - 1 || i === this.gateService.measurements.length -1){
+      if(i%2 === 2 - 1 || i === this.gateService.measurements.length -1){
         this.measurementsGrid.push(row);
         row = [];
       }

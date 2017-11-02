@@ -115,6 +115,9 @@ export class SavesService {
 
   selectSave(currentSave: number){
     this.currentSave = currentSave;
+    this.numCBits = this.saves[currentSave].numCBits;
+    this.numQBits = this.saves[currentSave].numQBits;
+    this.canvasLength = this.saves[currentSave].canvasLength;
     this.currentSaveChange.next(this.currentSave);
     this.onSaveSelect.next(this.currentSave);
   } 

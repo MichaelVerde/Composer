@@ -41,6 +41,7 @@ export class GateService {
     this.coupledGateTypes.push(new Gate (12, "S"));
 
     this.measurements.push(new Gate (20, "M"));
+    this.measurements.push(new Gate (21, ""));
   }
 
   changeSideBarGate(gate: Gate){

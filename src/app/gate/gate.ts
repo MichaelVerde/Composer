@@ -44,6 +44,12 @@ export class Gate {
             this.icon = "dashboard";
         }
 
+        if(typeId === 21){
+            this.measurementType = 0;
+            this.measurementBit = 0;
+            this.icon = "dashboard";
+        }
+
         //Set Up Parameters
         if([1,12].indexOf(typeId) !== -1){
             this.parameters.push(new GateParameter("Squeezing Factor", null, null, null, null, 0, null, 0, null));
@@ -73,6 +79,9 @@ export class Gate {
             this.coupled = true;
             this.connector = "top";
             this.double = true;
+        }
+        if([21].indexOf(typeId) !== -1){
+            this.connector = "both";
         }
     }
 
@@ -118,6 +127,10 @@ export class Gate {
 
     isCouple():boolean{
         return this.typeId === 19 || this.typeId === 18;
+    }
+
+    isBarrier():boolean{
+        return this.typeId === 21;
     }
 
     public static serialize(gate: Gate): Gate{

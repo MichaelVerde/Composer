@@ -23,11 +23,13 @@
 </div>
 
 
-<span>Operations</span> 
+
 <div class="toolbox-table">
   <div class="toolbox-row" *ngFor="let row of measurementsGrid">
-    <div class="toolbox-cell" *ngFor="let gate of row" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event, gate)" (onDragEnd)="setNotDragging($event)">
-      <div class="toolbox-background-measurement">
+    <div class="operators-cell" *ngFor="let gate of row">
+      <span *ngIf="gate.typeId === 20">Measurement</span> 
+      <span *ngIf="gate.typeId === 21">Barrier</span> 
+      <div class="toolbox-background-measurement" dnd-draggable [dragData]="gate" (onDragStart)="setDragging($event, gate)" (onDragEnd)="setNotDragging($event)">
         <gate [gate]="gate"></gate>
       </div> 
     </div>

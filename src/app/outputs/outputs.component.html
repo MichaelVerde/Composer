@@ -66,12 +66,22 @@
           <span aria-hidden="true" (click)="rmOutput(i, $event)">&times;</span>
         </ng-template>
         <ng-template ngbTabContent>
-          <div class="row" *ngIf="output.charts && output.typeId !== 1"> 
-            <div class="radio-cell col-md-12">
-              <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="selectedChart" (ngModelChange)="plotChart($event)">
-                  <label *ngFor="let chart of output.charts; let i = index;" ngbButtonLabel class="btn-primary chart-select">
-                      <input ngbButton type="radio" [value]="i"> q[{{chart.layout.qbit}}]
-                  </label>
+          <div class="row" *ngIf="output.charts && output.typeId !== 1">  
+            <div class="radio-cell col-md-1" *ngIf="outputs[selectedOutput] && outputs[selectedOutput].typeId === 3 && outputs[selectedOutput].charts 
+            && outputs[selectedOutput].charts[selectedChart] && outputs[selectedOutput].charts[selectedChart].data">
+              <div class="btn-group" data-toggle="buttons">   
+                <label class="btn-sm btn-primary" ngbButtonLabel >
+                    <input type="checkbox" ngbButton (click)="toggleChartType()">
+                    <i class="fa fa-bullseye" *ngIf="outputs[selectedOutput].charts[selectedChart].data[0].type === 'surface'" aria-hidden="true"></i>
+                    <i class="fa fa-area-chart" *ngIf="outputs[selectedOutput].charts[selectedChart].data[0].type === 'contour'" aria-hidden="true"></i>                      
+                </label> 
+              </div>
+            </div>
+            <div class="radio-cell col-md-11">
+              <div class="btn-group-sm" ngbRadioGroup name="radioBasic" [(ngModel)]="selectedChart" (ngModelChange)="plotChart($event)">  
+                <label *ngFor="let chart of output.charts; let i = index;" ngbButtonLabel class="btn-primary chart-select">
+                    <input ngbButton type="radio" [value]="i"> q[{{chart.layout.qbit}}]
+                </label>
               </div>
             </div> 
           </div>
@@ -80,5 +90,5 @@
           </div>
         </ng-template>
     </ngb-tab>
-</ngb-tabset>
+</ngb-tabset> 
 <div #chart></div>
